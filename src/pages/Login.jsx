@@ -24,7 +24,7 @@ function Login() {
     <div className="page auth-page">
       <section className="auth-card">
         <p className="eyebrow">Login</p>
-        <h1>무드툰 로그인</h1>
+        <h1>moodtoon 로그인</h1>
         <form onSubmit={handleSubmit}>
           <label>
             이메일
@@ -60,4 +60,3 @@ function Login() {
 }
 
 export default Login;
-

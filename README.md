@@ -1,4 +1,4 @@
-# Webfront Moodtoon
+# Webfront moodtoon
 
 날씨와 감정에 따라 나에게 맞는 웹툰을 추천해주는 React 기반 개인화 웹툰 플랫폼입니다.
 
@@ -17,4 +17,3 @@ npm run dev
 - 감정 선택형 웹툰 추천
 - 웹툰 검색, 필터, 상세 페이지, 댓글 UI
 - 반응형 카드형 웹툰 리스트
-

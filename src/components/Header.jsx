@@ -14,9 +14,9 @@ function Header() {
 
   return (
     <header className="site-header">
-      <Link className="brand" to="/" aria-label="무드툰 홈으로 이동">
-        <span className="brand-mark">M</span>
-        <span>무드툰</span>
+      <Link className="brand" to="/" aria-label="moodtoon home">
+        <span className="brand-mark">m</span>
+        <span>moodtoon</span>
       </Link>
 
       <form className="header-search" onSubmit={handleSubmit}>

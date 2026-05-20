@@ -28,7 +28,7 @@ function Profile() {
       <section className="profile-hero">
         <div>
           <p className="eyebrow">Profile</p>
-          <h1>{currentUser.nickname}님의 무드툰</h1>
+          <h1>{currentUser.nickname}님의 moodtoon</h1>
           <p>이번 주 가장 많이 선택한 감정: {getTopMood(currentUser.moodLogs)}</p>
         </div>
         <button className="outline-button" onClick={logout} type="button">
@@ -90,4 +90,3 @@ function Profile() {
 }
 
 export default Profile;
-

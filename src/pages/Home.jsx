@@ -18,7 +18,7 @@ function Home() {
           <p className="eyebrow">Mood based webtoon platform</p>
           <h1>오늘의 날씨와 감정에 맞는 웹툰을 추천받아보세요</h1>
           <p>
-            무드툰은 날씨, 현재 감정, 선호 장르를 함께 반영해 지금 보기 좋은
+            moodtoon은 날씨, 현재 감정, 선호 장르를 함께 반영해 지금 보기 좋은
             작품을 골라주는 개인화 웹툰 추천 서비스입니다.
           </p>
         </div>
@@ -69,4 +69,3 @@ function Home() {
 }
 
 export default Home;
-

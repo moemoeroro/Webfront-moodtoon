@@ -24,7 +24,7 @@ function Signup() {
     <div className="page auth-page">
       <section className="auth-card">
         <p className="eyebrow">Signup</p>
-        <h1>무드툰 회원가입</h1>
+        <h1>moodtoon 회원가입</h1>
         <form onSubmit={handleSubmit}>
           <label>
             닉네임
@@ -71,4 +71,3 @@ function Signup() {
 }
 
 export default Signup;
-
