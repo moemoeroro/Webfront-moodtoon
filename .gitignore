@@ -6,3 +6,5 @@ dist/
 *.log
 .codex_tmp_*/
 
+
+.vercel
