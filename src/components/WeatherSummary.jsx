@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { fetchSeoulWeather } from "../services/weatherApi.js";
 
+const weatherIcons = {
+  sunny: "☀️",
+  cloudy: "☁️",
+  rainy: "🌧️",
+  snowy: "❄️",
+};
+
 function WeatherSummary({ onWeatherChange }) {
   const [weather, setWeather] = useState({
     city: "서울",
@@ -38,14 +45,27 @@ function WeatherSummary({ onWeatherChange }) {
 
   return (
     <section className="summary-card weather-summary">
-      <p className="eyebrow">오늘의 날씨</p>
-      <h2>
-        {weather.city}, {weather.text} {weather.temperature}°C
-      </h2>
+      <div className="summary-card-top">
+        <div>
+          <p className="eyebrow">오늘의 날씨</p>
+          <h2>
+            {weather.city}, {weather.text}
+          </h2>
+        </div>
+        <div className={`weather-icon weather-${weather.type}`} aria-hidden="true">
+          {weatherIcons[weather.type] || "☁️"}
+        </div>
+      </div>
+
+      <div className="weather-temp">
+        <span>{weather.temperature}°C</span>
+        <small>{status === "loading" ? "업데이트 중" : "추천에 반영됨"}</small>
+      </div>
+
       <p>
         {status === "loading"
-          ? "날씨 정보를 불러오는 중입니다."
-          : "현재 날씨를 추천 기준에 반영합니다."}
+          ? "서울 기준 날씨 정보를 불러오고 있어요."
+          : "현재 날씨를 오늘의 웹툰 추천 기준에 반영했어요."}
       </p>
     </section>
   );

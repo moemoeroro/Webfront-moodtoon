@@ -1,11 +1,34 @@
 import { moods } from "../data/mockWebtoons.js";
 
+const moodIcons = {
+  행복함: "😊",
+  피곤함: "😴",
+  우울함: "🌧️",
+  스트레스: "🫧",
+  설렘: "💗",
+  신남: "✨",
+  편안함: "🍵",
+  차분함: "🌙",
+};
+
 function MoodSelector({ selectedMood, onSelect }) {
+  const selectedIcon = moodIcons[selectedMood] || "☁️";
+
   return (
-    <section className="summary-card">
-      <p className="eyebrow">오늘의 기분</p>
-      <h2>{selectedMood || "기분을 선택해주세요"}</h2>
-      <div className="choice-grid">
+    <section className="summary-card mood-summary">
+      <div className="summary-card-top">
+        <div>
+          <p className="eyebrow">오늘의 기분</p>
+          <h2>
+            <span className="selected-mood-icon" aria-hidden="true">
+              {selectedIcon}
+            </span>
+            {selectedMood || "기분을 선택해주세요"}
+          </h2>
+        </div>
+      </div>
+
+      <div className="choice-grid mood-grid">
         {moods.map((mood) => (
           <button
             key={mood}
@@ -13,7 +36,10 @@ function MoodSelector({ selectedMood, onSelect }) {
             onClick={() => onSelect(mood)}
             type="button"
           >
-            {mood}
+            <span className="mood-icon" aria-hidden="true">
+              {moodIcons[mood] || "☁️"}
+            </span>
+            <span>{mood}</span>
           </button>
         ))}
       </div>
