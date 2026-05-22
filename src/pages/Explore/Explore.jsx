@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import FilterPanel from "../components/FilterPanel.jsx";
-import SearchBar from "../components/SearchBar.jsx";
-import WebtoonCard from "../components/WebtoonCard.jsx";
-import { searchWebtoons } from "../services/webtoonApi.js";
+import FilterPanel from "../../components/FilterPanel/FilterPanel.jsx";
+import SearchBar from "../../components/SearchBar/SearchBar.jsx";
+import WebtoonCard from "../../components/WebtoonCard/WebtoonCard.jsx";
+import { searchWebtoons } from "../../services/webtoonApi.js";
+import "./Explore.css";
 
 function Explore() {
   const [searchParams] = useSearchParams();

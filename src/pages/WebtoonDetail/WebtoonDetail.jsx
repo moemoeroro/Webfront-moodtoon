@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
-import CommentList from "../components/CommentList.jsx";
-import { webtoons } from "../data/mockWebtoons.js";
+import CommentList from "../../components/CommentList/CommentList.jsx";
+import { webtoons } from "../../data/mockWebtoons.js";
+import "./WebtoonDetail.css";
 
 function WebtoonDetail() {
   const { id } = useParams();

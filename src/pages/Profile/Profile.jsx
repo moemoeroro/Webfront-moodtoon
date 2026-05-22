@@ -1,7 +1,8 @@
 import { Link, Navigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext.jsx";
-import WebtoonCard from "../components/WebtoonCard.jsx";
-import { webtoons } from "../data/mockWebtoons.js";
+import { useAuth } from "../../context/AuthContext.jsx";
+import WebtoonCard from "../../components/WebtoonCard/WebtoonCard.jsx";
+import { webtoons } from "../../data/mockWebtoons.js";
+import "./Profile.css";
 
 function getTopMood(moodLogs) {
   const counts = moodLogs.reduce((acc, mood) => {

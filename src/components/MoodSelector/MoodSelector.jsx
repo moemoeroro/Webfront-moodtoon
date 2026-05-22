@@ -1,4 +1,5 @@
-import { moods } from "../data/mockWebtoons.js";
+import { moods } from "../../data/mockWebtoons.js";
+import "./MoodSelector.css";
 
 const moodIcons = {
   행복함: "😊",

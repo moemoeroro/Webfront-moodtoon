@@ -1,25 +1,4 @@
-:root {
-  --bg: #f4f0fa;
-  --bg-deep: #e9e1f5;
-  --surface: rgba(255, 255, 255, 0.74);
-  --surface-solid: #ffffff;
-  --surface-soft: rgba(248, 244, 255, 0.82);
-  --primary: #7b61ff;
-  --primary-dark: #4d3a9f;
-  --soda: #8fe6c4;
-  --soda-deep: #36a884;
-  --lavender: #cbbcff;
-  --mist: #f8f6ff;
-  --peach: #ffc8b8;
-  --ink: #272139;
-  --muted: #776f8d;
-  --line: rgba(91, 76, 128, 0.18);
-  --line-strong: rgba(60, 48, 89, 0.28);
-  --glass-line: rgba(255, 255, 255, 0.72);
-  --shadow: 0 26px 70px rgba(69, 48, 126, 0.16);
-  --shadow-soft: 0 14px 34px rgba(69, 48, 126, 0.1);
-  --shadow-hover: 0 26px 54px rgba(69, 48, 126, 0.18);
-}
+/* 프로젝트 전체 기본 스타일 정의 */
 
 * {
   box-sizing: border-box;
@@ -57,39 +36,6 @@ body::before {
 ::selection {
   background: rgba(143, 230, 196, 0.55);
   color: var(--primary-dark);
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0.78;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes iconFloat {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-
-  50% {
-    transform: translateY(-5px) rotate(2deg);
-  }
-}
-
-@keyframes sheen {
-  from {
-    transform: translateX(-120%) skewX(-14deg);
-  }
-
-  to {
-    transform: translateX(150%) skewX(-14deg);
-  }
 }
 
 button,
@@ -920,92 +866,4 @@ main {
 .site-footer p {
   margin: 6px 0 0;
   color: rgba(255, 255, 255, 0.72);
-}
-
-@media (max-width: 900px) {
-  .site-header {
-    grid-template-columns: 1fr;
-  }
-
-  .site-nav {
-    justify-content: flex-start;
-    overflow-x: auto;
-  }
-
-  .hero-section,
-  .summary-grid,
-  .profile-grid,
-  .detail-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .webtoon-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .filter-panel {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .weather-icon {
-    width: 64px;
-    height: 64px;
-    font-size: 30px;
-  }
-}
-
-@media (max-width: 560px) {
-  .page {
-    width: min(100% - 24px, 1120px);
-    padding-top: 24px;
-  }
-
-  .hero-section,
-  .profile-hero,
-  .explore-toolbar,
-  .section-title.compact,
-  .site-footer {
-    align-items: stretch;
-    grid-template-columns: 1fr;
-    flex-direction: column;
-  }
-
-  .hero-section {
-    padding: 24px;
-  }
-
-  .header-search {
-    display: grid;
-    grid-template-columns: 1fr auto;
-  }
-
-  .summary-card-top {
-    align-items: center;
-  }
-
-  .weather-temp {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
-
-  .webtoon-grid,
-  .filter-panel {
-    grid-template-columns: 1fr;
-  }
-
-  .info-list div {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    scroll-behavior: auto !important;
-    transition-duration: 0.001ms !important;
-  }
 }

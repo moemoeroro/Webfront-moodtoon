@@ -1,0 +1,87 @@
+@media (max-width: 900px) {
+  .site-header {
+    grid-template-columns: 1fr;
+  }
+
+  .site-nav {
+    justify-content: flex-start;
+    overflow-x: auto;
+  }
+
+  .hero-section,
+  .summary-grid,
+  .profile-grid,
+  .detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .webtoon-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .filter-panel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .weather-icon {
+    width: 64px;
+    height: 64px;
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 560px) {
+  .page {
+    width: min(100% - 24px, 1120px);
+    padding-top: 24px;
+  }
+
+  .hero-section,
+  .profile-hero,
+  .explore-toolbar,
+  .section-title.compact,
+  .site-footer {
+    align-items: stretch;
+    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .hero-section {
+    padding: 24px;
+  }
+
+  .header-search {
+    display: grid;
+    grid-template-columns: 1fr auto;
+  }
+
+  .summary-card-top {
+    align-items: center;
+  }
+
+  .weather-temp {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .webtoon-grid,
+  .filter-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .info-list div {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}

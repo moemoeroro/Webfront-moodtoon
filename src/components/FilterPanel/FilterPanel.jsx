@@ -1,4 +1,5 @@
-import { genres, platforms } from "../data/mockWebtoons.js";
+import { genres, platforms } from "../../data/mockWebtoons.js";
+import "./FilterPanel.css";
 
 function FilterPanel({ filters, onChange }) {
   return (

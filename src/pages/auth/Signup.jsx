@@ -1,16 +1,17 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext.jsx";
+import { useAuth } from "../../context/AuthContext.jsx";
+import "./auth.css";
 
-function Login() {
+function Signup() {
   const navigate = useNavigate();
-  const { login } = useAuth();
-  const [form, setForm] = useState({ email: "", password: "" });
+  const { signup } = useAuth();
+  const [form, setForm] = useState({ nickname: "", email: "", password: "" });
   const [message, setMessage] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const result = login(form);
+    const result = signup(form);
 
     if (!result.ok) {
       setMessage(result.message);
@@ -23,9 +24,19 @@ function Login() {
   return (
     <div className="page auth-page">
       <section className="auth-card">
-        <p className="eyebrow">Login</p>
-        <h1>moodtoon 로그인</h1>
+        <p className="eyebrow">Signup</p>
+        <h1>moodtoon 회원가입</h1>
         <form onSubmit={handleSubmit}>
+          <label>
+            닉네임
+            <input
+              value={form.nickname}
+              onChange={(event) =>
+                setForm({ ...form, nickname: event.target.value })
+              }
+              required
+            />
+          </label>
           <label>
             이메일
             <input
@@ -40,6 +51,7 @@ function Login() {
             <input
               type="password"
               value={form.password}
+              minLength="4"
               onChange={(event) =>
                 setForm({ ...form, password: event.target.value })
               }
@@ -48,15 +60,15 @@ function Login() {
           </label>
           {message && <p className="form-message">{message}</p>}
           <button className="primary-button" type="submit">
-            로그인
+            가입하기
           </button>
         </form>
         <p>
-          계정이 없다면 <Link to="/signup">회원가입</Link>
+          이미 계정이 있다면 <Link to="/login">로그인</Link>
         </p>
       </section>
     </div>
   );
 }
 
-export default Login;
+export default Signup;

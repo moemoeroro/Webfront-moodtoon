@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { genres } from "../data/mockWebtoons.js";
-import { recommendWebtoons } from "../services/webtoonApi.js";
+import { genres } from "../../data/mockWebtoons.js";
+import { recommendWebtoons } from "../../services/webtoonApi.js";
+import "./RecommendationQuiz.css";
 
 function RecommendationQuiz({ mood, weather, onResult }) {
   const [selectedGenres, setSelectedGenres] = useState(["로맨스", "힐링"]);

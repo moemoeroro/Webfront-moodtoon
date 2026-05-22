@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import "./CommentList.css";
 
 function CommentList({ comments }) {
   const [sortType, setSortType] = useState("popular");

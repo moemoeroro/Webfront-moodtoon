@@ -1,9 +1,10 @@
 import { useState } from "react";
-import WebtoonCard from "../components/WebtoonCard.jsx";
-import WeatherSummary from "../components/WeatherSummary.jsx";
-import MoodSelector from "../components/MoodSelector.jsx";
-import RecommendationQuiz from "../components/RecommendationQuiz.jsx";
-import { webtoons } from "../data/mockWebtoons.js";
+import WebtoonCard from "../../components/WebtoonCard/WebtoonCard.jsx";
+import WeatherSummary from "../../components/WeatherSummary/WeatherSummary.jsx";
+import MoodSelector from "../../components/MoodSelector/MoodSelector.jsx";
+import RecommendationQuiz from "../../components/RecommendationQuiz/RecommendationQuiz.jsx";
+import { webtoons } from "../../data/mockWebtoons.js";
+import "./Home.css";
 
 function Home() {
   const [selectedMood, setSelectedMood] = useState("피곤함");

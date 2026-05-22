@@ -1,3 +1,5 @@
+import "./SearchBar.css";
+
 function SearchBar({ keyword, onKeywordChange }) {
   return (
     <label className="search-box">

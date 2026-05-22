@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { fetchSeoulWeather } from "../services/weatherApi.js";
+import { fetchSeoulWeather } from "../../services/weatherApi.js";
+import "./WeatherSummary.css";
 
 const weatherIcons = {
   sunny: "☀️",
