@@ -1,0 +1,61 @@
+.weather-summary {
+  background:
+    linear-gradient(135deg, rgba(226, 252, 241, 0.9), rgba(255, 255, 255, 0.54)),
+    var(--surface);
+}
+
+.weather-icon {
+  display: grid;
+  place-items: center;
+  width: 74px;
+  height: 74px;
+  flex: 0 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.74);
+  border-radius: 8px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.24)),
+    rgba(255, 255, 255, 0.54);
+  box-shadow: 0 18px 34px rgba(82, 61, 140, 0.12);
+  font-size: 34px;
+  animation: iconFloat 4.2s ease-in-out infinite;
+}
+
+.weather-rainy {
+  background:
+    linear-gradient(145deg, rgba(209, 223, 255, 0.84), rgba(255, 255, 255, 0.3)),
+    rgba(255, 255, 255, 0.54);
+}
+
+.weather-snowy {
+  background:
+    linear-gradient(145deg, rgba(224, 247, 255, 0.94), rgba(255, 255, 255, 0.34)),
+    rgba(255, 255, 255, 0.54);
+}
+
+.weather-sunny {
+  background:
+    linear-gradient(145deg, rgba(255, 236, 185, 0.92), rgba(255, 255, 255, 0.34)),
+    rgba(255, 255, 255, 0.54);
+}
+
+.weather-temp {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 24px 0 10px;
+}
+
+.weather-temp span {
+  font-size: clamp(38px, 5vw, 56px);
+  font-weight: 850;
+  letter-spacing: 0;
+}
+
+.weather-temp small {
+  padding: 5px 9px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.56);
+  color: var(--soda-deep);
+  font-size: 12px;
+  font-weight: 800;
+}

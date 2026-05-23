@@ -1,0 +1,9 @@
+.search-box {
+  display: grid;
+  gap: 8px;
+  font-weight: 760;
+}
+
+.search-box input {
+  padding: 13px 14px;
+}
