@@ -1,6 +1,7 @@
 @import "./variables.css";
 @import "./reset.css";
 @import "./animations.css";
+@import "./responsive.css";
 
 /* 프로젝트 전체 기본 스타일 정의 */
 .page {
@@ -181,7 +182,6 @@
   gap: 8px;
   margin-top: 14px;
   padding: 5px;
-  border: 1px solid var(--line);
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.34);
 }
@@ -351,5 +351,3 @@
 }
 
 
-/* 반응형 스타일 - 마지막에 import */
-@import "./responsive.css";
