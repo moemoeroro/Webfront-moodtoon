@@ -8,13 +8,63 @@ html {
   scroll-behavior: smooth;
 }
 
-img {
-  display: block;
-  max-width: 100%;
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0) 42%),
+    linear-gradient(135deg, #eee7fb 0%, #f8f1fa 43%, #e9fbf3 100%);
+  color: var(--ink);
+  font-family: "Inter", "Pretendard", "Noto Sans KR", "Segoe UI", Arial, sans-serif;
+  word-break: keep-all;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  content: "";
+  background:
+    linear-gradient(115deg, rgba(123, 97, 255, 0.12), transparent 34%),
+    linear-gradient(245deg, rgba(143, 230, 196, 0.22), transparent 42%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.18) 0 1px, transparent 1px 96px);
+  filter: blur(0.2px);
+}
+
+
+
+::selection {
+  background: rgba(143, 230, 196, 0.55);
+  color: var(--primary-dark);
 }
 
 button,
 input,
 select {
   font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* 기본 링크 스타일 제거 */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+
+/* 이미지 기본 동작 최적화 */
+img {
+  display: block;
+  max-width: 100%;
+}
+
+
+/* 최소 높이로 푸터가 하단에 위치하도록 보장 */
+main {
+  min-height: calc(100vh - 164px);
 }

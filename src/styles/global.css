@@ -1,48 +1,8 @@
+@import "./variables.css";
+@import "./reset.css";
+@import "./animations.css";
+
 /* 프로젝트 전체 기본 스타일 정의 */
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0) 42%),
-    linear-gradient(135deg, #eee7fb 0%, #f8f1fa 43%, #e9fbf3 100%);
-  color: var(--ink);
-  font-family: "Inter", "Pretendard", "Noto Sans KR", "Segoe UI", Arial, sans-serif;
-  word-break: keep-all;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-}
-
-body::before {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  content: "";
-  background:
-    linear-gradient(115deg, rgba(123, 97, 255, 0.12), transparent 34%),
-    linear-gradient(245deg, rgba(143, 230, 196, 0.22), transparent 42%),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.18) 0 1px, transparent 1px 96px);
-  filter: blur(0.2px);
-}
-
-::selection {
-  background: rgba(143, 230, 196, 0.55);
-  color: var(--primary-dark);
-}
-
-button {
-  cursor: pointer;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-main {
-  min-height: calc(100vh - 164px);
-}
-
 .page {
   width: min(1120px, calc(100% - 36px));
   margin: 0 auto;
@@ -65,14 +25,41 @@ main {
   text-transform: uppercase;
 }
 
-/*------------------------*/
+
+/* 위치...? */
+.brand,
+.site-nav,
+.header-search,
+.site-footer,
+.section-title.compact,
+.profile-hero {
+  display: flex;
+  align-items: center;
+}
+
+
+.quiz-section,
+.recommend-result,
+.page section + section {
+  margin-top: 44px;
+}
+
+.webtoon-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.empty-page {
+  display: grid;
+  place-items: center;
+}
 
 
 
-
-
-
-/*------------버튼-------------*/
+/*---------------------
+버튼
+-----------------------*/
 
 
 .header-search button,
@@ -155,7 +142,39 @@ main {
   box-shadow: 0 8px 18px rgba(82, 61, 140, 0.12);
 }
 
-/* 버튼 여러 개를 하나의 선택 UI로 묶어놓은 스타일 */
+
+
+
+/*--------여러개 선택 버튼----------*/
+.choice-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.choice-grid button,
+.segmented button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.58);
+  color: var(--ink);
+  font-weight: 750;
+  box-shadow: 0 8px 20px rgba(82, 61, 140, 0.08);
+}
+
+.choice-grid button.selected,
+.segmented button.selected {
+  background: linear-gradient(135deg, var(--primary), #9a88ff);
+  color: white;
+}
+
+
+/* -------여러개 중 하나 선택 버튼-------- */
 .segmented {
   display: inline-flex;
   flex-wrap: wrap;
@@ -173,29 +192,13 @@ main {
   margin-top: 0;
 }
 
-/*------------------------*/
 
 
 
-/* -------------텍스트 링크--------- */
-.auth-card a,
-.text-link {
-  color: var(--primary-dark);
-  font-weight: 800;
-}
-/*----------------------------------*/
 
-
-.brand,
-.site-nav,
-.header-search,
-.site-footer,
-.section-title.compact,
-.profile-hero {
-  display: flex;
-  align-items: center;
-}
-
+/*-------------------
+공통 입력 필드 스타일 
+---------------------*/
 .header-search input,
 .search-box input,
 .auth-card input,
@@ -224,7 +227,9 @@ main {
 }
 
 
-
+/*--------------------
+공통 제목 스타일
+--------------------*/
 .page-heading h1,
 .detail-info h1,
 .auth-card h1,
@@ -235,6 +240,9 @@ main {
   letter-spacing: 0;
 }
 
+/*---------------
+공통 문단 스타일
+--------------*/
 .page-heading p,
 .detail-info p,
 .profile-hero p,
@@ -269,7 +277,9 @@ main {
 
 
 
-/* 카드, 패널 */
+/* --------------
+카드, 패널
+-------------- */
 .summary-card {
   position: relative;
   overflow: hidden;
@@ -299,7 +309,6 @@ main {
 }
 
 .summary-card h2,
-.section-title h2,
 .quiz-panel h3,
 .profile-panel h2 {
   margin: 0;
@@ -311,39 +320,18 @@ main {
 
 /*----------------*/
 
-.choice-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 18px;
+
+
+
+/* -------------텍스트 링크--------- */
+.auth-card a,
+.text-link {
+  color: var(--primary-dark);
+  font-weight: 800;
 }
 
-.choice-grid button,
-.segmented button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  padding: 10px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.72);
-  background: rgba(255, 255, 255, 0.58);
-  color: var(--ink);
-  font-weight: 750;
-  box-shadow: 0 8px 20px rgba(82, 61, 140, 0.08);
-}
 
-.choice-grid button.selected,
-.segmented button.selected {
-  background: linear-gradient(135deg, var(--primary), #9a88ff);
-  color: white;
-}
-
-.quiz-section,
-.recommend-result,
-.page section + section {
-  margin-top: 44px;
-}
-
+/* -----------섹션 제목---------- */
 .section-title {
   margin-bottom: 18px;
 }
@@ -358,13 +346,10 @@ main {
   color: var(--muted);
 }
 
-.webtoon-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 18px;
+.section-title h2 {
+  margin: 0;
 }
 
-.empty-page {
-  display: grid;
-  place-items: center;
-}
+
+/* 반응형 스타일 - 마지막에 import */
+@import "./responsive.css";

@@ -3,21 +3,27 @@
 :root {
   --bg: #f4f0fa;
   --bg-deep: #e9e1f5;
+
   --surface: rgba(255, 255, 255, 0.74);
   --surface-solid: #ffffff;
   --surface-soft: rgba(248, 244, 255, 0.82);
+
   --primary: #7b61ff;
   --primary-dark: #4d3a9f;
+
   --soda: #8fe6c4;
   --soda-deep: #36a884;
   --lavender: #cbbcff;
   --mist: #f8f6ff;
   --peach: #ffc8b8;
+  
   --ink: #272139;
   --muted: #776f8d;
+
   --line: rgba(91, 76, 128, 0.18);
   --line-strong: rgba(60, 48, 89, 0.28);
   --glass-line: rgba(255, 255, 255, 0.72);
+
   --shadow: 0 26px 70px rgba(69, 48, 126, 0.16);
   --shadow-soft: 0 14px 34px rgba(69, 48, 126, 0.1);
   --shadow-hover: 0 26px 54px rgba(69, 48, 126, 0.18);
