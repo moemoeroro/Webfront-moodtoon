@@ -1,5 +1,6 @@
 import { moods } from "../../data/mockWebtoons.js";
 import "./MoodSelector.css";
+import ChoiceButton from "../ui/ChoiceButton.jsx";
 
 const moodIcons = {
   행복함: "😊",
@@ -31,17 +32,21 @@ function MoodSelector({ selectedMood, onSelect }) {
 
       <div className="choice-grid mood-grid">
         {moods.map((mood) => (
-          <button
+          <ChoiceButton
             key={mood}
-            className={selectedMood === mood ? "selected" : ""}
+            selected={selectedMood === mood}
             onClick={() => onSelect(mood)}
             type="button"
           >
-            <span className="mood-icon" aria-hidden="true">
+            <span
+              className="mood-icon"
+              aria-hidden="true"
+            >
               {moodIcons[mood] || "☁️"}
             </span>
+
             <span>{mood}</span>
-          </button>
+          </ChoiceButton>
         ))}
       </div>
     </section>

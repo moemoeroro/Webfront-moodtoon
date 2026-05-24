@@ -1,5 +1,7 @@
 import { useMemo, useState } from "react";
 import "./CommentList.css";
+import ChoiceButton from "../ui/ChoiceButton.jsx";
+import Button from "../ui/Button.jsx";
 
 function CommentList({ comments }) {
   const [sortType, setSortType] = useState("popular");
@@ -19,21 +21,17 @@ function CommentList({ comments }) {
           <p className="eyebrow">댓글</p>
           <h2>작품 감상</h2>
         </div>
-        <div className="segmented small">
-          <button
-            className={sortType === "popular" ? "selected" : ""}
-            onClick={() => setSortType("popular")}
-            type="button"
-          >
-            인기순
-          </button>
-          <button
-            className={sortType === "latest" ? "selected" : ""}
-            onClick={() => setSortType("latest")}
-            type="button"
-          >
+        <div className="segmented">
+          <ChoiceButton 
+            selected={sortType === "popular"}
+            onClick={() => setSortType("popular")}>
+              인기순
+          </ChoiceButton>
+          <ChoiceButton
+            selected={sortType === "latest"}
+            onClick={() => setSortType("latest")}>
             최신순
-          </button>
+          </ChoiceButton>
         </div>
       </div>
 
@@ -42,7 +40,10 @@ function CommentList({ comments }) {
           <article className="comment-item" key={comment.id}>
             <strong>{comment.user}</strong>
             <p>{comment.text}</p>
-            <button type="button">공감 {comment.empathy}</button>
+            <button
+              className="button outline medium" type="button">
+              ❤️{comment.empathy}
+            </button>
           </article>
         ))}
       </div>

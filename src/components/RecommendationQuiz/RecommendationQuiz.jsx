@@ -2,6 +2,8 @@ import { useState } from "react";
 import { genres } from "../../data/mockWebtoons.js";
 import { recommendWebtoons } from "../../services/webtoonApi.js";
 import "./RecommendationQuiz.css";
+import ChoiceButton from "../ui/ChoiceButton.jsx";
+import Button from "../ui/Button.jsx";
 
 function RecommendationQuiz({ mood, weather, onResult }) {
   const [selectedGenres, setSelectedGenres] = useState(["로맨스", "힐링"]);
@@ -42,14 +44,14 @@ function RecommendationQuiz({ mood, weather, onResult }) {
             {genres
               .filter((genre) => genre !== "전체")
               .map((genre) => (
-                <button
+                <ChoiceButton
                   key={genre}
-                  className={selectedGenres.includes(genre) ? "selected" : ""}
+                  selected={selectedGenres.includes(genre)}
                   onClick={() => toggleGenre(genre)}
                   type="button"
                 >
                   {genre}
-                </button>
+                </ChoiceButton>
               ))}
           </div>
         </div>
@@ -58,21 +60,26 @@ function RecommendationQuiz({ mood, weather, onResult }) {
           <h3>오늘 읽고 싶은 분위기</h3>
           <div className="segmented">
             {["가볍게", "몰입감 있게", "짧게"].map((item) => (
-              <button
+              <ChoiceButton
                 key={item}
-                className={pace === item ? "selected" : ""}
+                selected={pace === item}
                 onClick={() => setPace(item)}
                 type="button"
               >
                 {item}
-              </button>
+              </ChoiceButton>
             ))}
           </div>
         </div>
 
-        <button className="primary-button" onClick={handleRecommend} type="button">
+        <Button
+          variant="primary"
+          size="large"
+          shine
+          onClick={handleRecommend}
+          type="button">
           추천받기
-        </button>
+        </Button>
       </div>
     </section>
   );

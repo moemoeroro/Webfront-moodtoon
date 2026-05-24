@@ -5,6 +5,7 @@ import SearchBar from "../../components/SearchBar/SearchBar.jsx";
 import WebtoonCard from "../../components/WebtoonCard/WebtoonCard.jsx";
 import { searchWebtoons } from "../../services/webtoonApi.js";
 import "./Explore.css";
+import Button from "../../Components/ui/Button.jsx";
 
 function Explore() {
   const [searchParams] = useSearchParams();
@@ -53,13 +54,15 @@ function Explore() {
       <span className="explore-text">통합 검색</span>
       <section className="explore-toolbar">
         <SearchBar keyword={keyword} onKeywordChange={setKeyword} />
-        <button
-          className="filter-button"
-          onClick={() => setShowFilters((prev) => !prev)}
-          type="button"
-        >
+        <Button
+          variant="outline"
+          size="medium"
+          onClick={() =>
+            setShowFilters((prev) => !prev)
+          }
+          type="button">
           필터
-        </button>
+        </Button>
       </section>
 
       {showFilters && <FilterPanel filters={filters} onChange={setFilters} />}

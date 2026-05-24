@@ -3,6 +3,7 @@ import { useAuth } from "../../context/AuthContext.jsx";
 import WebtoonCard from "../../components/WebtoonCard/WebtoonCard.jsx";
 import { webtoons } from "../../data/mockWebtoons.js";
 import "./Profile.css";
+import Button from "../../Components/ui/Button.jsx";
 
 function getTopMood(moodLogs) {
   const counts = moodLogs.reduce((acc, mood) => {
@@ -32,9 +33,9 @@ function Profile() {
           <h1>{currentUser.nickname}님의 moodtoon</h1>
           <p>이번 주 가장 많이 선택한 감정: {getTopMood(currentUser.moodLogs)}</p>
         </div>
-        <button className="signout-button" onClick={logout} type="button">
+        <Button variant="danger" size="large" onClick={logout} type="button">
           로그아웃
-        </button>
+        </Button>
       </section>
 
       <div className="profile-grid">

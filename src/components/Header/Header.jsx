@@ -2,12 +2,14 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import "./Header.css";
+import Button from "../ui/Button.jsx";
 
 function Header() {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
   const [keyword, setKeyword] = useState("");
 
+  // 검색함수
   const handleSubmit = (event) => {
     event.preventDefault();
     navigate(`/explore?keyword=${encodeURIComponent(keyword.trim())}`);
@@ -26,8 +28,9 @@ function Header() {
           onChange={(event) => setKeyword(event.target.value)}
           placeholder="작품명, 작가, 태그 검색"
         />
-        <button type="submit">검색</button>
+        <Button type="submit" variant="primary shine" size="medium">검색</Button>
       </form>
+      
 
       <nav className="site-nav" aria-label="주요 메뉴">
         <NavLink to="/">추천</NavLink>

@@ -39,6 +39,7 @@
 }
 
 
+
 .quiz-section,
 .recommend-result,
 .page section + section {
@@ -56,148 +57,14 @@
   place-items: center;
 }
 
-
-
-/*---------------------
-버튼
------------------------*/
-
-
-.header-search button,
-.primary-button,
-.filter-button,
-.signout-button,
-.choice-grid button,
-.segmented button,
-.comment-item button {
-  border-radius: 8px;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
-}
-
-.header-search button,
-.primary-button {
-  position: relative;
-  overflow: hidden;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 44px;
-  padding: 0 18px;
-  border: 0;
-  background: linear-gradient(135deg, var(--primary), #9f8cff);
-  color: white;
-  font-weight: 800;
-  box-shadow: 0 12px 24px rgba(123, 97, 255, 0.24);
-  white-space: nowrap;
-}
-
-.header-search button {
-  min-width: 66px;
-}
-
-/*필터, 로그아웃 버튼*/
-.filter-button,
-.signout-button {
-  min-height: 44px;
-  padding: 0 18px;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.64);
-  color: var(--primary-dark);
-  font-weight: 800;
-  box-shadow: 0 10px 22px rgba(82, 61, 140, 0.08);
-  white-space: nowrap;
-}
-
-
-.header-search button::after,
-.primary-button::after {
-  position: absolute;
-  inset: 0;
-  content: "";
-  background: linear-gradient(105deg, transparent 26%, rgba(255, 255, 255, 0.38), transparent 70%);
-  transform: translateX(-120%) skewX(-14deg);
-}
-
-.header-search button:hover::after,
-.primary-button:hover::after {
-  animation: sheen 0.82s ease;
-}
-
-
-
-.primary-button:hover,
-.header-search button:hover,
-.filter-button:hover,
-.signout-button:hover,
-.choice-grid button:hover,
-.segmented button:hover,
-.comment-item button:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-hover);
-}
-
-.primary-button:active,
-.header-search button:active,
-.filter-button:active,
-.signout-button:active,
-.choice-grid button:active,
-.segmented button:active,
-.comment-item button:active {
-  transform: translateY(1px) scale(0.985);
-  box-shadow: 0 8px 18px rgba(82, 61, 140, 0.12);
-}
-
-
-
-
-/*--------여러개 선택 버튼----------*/
 .choice-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+
+  gap: 14px;
+
   margin-top: 18px;
 }
-
-.choice-grid button,
-.segmented button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  padding: 10px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.72);
-  background: rgba(255, 255, 255, 0.58);
-  color: var(--ink);
-  font-weight: 750;
-  box-shadow: 0 8px 20px rgba(82, 61, 140, 0.08);
-}
-
-.choice-grid button.selected,
-.segmented button.selected {
-  background: linear-gradient(135deg, var(--primary), #9a88ff);
-  color: white;
-}
-
-
-/* -------여러개 중 하나 선택 버튼-------- */
-.segmented {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 14px;
-  padding: 5px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.34);
-}
-
-
-
-.segmented.small {
-  margin-top: 0;
-}
-
-
-
 
 
 /*-------------------
@@ -321,6 +188,22 @@
 .summary-card h2 {
   font-size: 28px;
 }
+
+.summary-card,
+.quiz-panel,
+.recommend-result,
+.profile-panel,
+.auth-card,
+.comment-section,
+.filter-panel,
+.detail-info {
+  border: 1px solid var(--glass-line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(18px) saturate(1.08);
+}
+
 
 /*----------------*/
 
