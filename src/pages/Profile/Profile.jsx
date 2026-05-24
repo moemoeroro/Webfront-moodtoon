@@ -32,7 +32,7 @@ function Profile() {
           <h1>{currentUser.nickname}님의 moodtoon</h1>
           <p>이번 주 가장 많이 선택한 감정: {getTopMood(currentUser.moodLogs)}</p>
         </div>
-        <button className="outline-button" onClick={logout} type="button">
+        <button className="signout-button" onClick={logout} type="button">
           로그아웃
         </button>
       </section>

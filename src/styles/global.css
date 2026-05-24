@@ -65,7 +65,8 @@
 
 .header-search button,
 .primary-button,
-.outline-button,
+.filter-button,
+.signout-button,
 .choice-grid button,
 .segmented button,
 .comment-item button {
@@ -95,7 +96,8 @@
 }
 
 /*필터, 로그아웃 버튼*/
-.outline-button {
+.filter-button,
+.signout-button {
   min-height: 44px;
   padding: 0 18px;
   border: 1px solid var(--line);
@@ -125,7 +127,8 @@
 
 .primary-button:hover,
 .header-search button:hover,
-.outline-button:hover,
+.filter-button:hover,
+.signout-button:hover,
 .choice-grid button:hover,
 .segmented button:hover,
 .comment-item button:hover {
@@ -135,7 +138,8 @@
 
 .primary-button:active,
 .header-search button:active,
-.outline-button:active,
+.filter-button:active,
+.signout-button:active,
 .choice-grid button:active,
 .segmented button:active,
 .comment-item button:active {

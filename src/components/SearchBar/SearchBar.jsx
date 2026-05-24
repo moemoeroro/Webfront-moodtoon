@@ -3,7 +3,6 @@ import "./SearchBar.css";
 function SearchBar({ keyword, onKeywordChange }) {
   return (
     <label className="search-box">
-      <span>통합 검색</span>
       <input
         value={keyword}
         onChange={(event) => onKeywordChange(event.target.value)}

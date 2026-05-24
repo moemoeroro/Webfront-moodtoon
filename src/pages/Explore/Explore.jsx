@@ -50,10 +50,11 @@ function Explore() {
         <p>작품명, 작가, 태그를 검색하고 장르와 플랫폼 조건으로 좁혀보세요.</p>
       </div>
 
+      <span className="explore-text">통합 검색</span>
       <section className="explore-toolbar">
         <SearchBar keyword={keyword} onKeywordChange={setKeyword} />
         <button
-          className="outline-button"
+          className="filter-button"
           onClick={() => setShowFilters((prev) => !prev)}
           type="button"
         >
