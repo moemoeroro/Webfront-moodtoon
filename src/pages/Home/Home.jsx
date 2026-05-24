@@ -5,6 +5,7 @@ import MoodSelector from "../../components/MoodSelector/MoodSelector.jsx";
 import RecommendationQuiz from "../../components/RecommendationQuiz/RecommendationQuiz.jsx";
 import { webtoons } from "../../data/mockWebtoons.js";
 import "./Home.css";
+import Button from "../../Components/ui/Button.jsx";
 
 function Home() {
   const [selectedMood, setSelectedMood] = useState("피곤함");
@@ -23,7 +24,7 @@ function Home() {
             작품을 골라주는 개인화 웹툰 추천 서비스입니다.
           </p>
         </div>
-        <a className="primary-button" href="#recommend">
+        <a className="button primary large shine" href="#recommend">
           추천 시작
         </a>
       </section>
