@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
 import "./auth.css";
+import Button from "../../Components/ui/Button.jsx";
 
 function Login() {
   const navigate = useNavigate();
@@ -48,9 +49,9 @@ function Login() {
             />
           </label>
           {message && <p className="form-message">{message}</p>}
-          <button className="primary-button" type="submit">
+          <Button className="button primary shine" type="submit">
             로그인
-          </button>
+          </Button>
         </form>
         <p>
           계정이 없다면 <Link to="/signup">회원가입</Link>

@@ -33,7 +33,6 @@ function Header() {
       
 
       <nav className="site-nav" aria-label="주요 메뉴">
-        <NavLink to="/">추천</NavLink>
         <NavLink to="/explore">탐색</NavLink>
         {currentUser ? (
           <NavLink to="/profile">프로필</NavLink>
