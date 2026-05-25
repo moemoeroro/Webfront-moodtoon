@@ -2,6 +2,32 @@
   padding: 24px;
 }
 
+.comment-form {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.comment-form textarea {
+  min-height: 110px;
+  padding: 14px;
+
+  border: 1px solid var(--line);
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.5);
+
+  resize: vertical;
+
+  font: inherit;
+}
+
+.comment-form textarea:focus {
+  outline: none;
+  border-color: rgba(143, 230, 196, 0.8);
+  box-shadow: 0 0 0 4px rgba(143, 230, 196, 0.16);
+}
+
 .comment-list {
   display: grid;
   gap: 12px;
