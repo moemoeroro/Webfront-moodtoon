@@ -15,13 +15,13 @@ function Home() {
 
   return (
     <div className="page home-page">
+      {/* 메인 소개 영역 */}
       <section className="hero-section">
         <div>
           <p className="eyebrow">Mood based webtoon platform</p>
           <h1>오늘의 날씨와 감정에 맞는 웹툰을 추천받아보세요</h1>
           <p>
-            moodtoon은 날씨, 현재 감정, 선호 장르를 함께 반영해 지금 보기 좋은
-            작품을 골라주는 개인화 웹툰 추천 서비스입니다.
+            moodtoon은 날씨, 현재 감정, 선호 장르를 함께 반영해 지금 보기 좋은 웹툰을 추천해주는 서비스입니다.
           </p>
         </div>
         <a className="button primary large shine" href="#recommend">
@@ -29,6 +29,7 @@ function Home() {
         </a>
       </section>
 
+      {/* 날씨 + 감정 */}
       <div className="summary-grid" id="recommend">
         <WeatherSummary onWeatherChange={setWeather} />
         <MoodSelector selectedMood={selectedMood} onSelect={setSelectedMood} />

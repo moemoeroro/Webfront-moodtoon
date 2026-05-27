@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { genres } from "../../data/mockWebtoons.js";
-import { recommendWebtoons } from "../../services/webtoonApi.js";
+import { genres, platforms } from "../../data/mockWebtoons.js"; // 웹툰 장르 데이터 가져오기
+import { recommendWebtoons } from "../../services/webtoonApi.js"; // 웹툰 추천 함수
 import "./RecommendationQuiz.css";
 import ChoiceButton from "../ui/ChoiceButton.jsx";
 import Button from "../ui/Button.jsx";
 
 function RecommendationQuiz({ mood, weather, onResult }) {
-  const [selectedGenres, setSelectedGenres] = useState(["로맨스", "힐링"]);
-  const [pace, setPace] = useState("가볍게");
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedPlatforms, setSelectedPlatforms] = useState([]);
 
   const toggleGenre = (genre) => {
     setSelectedGenres((prevGenres) =>
@@ -17,11 +17,20 @@ function RecommendationQuiz({ mood, weather, onResult }) {
     );
   };
 
+  const togglePlatform = (platform) => {
+  setSelectedPlatforms((prevPlatforms) =>
+    prevPlatforms.includes(platform)
+      ? prevPlatforms.filter((item) => item !== platform)
+      : [...prevPlatforms, platform]
+  );
+};
+
   const handleRecommend = () => {
     const result = recommendWebtoons({
       mood: mood || "피곤함",
       weatherType: weather?.type || "cloudy",
       preferredGenres: selectedGenres,
+      preferredPlatforms: selectedPlatforms,
     });
 
     onResult({
@@ -57,13 +66,13 @@ function RecommendationQuiz({ mood, weather, onResult }) {
         </div>
 
         <div>
-          <h3>오늘 읽고 싶은 분위기</h3>
+          <h3>플랫폼</h3>
           <div className="segmented">
-            {["가볍게", "몰입감 있게", "짧게"].map((item) => (
+            {platforms.filter((platform) => platform !== "전체").map((item) => (
               <ChoiceButton
                 key={item}
-                selected={pace === item}
-                onClick={() => setPace(item)}
+                selected={selectedPlatforms.includes(item)}
+                onClick={() => togglePlatform(item)}
                 type="button"
               >
                 {item}
