@@ -1,15 +1,14 @@
 import { useMemo, useState } from "react";
 import "./CommentList.css";
+
 import ChoiceButton from "../ui/ChoiceButton.jsx";
-import Button from "../ui/Button.jsx";
+
+import CommentItem from "./CommentItem.jsx";
+import CommentForm from "./CommentForm.jsx";
 
 function CommentList({ comments }) {
   const [sortType, setSortType] = useState("popular");
 
-  // 새 댓글 입력 상태
-  const [commentText, setCommentText] = useState("");
-
-  // 댓글 목록 상태
   const [commentList, setCommentList] = useState(comments);
 
   const sortedComments = useMemo(() => {
@@ -22,18 +21,15 @@ function CommentList({ comments }) {
     return nextComments.sort((a, b) => b.id - a.id);
   }, [commentList, sortType]);
 
-  const handleSubmit = () => {
-    if (!commentText.trim()) return;
-
+  const handleAddComment = (text) => {
     const newComment = {
       id: Date.now(),
       user: "익명",
-      text: commentText,
+      text,
       empathy: 0,
     };
 
     setCommentList((prev) => [newComment, ...prev]);
-    setCommentText("");
   };
 
   return (
@@ -61,33 +57,14 @@ function CommentList({ comments }) {
         </div>
       </div>
 
-      {/* 댓글 작성 */}
-      <div className="comment-form">
-        <textarea
-          placeholder="댓글을 작성해주세요..."
-          value={commentText}
-          onChange={(event) => setCommentText(event.target.value)}
-        />
-
-        <Button onClick={handleSubmit}>
-          댓글 작성
-        </Button>
-      </div>
+      <CommentForm onSubmit={handleAddComment} />
 
       <div className="comment-list">
         {sortedComments.map((comment) => (
-          <article className="comment-item" key={comment.id}>
-            <strong>{comment.user}</strong>
-
-            <p>{comment.text}</p>
-
-            <button
-              className="button outline medium"
-              type="button"
-            >
-              공감 {comment.empathy}
-            </button>
-          </article>
+          <CommentItem
+            key={comment.id}
+            comment={comment}
+          />
         ))}
       </div>
     </section>
