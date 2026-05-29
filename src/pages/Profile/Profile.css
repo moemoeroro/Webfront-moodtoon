@@ -1,4 +1,6 @@
 .profile-hero {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 20px;
   padding: 30px;

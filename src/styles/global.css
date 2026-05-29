@@ -10,32 +10,8 @@
   padding: 44px 0 72px;
 }
 
-/* 작은 라벨 스타일 */
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  margin: 0 0 10px;
-  padding: 6px 10px;
-  border: 1px solid rgba(143, 230, 196, 0.45);
-  border-radius: 8px;
-  background: rgba(226, 252, 241, 0.72);
-  color: var(--soda-deep);
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0;
-  text-transform: uppercase;
-}
-
 
 /* 위치...? */
-.brand,
-.site-nav,
-.section-title.compact,
-.profile-hero {
-  display: flex;
-  align-items: center;
-}
-
 .quiz-section,
 .recommend-result,
 .page section + section {
@@ -173,33 +149,9 @@
 }
 /*----------------*/
 
-
-
-
 /* -------------텍스트 링크--------- */
 .auth-card a,
 .text-link {
   color: var(--primary-dark);
   font-weight: 800;
 }
-
-
-/* -----------섹션 제목---------- */
-.section-title {
-  margin-bottom: 18px;
-}
-
-.section-title.compact {
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.section-title p {
-  max-width: 720px;
-  color: var(--muted);
-}
-
-.section-title h2 {
-  margin: 0;
-}
-

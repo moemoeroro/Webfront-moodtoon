@@ -1,3 +1,5 @@
+import "./SectionTitle.css";
+
 function SectionTitle({
   eyebrow,
   title,

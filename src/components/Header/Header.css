@@ -16,6 +16,8 @@
 
 /* 로고 */
 .brand {
+  display: flex;
+  align-items: center;
   position: relative;
   gap: 10px;
   color: var(--primary-dark);
@@ -87,6 +89,8 @@
 
 /* 네비게이션 */
 .site-nav {
+  display: flex;
+  align-items: center;
   gap: 6px;
   justify-content: flex-end;
 }

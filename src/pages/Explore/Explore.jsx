@@ -8,6 +8,7 @@ import "./Explore.css";
 import Button from "../../components/ui/Button.jsx";
 import SectionTitle from "../../components/ui/SectionTitle.jsx";
 
+
 function Explore() {
   const [searchParams] = useSearchParams();
   const [keyword, setKeyword] = useState(searchParams.get("keyword") || "");
@@ -51,8 +52,8 @@ function Explore() {
         <h1>웹툰 탐색</h1>
         <p>작품명, 작가, 태그를 검색하고 장르와 플랫폼 조건으로 좁혀보세요.</p>
       </div>
-
-      <span className="explore-text">통합 검색</span>
+      
+      <SectionTitle title="통합 검색"/>
       <section className="explore-toolbar">
         <SearchBar keyword={keyword} onKeywordChange={setKeyword} />
         <Button
