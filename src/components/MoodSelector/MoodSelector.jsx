@@ -22,8 +22,8 @@ function MoodSelector({ selectedMood, onSelect }) {
   const selectedIcon = getMoodIcon(selectedMood);
 
   return (
-    <section className="summary-card mood-summary">
-      <div className="summary-card-top">
+    <section className="card info-card mood-summary">
+      <div className="info-card-top">
         <div>
           <p className="eyebrow">오늘의 기분</p>
 

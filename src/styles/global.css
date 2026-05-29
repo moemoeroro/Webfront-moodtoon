@@ -117,60 +117,10 @@
   margin-top: 24px;
 }
 
-
-
-
-
-/* --------------
-카드, 패널
--------------- */
-.summary-card {
-  position: relative;
-  overflow: hidden;
-  padding: 26px;
-  min-height: 230px;
-  animation: fadeUp 0.58s ease both;
-}
-
-.summary-card::before {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  content: "";
-  background: linear-gradient(125deg, rgba(255, 255, 255, 0.62), transparent 42%);
-}
-
-.summary-card > * {
-  position: relative;
-  z-index: 1;
-}
-
-.summary-card-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 18px;
-}
-
-.summary-card h2,
-.quiz-panel h3,
-.profile-panel h2 {
-  margin: 0;
-}
-
-.summary-card h2 {
-  font-size: 28px;
-}
-
-.summary-card,
-.quiz-panel,
-.Fpanel,
-.recommend-result,
-.profile-panel,
-.auth-card,
-.comment-section,
-.filter-panel,
-.detail-info {
+/* --------------------
+공통 카드 스타일
+-------------------- */
+.card {
   border: 1px solid var(--glass-line);
   border-radius: 8px;
   background: var(--surface);
@@ -180,6 +130,47 @@
 
 
 
+/* --------------
+카드, 패널
+-------------- */
+
+.info-card {
+  position: relative;
+  overflow: hidden;
+  padding: 26px;
+  min-height: 230px;
+  animation: fadeUp 0.58s ease both;
+}
+
+.info-card::before {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0.62), transparent 42%);
+}
+
+.info-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.info-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.info-card h2,
+.quiz-panel h3,
+.profile-panel h2 {
+  margin: 0;
+}
+
+.info-card h2 {
+  font-size: 28px;
+}
 /*----------------*/
 
 
@@ -211,5 +202,4 @@
 .section-title h2 {
   margin: 0;
 }
-
 

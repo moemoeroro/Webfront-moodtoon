@@ -30,7 +30,7 @@ function Profile() {
 
   return (
     <div className="page">
-      <section className="profile-hero">
+      <section className="card profile-hero">
         <div>
           <p className="eyebrow">Profile</p>
           <h1>{currentUser.nickname}님의 moodtoon</h1>
@@ -42,7 +42,7 @@ function Profile() {
       </section>
 
       <div className="profile-grid">
-        <section className="profile-panel">
+        <section className="card profile-panel">
           <p className="eyebrow">선호하는 장르</p>
           <div className="tag-row">
             {currentUser.favoriteGenres.map((genre) => (
@@ -53,7 +53,7 @@ function Profile() {
           </div>
         </section>
 
-        <section className="profile-panel">
+        <section className="card profile-panel">
           <p className="eyebrow">감정 통계</p>
           <h2>{getTopMood(currentUser.moodLogs)}</h2>
           <p>감정 선택 기록을 기반으로 추천 정확도를 높일 수 있습니다.</p>

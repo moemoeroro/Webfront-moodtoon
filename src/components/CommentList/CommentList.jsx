@@ -35,7 +35,7 @@ function CommentList({ comments }) {
   };
 
   return (
-    <section className="comment-section">
+    <section className="card comment-section">
       <div className="section-title compact">
         <div>
           <p className="eyebrow">댓글</p>

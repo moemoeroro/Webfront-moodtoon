@@ -3,7 +3,7 @@ import "./FilterPanel.css";
 
 function FilterPanel({ filters, onChange }) {
   return (
-    <aside className="filter-panel">
+    <aside className="card filter-panel">
       <label>
         장르
         <select

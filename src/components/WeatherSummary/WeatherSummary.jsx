@@ -45,8 +45,8 @@ function WeatherSummary({ onWeatherChange }) {
   }, []);
 
   return (
-    <section className="summary-card weather-summary">
-      <div className="summary-card-top">
+    <section className="card info-card weather-summary">
+      <div className="info-card-top">
         <div>
           <p className="eyebrow">오늘의 날씨</p>
           <h2>

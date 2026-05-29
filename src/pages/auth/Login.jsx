@@ -24,7 +24,7 @@ function Login() {
 
   return (
     <div className="page auth-page">
-      <section className="auth-card">
+      <section className="card auth-card">
         <p className="eyebrow">Login</p>
         <h1>moodtoon 로그인</h1>
         <form onSubmit={handleSubmit}>

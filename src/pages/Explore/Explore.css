@@ -1,11 +1,6 @@
 .page-heading {
   margin-bottom: 28px;
   padding: 26px;
-  border: 1px solid rgba(255, 255, 255, 0.76);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.58);
-  box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(16px);
   animation: fadeUp 0.55s ease both;
 }
 

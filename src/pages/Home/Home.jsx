@@ -42,7 +42,7 @@ function Home() {
       />
 
       {recommendation && (
-        <section className="recommend-result">
+        <section className="card recommend-result">
           <div className="section-title">
             <p className="eyebrow">추천 결과</p>
             <h2>오늘의 추천 웹툰 6개</h2>

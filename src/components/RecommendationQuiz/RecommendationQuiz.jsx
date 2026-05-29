@@ -46,7 +46,7 @@ function RecommendationQuiz({ mood, weather, onResult }) {
         <h2>몇 가지 선택으로 오늘의 웹툰을 골라보세요</h2>
       </div>
 
-      <div className="quiz-panel">
+      <div className="card quiz-panel">
         <div>
           <h3>선호하는 장르</h3>
           <div className="choice-grid">

@@ -24,7 +24,7 @@ function Signup() {
 
   return (
     <div className="page auth-page">
-      <section className="auth-card">
+      <section className="card auth-card">
         <p className="eyebrow">Signup</p>
         <h1>moodtoon 회원가입</h1>
         <form onSubmit={handleSubmit}>

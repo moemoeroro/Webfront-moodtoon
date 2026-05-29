@@ -24,7 +24,7 @@ function WebtoonDetail() {
     <div className="page">
       <section className="detail-layout">
         <img className="detail-cover" src={webtoon.image} alt={`${webtoon.title} 표지`} />
-        <div className="detail-info">
+        <div className="card detail-info">
           <p className="eyebrow">{webtoon.platform}</p>
           <h1>{webtoon.title}</h1>
           <p>{webtoon.description}</p>
