@@ -5,7 +5,7 @@ function SearchBar({ keyword, onKeywordChange }) {
     <label className="search-box">
       <input
         value={keyword}
-        onChange={(event) => onKeywordChange(event.target.value)}
+        onChange={(e) => onKeywordChange(e.target.value)}
         placeholder="작품명, 작가, 태그를 입력하세요"
       />
     </label>

@@ -7,12 +7,16 @@ import Button from "../ui/Button.jsx";
 function Header() {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
+
+  // 검색 입력값 상태
   const [keyword, setKeyword] = useState("");
 
   // 검색함수
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    navigate(`/explore?keyword=${encodeURIComponent(keyword.trim())}`);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const trimmedKeyword = keyword.trim();
+    if (!trimmedKeyword) return;
+    navigate(`/explore?keyword=${encodeURIComponent(trimmedKeyword)}`);
   };
 
   return (
@@ -25,7 +29,7 @@ function Header() {
       <form className="header-search" onSubmit={handleSubmit}>
         <input
           value={keyword}
-          onChange={(event) => setKeyword(event.target.value)}
+          onChange={(e) => setKeyword(e.target.value)}
           placeholder="작품명, 작가, 태그 검색"
         />
         <Button type="submit" variant="primary shine" size="medium">검색</Button>

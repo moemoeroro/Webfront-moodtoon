@@ -10,8 +10,8 @@ function Signup() {
   const [form, setForm] = useState({ nickname: "", email: "", password: "" });
   const [message, setMessage] = useState("");
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const result = signup(form);
 
     if (!result.ok) {
@@ -32,8 +32,8 @@ function Signup() {
             닉네임
             <input
               value={form.nickname}
-              onChange={(event) =>
-                setForm({ ...form, nickname: event.target.value })
+              onChange={(e) =>
+                setForm({ ...form, nickname: e.target.value })
               }
               required
             />
@@ -43,7 +43,7 @@ function Signup() {
             <input
               type="email"
               value={form.email}
-              onChange={(event) => setForm({ ...form, email: event.target.value })}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
               required
             />
           </label>
@@ -53,8 +53,8 @@ function Signup() {
               type="password"
               value={form.password}
               minLength="4"
-              onChange={(event) =>
-                setForm({ ...form, password: event.target.value })
+              onChange={(e) =>
+                setForm({ ...form, password: e.target.value })
               }
               required
             />

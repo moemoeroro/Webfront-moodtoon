@@ -4,6 +4,7 @@ const AuthContext = createContext(null);
 const USERS_KEY = "moodtoon_users";
 const CURRENT_USER_KEY = "moodtoon_current_user";
 
+// 기본 프로필 정보
 const defaultProfile = {
   favoriteGenres: ["로맨스", "판타지"],
   likedWebtoonIds: ["wind-001", "star-002"],
@@ -44,6 +45,7 @@ export function AuthProvider({ children }) {
     }
   }, [currentUser]);
 
+  // 회원가입
   const signup = ({ email, password, nickname }) => {
     const normalizedEmail = email.trim().toLowerCase();
     const alreadyExists = users.some((user) => user.email === normalizedEmail);
@@ -65,6 +67,7 @@ export function AuthProvider({ children }) {
     return { ok: true };
   };
 
+  // 로그인
   const login = ({ email, password }) => {
     const normalizedEmail = email.trim().toLowerCase();
     const foundUser = users.find(
@@ -79,10 +82,12 @@ export function AuthProvider({ children }) {
     return { ok: true };
   };
 
+  // 로그아웃
   const logout = () => {
     setCurrentUser(null);
   };
 
+  // 프로필 업데이트
   const updateProfile = (nextProfile) => {
     if (!currentUser) return;
 

@@ -8,7 +8,7 @@ function FilterPanel({ filters, onChange }) {
         장르
         <select
           value={filters.genre}
-          onChange={(event) => onChange({ ...filters, genre: event.target.value })}
+          onChange={(e) => onChange({ ...filters, genre: e.target.value })}
         >
           {genres.map((genre) => (
             <option key={genre}>{genre}</option>
@@ -20,8 +20,8 @@ function FilterPanel({ filters, onChange }) {
         플랫폼
         <select
           value={filters.platform}
-          onChange={(event) =>
-            onChange({ ...filters, platform: event.target.value })
+          onChange={(e) =>
+            onChange({ ...filters, platform: e.target.value })
           }
         >
           {platforms.map((platform) => (
@@ -34,8 +34,8 @@ function FilterPanel({ filters, onChange }) {
         회차 수
         <select
           value={filters.episodeRange}
-          onChange={(event) =>
-            onChange({ ...filters, episodeRange: event.target.value })
+          onChange={(e) =>
+            onChange({ ...filters, episodeRange: e.target.value })
           }
         >
           <option>전체</option>
@@ -48,8 +48,8 @@ function FilterPanel({ filters, onChange }) {
         연재시작일
         <select
           value={filters.startYear}
-          onChange={(event) =>
-            onChange({ ...filters, startYear: event.target.value })
+          onChange={(e) =>
+            onChange({ ...filters, startYear: e.target.value })
           }
         >
           <option>전체</option>

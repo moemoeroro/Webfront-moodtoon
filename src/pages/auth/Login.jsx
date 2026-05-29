@@ -10,8 +10,8 @@ function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const result = login(form);
 
     if (!result.ok) {
@@ -33,7 +33,7 @@ function Login() {
             <input
               type="email"
               value={form.email}
-              onChange={(event) => setForm({ ...form, email: event.target.value })}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
               required
             />
           </label>
@@ -42,8 +42,8 @@ function Login() {
             <input
               type="password"
               value={form.password}
-              onChange={(event) =>
-                setForm({ ...form, password: event.target.value })
+              onChange={(e) =>
+                setForm({ ...form, password: e.target.value })
               }
               required
             />

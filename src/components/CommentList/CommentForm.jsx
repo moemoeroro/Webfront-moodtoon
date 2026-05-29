@@ -5,6 +5,7 @@ function CommentForm({ onSubmit }) {
   const [commentText, setCommentText] = useState("");
 
   const handleSubmit = () => {
+    // 공백만 입력한 댓글은 등록 방지
     if (!commentText.trim()) return;
 
     onSubmit(commentText);
@@ -16,7 +17,7 @@ function CommentForm({ onSubmit }) {
       <textarea
         placeholder="댓글을 작성해주세요..."
         value={commentText}
-        onChange={(event) => setCommentText(event.target.value)}
+        onChange={(e) => setCommentText(e.target.value)}
       />
 
       <Button onClick={handleSubmit}>
