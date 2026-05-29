@@ -1,6 +1,6 @@
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
-import WebtoonGrid from "../../components/WebtoonGrid/WebtoonGrid.jsx";
+import WebtoonGrid from "../../components/Webtoon/WebtoonGrid.jsx";
 import { webtoons } from "../../data/mockWebtoons.js";
 import "./Profile.css";
 import Button from "../../Components/ui/Button.jsx";

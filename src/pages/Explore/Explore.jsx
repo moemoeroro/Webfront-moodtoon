@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import FilterPanel from "../../components/FilterPanel/FilterPanel.jsx";
 import SearchBar from "../../components/SearchBar/SearchBar.jsx";
-import WebtoonGrid from "../../components/WebtoonGrid/WebtoonGrid.jsx";
+import WebtoonGrid from "../../components/Webtoon/WebtoonGrid.jsx";
 import { searchWebtoons } from "../../services/webtoonApi.js";
 import "./Explore.css";
 import Button from "../../Components/ui/Button.jsx";

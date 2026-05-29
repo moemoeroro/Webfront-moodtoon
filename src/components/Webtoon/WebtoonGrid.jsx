@@ -1,4 +1,4 @@
-import WebtoonCard from "../WebtoonCard/WebtoonCard.jsx";
+import WebtoonCard from "./WebtoonCard.jsx";
 import "./WebtoonGrid.css";
 
 function WebtoonGrid({ webtoons }) {

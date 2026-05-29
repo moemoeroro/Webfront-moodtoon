@@ -1,5 +1,5 @@
 import { useState } from "react";
-import WebtoonGrid from "../../components/WebtoonGrid/WebtoonGrid.jsx";
+import WebtoonGrid from "../../components/Webtoon/WebtoonGrid.jsx";
 import WeatherSummary from "../../components/WeatherSummary/WeatherSummary.jsx";
 import MoodSelector from "../../components/MoodSelector/MoodSelector.jsx";
 import RecommendationQuiz from "../../components/RecommendationQuiz/RecommendationQuiz.jsx";

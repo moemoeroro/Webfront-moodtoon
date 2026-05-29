@@ -74,10 +74,16 @@
 
 /* 검색 영역 */
 .header-search {
+  display: flex;
+  align-items: center;
   gap: 8px;
   min-width: 0;
 }
 
+.header-search input {
+  min-width: 0;
+  padding: 12px 15px;
+}
 
 /* 네비게이션 */
 .site-nav {

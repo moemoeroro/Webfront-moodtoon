@@ -30,15 +30,12 @@
 /* 위치...? */
 .brand,
 .site-nav,
-.header-search,
 .site-footer,
 .section-title.compact,
 .profile-hero {
   display: flex;
   align-items: center;
 }
-
-
 
 .quiz-section,
 .recommend-result,
@@ -78,10 +75,7 @@
   backdrop-filter: blur(12px);
 }
 
-.header-search input {
-  min-width: 0;
-  padding: 12px 15px;
-}
+
 
 .header-search input:focus,
 .search-box input:focus,
