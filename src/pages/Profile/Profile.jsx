@@ -4,6 +4,7 @@ import WebtoonCard from "../../components/WebtoonCard/WebtoonCard.jsx";
 import { webtoons } from "../../data/mockWebtoons.js";
 import "./Profile.css";
 import Button from "../../Components/ui/Button.jsx";
+import Tag from "../../Components/ui/Tag.jsx";
 
 function getTopMood(moodLogs) {
   const counts = moodLogs.reduce((acc, mood) => {
@@ -41,9 +42,11 @@ function Profile() {
       <div className="profile-grid">
         <section className="profile-panel">
           <p className="eyebrow">선호하는 장르</p>
-          <div className="tag-row large">
+          <div className="tag-row">
             {currentUser.favoriteGenres.map((genre) => (
-              <span key={genre}>{genre}</span>
+              <Tag key={genre} size="large">
+                {genre}
+              </Tag>
             ))}
           </div>
         </section>

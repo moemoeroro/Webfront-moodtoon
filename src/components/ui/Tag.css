@@ -1,0 +1,20 @@
+.custom-tag {
+  padding: 5px 8px;
+  border: 1px solid rgba(143, 230, 196, 0.38);
+  border-radius: 8px;
+  background: rgba(232, 252, 243, 0.64);
+  color: #2b856b;
+  font-size: 12px;
+  font-weight: 750;
+  transition: background 0.18s ease, color 0.18s ease;
+  display: inline-block;
+}
+
+.custom-tag.large {
+  font-size: 14px;
+}
+
+.webtoon-card:hover .custom-tag {
+  background: rgba(232, 252, 243, 0.9);
+  color: var(--soda-deep);
+}

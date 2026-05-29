@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./WebtoonCard.css";
+import Tag from "../ui/Tag.jsx";
 
 function WebtoonCard({ webtoon }) {
   return (
@@ -15,7 +16,9 @@ function WebtoonCard({ webtoon }) {
           <p>{webtoon.author}</p>
           <div className="tag-row">
             {webtoon.tags.slice(0, 3).map((tag) => (
-              <span key={tag}>#{tag}</span>
+              <Tag key={tag} hasHash={true}>
+                {tag}
+              </Tag>
             ))}
           </div>
         </div>
