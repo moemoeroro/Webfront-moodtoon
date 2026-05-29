@@ -5,7 +5,7 @@ import MoodSelector from "../../components/MoodSelector/MoodSelector.jsx";
 import RecommendationQuiz from "../../components/RecommendationQuiz/RecommendationQuiz.jsx";
 import { webtoons } from "../../data/mockWebtoons.js";
 import "./Home.css";
-import Button from "../../Components/ui/Button.jsx";
+import Button from "../../components/ui/Button.jsx";
 
 function Home() {
   const [selectedMood, setSelectedMood] = useState("피곤함");

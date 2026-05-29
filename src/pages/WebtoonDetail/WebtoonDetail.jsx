@@ -5,7 +5,9 @@ import "./WebtoonDetail.css";
 
 function WebtoonDetail() {
   const { id } = useParams();
-  const webtoon = webtoons.find((item) => item.id === id);
+  const webtoon = webtoons.find(
+    (item) => String(item.id) === id
+  );
 
   if (!webtoon) {
     return (

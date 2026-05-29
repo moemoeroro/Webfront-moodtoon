@@ -5,7 +5,7 @@ import SearchBar from "../../components/SearchBar/SearchBar.jsx";
 import WebtoonGrid from "../../components/Webtoon/WebtoonGrid.jsx";
 import { searchWebtoons } from "../../services/webtoonApi.js";
 import "./Explore.css";
-import Button from "../../Components/ui/Button.jsx";
+import Button from "../../components/ui/Button.jsx";
 
 
 function Explore() {

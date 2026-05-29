@@ -3,8 +3,8 @@ import { useAuth } from "../../context/AuthContext.jsx";
 import WebtoonGrid from "../../components/Webtoon/WebtoonGrid.jsx";
 import { webtoons } from "../../data/mockWebtoons.js";
 import "./Profile.css";
-import Button from "../../Components/ui/Button.jsx";
-import Tag from "../../Components/ui/Tag.jsx";
+import Button from "../../components/ui/Button.jsx";
+import Tag from "../../components/ui/Tag.jsx";
 
 // 감정 로그에서 가장 많이 선택된 감정 추출
 function getTopMood(moodLogs) {

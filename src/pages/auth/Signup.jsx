@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
 import "./auth.css";
-import Button from "../../Components/ui/Button.jsx";
+import Button from "../../components/ui/Button.jsx";
 
 function Signup() {
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ function Signup() {
             />
           </label>
           {message && <p className="form-message">{message}</p>}
-          <Button className="Button primary shine" type="submit">
+          <Button className="button primary shine" type="submit">
             가입하기
           </Button>
         </form>

@@ -30,7 +30,6 @@
 /* 위치...? */
 .brand,
 .site-nav,
-.site-footer,
 .section-title.compact,
 .profile-hero {
   display: flex;
@@ -118,20 +117,6 @@
   margin-top: 24px;
 }
 
-.summary-card,
-.Fpanel,
-.recommend-result,
-.profile-panel,
-.auth-card,
-.comment-section,
-.filter-panel,
-.detail-info {
-  border: 1px solid var(--glass-line);
-  border-radius: 8px;
-  background: var(--surface);
-  box-shadow: var(--shadow-soft);
-  backdrop-filter: blur(18px) saturate(1.08);
-}
 
 
 
@@ -179,6 +164,7 @@
 
 .summary-card,
 .quiz-panel,
+.Fpanel,
 .recommend-result,
 .profile-panel,
 .auth-card,
@@ -191,6 +177,7 @@
   box-shadow: var(--shadow-soft);
   backdrop-filter: blur(18px) saturate(1.08);
 }
+
 
 
 /*----------------*/
