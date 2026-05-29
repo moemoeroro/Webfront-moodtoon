@@ -5,6 +5,7 @@ import { webtoons } from "../../data/mockWebtoons.js";
 import "./Profile.css";
 import Button from "../../components/ui/Button.jsx";
 import Tag from "../../components/ui/Tag.jsx";
+import SectionTitle from "../../components/ui/SectionTitle.jsx";
 
 // 감정 로그에서 가장 많이 선택된 감정 추출
 function getTopMood(moodLogs) {
@@ -43,7 +44,7 @@ function Profile() {
 
       <div className="profile-grid">
         <section className="card profile-panel">
-          <p className="eyebrow">선호하는 장르</p>
+          <SectionTitle title="선호하는 장르"/>
           <div className="tag-row">
             {currentUser.favoriteGenres.map((genre) => (
               <Tag key={genre} size="large">
@@ -54,30 +55,32 @@ function Profile() {
         </section>
 
         <section className="card profile-panel">
-          <p className="eyebrow">감정 통계</p>
-          <h2>{getTopMood(currentUser.moodLogs)}</h2>
+          <SectionTitle 
+            eyebrow="감정 통계"
+            title={getTopMood(currentUser.moodLogs)}
+          />
           <p>감정 선택 기록을 기반으로 추천 정확도를 높일 수 있습니다.</p>
         </section>
       </div>
 
       <section>
-        <div className="section-title">
-          <p className="eyebrow">좋아요 누른 웹툰</p>
-          <h2>관심 작품</h2>
-        </div>
+        <SectionTitle
+          title="관심 작품"
+        />
+
         <WebtoonGrid webtoons={likedWebtoons} />
       </section>
 
-      <section className="profile-panel">
-        <div className="section-title compact">
-          <div>
-            <p className="eyebrow">내가 남긴 댓글</p>
-            <h2>최근 댓글</h2>
-          </div>
+      <section className="card profile-panel">
+        <SectionTitle
+          eyebrow="내가 남긴 댓글"
+          title="최근 댓글"
+          compact
+        >
           <Link className="text-link" to="/explore">
             더 둘러보기
           </Link>
-        </div>
+        </SectionTitle>
         <div className="comment-list">
           {currentUser.comments.map((comment) => (
             <article className="comment-item" key={`${comment.webtoonTitle}-${comment.date}`}>

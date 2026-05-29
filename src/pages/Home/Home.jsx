@@ -6,6 +6,7 @@ import RecommendationQuiz from "../../components/RecommendationQuiz/Recommendati
 import { webtoons } from "../../data/mockWebtoons.js";
 import "./Home.css";
 import Button from "../../components/ui/Button.jsx";
+import SectionTitle from "../../components/ui/SectionTitle.jsx";
 
 function Home() {
   const [selectedMood, setSelectedMood] = useState("피곤함");
@@ -43,24 +44,20 @@ function Home() {
 
       {recommendation && (
         <section className="card recommend-result">
-          <div className="section-title">
-            <p className="eyebrow">추천 결과</p>
-            <h2>오늘의 추천 웹툰 6개</h2>
-            <p>{recommendation.reason}</p>
-          </div>
-          <div className="webtoon-grid">
-            {recommendation.items.map((webtoon) => (
-              <WebtoonCard key={webtoon.id} webtoon={webtoon} />
-            ))}
-          </div>
+          <SectionTitle
+            eyebrow="추천 결과"
+            title="오늘의 추천 웹툰 6개"
+            description={recommendation.reason}
+          />
+          <WebtoonGrid webtoons={recommendation.items} />
         </section>
       )}
 
       <section>
-        <div className="section-title">
-          <p className="eyebrow">인기 웹툰</p>
-          <h2>현재 많이 찾는 작품</h2>
-        </div>
+        <SectionTitle
+          eyebrow="인기 웹툰"
+          title="현재 많이 찾는 작품"
+        />
         <WebtoonGrid webtoons={popularWebtoons} />
       </section>
     </div>

@@ -4,6 +4,7 @@ import { recommendWebtoons } from "../../services/webtoonApi.js"; // 웹툰 추�
 import "./RecommendationQuiz.css";
 import ChoiceButton from "../ui/ChoiceButton.jsx";
 import Button from "../ui/Button.jsx";
+import SectionTitle from "../ui/SectionTitle.jsx";
 
 function RecommendationQuiz({ mood, weather, onResult }) {
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -41,10 +42,10 @@ function RecommendationQuiz({ mood, weather, onResult }) {
 
   return (
     <section className="quiz-section">
-      <div className="section-title">
-        <p className="eyebrow">추천받기</p>
-        <h2>몇 가지 선택으로 오늘의 웹툰을 골라보세요</h2>
-      </div>
+      <SectionTitle
+        eyebrow="추천받기"
+        title="몇 가지 선택으로 오늘의 웹툰을 골라보세요"
+      />
 
       <div className="card quiz-panel">
         <div>

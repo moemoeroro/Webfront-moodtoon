@@ -6,7 +6,7 @@ import WebtoonGrid from "../../components/Webtoon/WebtoonGrid.jsx";
 import { searchWebtoons } from "../../services/webtoonApi.js";
 import "./Explore.css";
 import Button from "../../components/ui/Button.jsx";
-
+import SectionTitle from "../../components/ui/SectionTitle.jsx";
 
 function Explore() {
   const [searchParams] = useSearchParams();
@@ -69,12 +69,11 @@ function Explore() {
       {showFilters && <FilterPanel filters={filters} onChange={setFilters} />}
 
       <section>
-        <div className="section-title compact">
-          <div>
-            <p className="eyebrow">Search Result</p>
-            <h2>{filteredItems.length}개의 웹툰</h2>
-          </div>
-        </div>
+        <SectionTitle
+          eyebrow="Search Result"
+          title={`${filteredItems.length}개의 웹툰`}
+          compact
+        />
         <WebtoonGrid webtoons={filteredItems} />
       </section>
     </div>

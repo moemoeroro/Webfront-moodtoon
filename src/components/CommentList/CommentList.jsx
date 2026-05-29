@@ -3,6 +3,7 @@ import "./CommentList.css";
 import ChoiceButton from "../ui/ChoiceButton.jsx";
 import CommentItem from "./CommentItem.jsx";
 import CommentForm from "./CommentForm.jsx";
+import SectionTitle from "../ui/SectionTitle.jsx";
 
 function CommentList({ comments }) {
   // 댓글 정렬 기준: 'popular' 또는 'latest'
@@ -36,11 +37,7 @@ function CommentList({ comments }) {
 
   return (
     <section className="card comment-section">
-      <div className="section-title compact">
-        <div>
-          <p className="eyebrow">댓글</p>
-          <h2>작품 감상</h2>
-        </div>
+      <SectionTitle eyebrow="댓글" title="작품 감상" compact>
 
         {/* 정렬 선택 버튼 */}
         <div className="segmented">
@@ -58,7 +55,7 @@ function CommentList({ comments }) {
             최신순
           </ChoiceButton>
         </div>
-      </div>
+      </SectionTitle>
 
       {/* 댓글 작성 폼 */}
       <CommentForm onSubmit={handleAddComment} />
