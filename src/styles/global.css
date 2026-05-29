@@ -46,12 +46,6 @@
   margin-top: 44px;
 }
 
-.webtoon-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 18px;
-}
-
 .empty-page {
   display: grid;
   place-items: center;

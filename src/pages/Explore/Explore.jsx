@@ -2,10 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import FilterPanel from "../../components/FilterPanel/FilterPanel.jsx";
 import SearchBar from "../../components/SearchBar/SearchBar.jsx";
-import WebtoonCard from "../../components/WebtoonCard/WebtoonCard.jsx";
+import WebtoonGrid from "../../components/WebtoonGrid/WebtoonGrid.jsx";
 import { searchWebtoons } from "../../services/webtoonApi.js";
 import "./Explore.css";
 import Button from "../../Components/ui/Button.jsx";
+
 
 function Explore() {
   const [searchParams] = useSearchParams();
@@ -74,11 +75,7 @@ function Explore() {
             <h2>{filteredItems.length}개의 웹툰</h2>
           </div>
         </div>
-        <div className="webtoon-grid">
-          {filteredItems.map((webtoon) => (
-            <WebtoonCard key={webtoon.id} webtoon={webtoon} />
-          ))}
-        </div>
+        <WebtoonGrid webtoons={filteredItems} />
       </section>
     </div>
   );

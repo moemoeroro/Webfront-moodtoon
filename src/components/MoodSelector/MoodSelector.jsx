@@ -13,18 +13,28 @@ const moodIcons = {
   차분함: "🌙",
 };
 
+// 감정에 맞는 아이콘 반환
+function getMoodIcon(mood) {
+  return moodIcons[mood] || "☁️";
+}
+
 function MoodSelector({ selectedMood, onSelect }) {
-  const selectedIcon = moodIcons[selectedMood] || "☁️";
+  const selectedIcon = getMoodIcon(selectedMood);
 
   return (
     <section className="summary-card mood-summary">
       <div className="summary-card-top">
         <div>
           <p className="eyebrow">오늘의 기분</p>
+
           <h2>
-            <span className="selected-mood-icon" aria-hidden="true">
+            <span
+              className="selected-mood-icon"
+              aria-hidden="true"
+            >
               {selectedIcon}
             </span>
+
             {selectedMood || "기분을 선택해주세요"}
           </h2>
         </div>
@@ -35,6 +45,7 @@ function MoodSelector({ selectedMood, onSelect }) {
           <ChoiceButton
             key={mood}
             selected={selectedMood === mood}
+            aria-pressed={selectedMood === mood}
             onClick={() => onSelect(mood)}
             type="button"
           >
@@ -42,7 +53,7 @@ function MoodSelector({ selectedMood, onSelect }) {
               className="mood-icon"
               aria-hidden="true"
             >
-              {moodIcons[mood] || "☁️"}
+              {getMoodIcon(mood)}
             </span>
 
             <span>{mood}</span>
@@ -54,4 +65,3 @@ function MoodSelector({ selectedMood, onSelect }) {
 }
 
 export default MoodSelector;
-

@@ -1,11 +1,12 @@
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
-import WebtoonCard from "../../components/WebtoonCard/WebtoonCard.jsx";
+import WebtoonGrid from "../../components/WebtoonGrid/WebtoonGrid.jsx";
 import { webtoons } from "../../data/mockWebtoons.js";
 import "./Profile.css";
 import Button from "../../Components/ui/Button.jsx";
 import Tag from "../../Components/ui/Tag.jsx";
 
+// 감정 로그에서 가장 많이 선택된 감정 추출
 function getTopMood(moodLogs) {
   const counts = moodLogs.reduce((acc, mood) => {
     acc[mood] = (acc[mood] || 0) + 1;
@@ -18,6 +19,7 @@ function getTopMood(moodLogs) {
 function Profile() {
   const { currentUser, logout } = useAuth();
 
+  // 로그인하지 않은 사용자는 로그인 페이지로 이동
   if (!currentUser) {
     return <Navigate to="/login" replace />;
   }
@@ -63,11 +65,7 @@ function Profile() {
           <p className="eyebrow">좋아요 누른 웹툰</p>
           <h2>관심 작품</h2>
         </div>
-        <div className="webtoon-grid">
-          {likedWebtoons.map((webtoon) => (
-            <WebtoonCard key={webtoon.id} webtoon={webtoon} />
-          ))}
-        </div>
+        <WebtoonGrid webtoons={likedWebtoons} />
       </section>
 
       <section className="profile-panel">

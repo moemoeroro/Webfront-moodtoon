@@ -18,12 +18,12 @@ function RecommendationQuiz({ mood, weather, onResult }) {
   };
 
   const togglePlatform = (platform) => {
-  setSelectedPlatforms((prevPlatforms) =>
-    prevPlatforms.includes(platform)
-      ? prevPlatforms.filter((item) => item !== platform)
-      : [...prevPlatforms, platform]
-  );
-};
+    setSelectedPlatforms((prevPlatforms) =>
+      prevPlatforms.includes(platform)
+        ? prevPlatforms.filter((item) => item !== platform)
+        : [...prevPlatforms, platform]
+    );
+  };
 
   const handleRecommend = () => {
     const result = recommendWebtoons({

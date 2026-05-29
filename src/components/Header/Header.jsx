@@ -15,7 +15,6 @@ function Header() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const trimmedKeyword = keyword.trim();
-    if (!trimmedKeyword) return;
     navigate(`/explore?keyword=${encodeURIComponent(trimmedKeyword)}`);
   };
 

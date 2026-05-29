@@ -1,5 +1,5 @@
 import { useState } from "react";
-import WebtoonCard from "../../components/WebtoonCard/WebtoonCard.jsx";
+import WebtoonGrid from "../../components/WebtoonGrid/WebtoonGrid.jsx";
 import WeatherSummary from "../../components/WeatherSummary/WeatherSummary.jsx";
 import MoodSelector from "../../components/MoodSelector/MoodSelector.jsx";
 import RecommendationQuiz from "../../components/RecommendationQuiz/RecommendationQuiz.jsx";
@@ -61,11 +61,7 @@ function Home() {
           <p className="eyebrow">인기 웹툰</p>
           <h2>현재 많이 찾는 작품</h2>
         </div>
-        <div className="webtoon-grid">
-          {popularWebtoons.map((webtoon) => (
-            <WebtoonCard key={webtoon.id} webtoon={webtoon} />
-          ))}
-        </div>
+        <WebtoonGrid webtoons={popularWebtoons} />
       </section>
     </div>
   );
