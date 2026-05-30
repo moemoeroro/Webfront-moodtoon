@@ -1,10 +1,15 @@
 import { Link, useParams } from "react-router-dom";
 import CommentList from "../../components/CommentList/CommentList.jsx";
 import { webtoons } from "../../data/mockWebtoons.js";
+import { useAuth } from "../../context/AuthContext.jsx";
 import "./WebtoonDetail.css";
+
 
 function WebtoonDetail() {
   const { id } = useParams();
+  
+  const { currentUser, updateProfile } = useAuth();
+
   const webtoon = webtoons.find(
     (item) => String(item.id) === id
   );
@@ -20,6 +25,25 @@ function WebtoonDetail() {
     );
   }
 
+  const isBookmarked = currentUser?.likedWebtoonIds.includes(webtoon.id);
+
+  const handleBookmark = () => {
+  if (!currentUser) {
+    alert("로그인 후 이용해주세요.");
+    return;
+  }
+
+  const updatedIds = isBookmarked
+    ? currentUser.likedWebtoonIds.filter(
+        (id) => id !== webtoon.id
+      )
+    : [...currentUser.likedWebtoonIds, webtoon.id];
+
+  updateProfile({
+    likedWebtoonIds: updatedIds,
+  });
+};
+
   return (
     <div className="page">
       <section className="detail-layout">
@@ -28,6 +52,13 @@ function WebtoonDetail() {
           <p className="eyebrow">{webtoon.platform}</p>
           <h1>{webtoon.title}</h1>
           <p>{webtoon.description}</p>
+
+          <button
+            className="bookmark-button"
+            onClick={handleBookmark}
+          >
+            {isBookmarked ? "★ 북마크됨" : "☆ 북마크"}
+          </button>
 
           <dl className="info-list">
             <div>
