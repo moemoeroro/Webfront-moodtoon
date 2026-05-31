@@ -1,7 +1,7 @@
 import { webtoons } from "../data/mockWebtoons.js";
 
 export async function fetchWebtoons() {
-  // 지은이가 만화규장각 API를 연결할 때 이 함수 내부만 교체하면 됩니다.
+  // 만화규장각 API를 연결할 때 이 함수 내부만 교체하면 됩니다.
   return webtoons;
 }
 
@@ -27,19 +27,18 @@ export async function fetchWebtoonById(id) {
   return items.find((webtoon) => webtoon.id === id);
 }
 
-export function recommendWebtoons({ mood, weatherType, preferredGenres = [] }) {
+export function recommendWebtoons({ mood, weatherType }) {
   const scored = webtoons.map((webtoon) => {
     let score = 0;
 
     if (webtoon.moods.includes(mood)) score += 3;
     if (webtoon.weather.includes(weatherType)) score += 2;
-    if (preferredGenres.includes(webtoon.genre)) score += 2;
 
     return { ...webtoon, score };
   });
 
-  return scored
-    .sort((a, b) => b.score - a.score || b.likes - a.likes)
-    .slice(0, 6);
+  return scored.sort(
+    (a, b) => b.score - a.score || b.likes - a.likes
+  );
 }
 

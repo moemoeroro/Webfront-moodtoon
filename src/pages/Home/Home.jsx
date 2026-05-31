@@ -2,17 +2,52 @@ import { useState } from "react";
 import WebtoonGrid from "../../components/Webtoon/WebtoonGrid.jsx";
 import WeatherSummary from "../../components/WeatherSummary/WeatherSummary.jsx";
 import MoodSelector from "../../components/MoodSelector/MoodSelector.jsx";
-import RecommendationQuiz from "../../components/RecommendationQuiz/RecommendationQuiz.jsx";
-import { webtoons } from "../../data/mockWebtoons.js";
+import { webtoons, genres, platforms } from "../../data/mockWebtoons.js";
 import "./Home.css";
 import Button from "../../components/ui/Button.jsx";
 import SectionTitle from "../../components/ui/SectionTitle.jsx";
+import ChoiceButton from "../../components/ui/ChoiceButton.jsx";
+import { recommendWebtoons } from "../../services/webtoonApi.js";
 
 function Home() {
   const [selectedMood, setSelectedMood] = useState("피곤함");
   const [weather, setWeather] = useState(null);
   const [recommendation, setRecommendation] = useState(null);
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedPlatforms, setSelectedPlatforms] = useState([]);
   const popularWebtoons = [...webtoons].sort((a, b) => b.likes - a.likes).slice(0, 4);
+  
+  const handleRecommend = () => {
+    setSelectedGenres([]);
+    setSelectedPlatforms([]);
+    
+    const result = recommendWebtoons({
+      mood: selectedMood || "피곤함",
+      weatherType: weather?.type || "cloudy",
+    });
+
+    setRecommendation({
+      items: result,
+      reason: `${weather?.text || "흐림"} 날씨와 '${
+        selectedMood || "피곤함"
+      }' 기분을 반영했습니다.`,
+    });
+  };
+
+  const filteredRecommendation =
+  recommendation?.items.filter((webtoon) => {
+    const genreMatch =
+      selectedGenres.length === 0 ||
+      selectedGenres.includes(webtoon.genre);
+
+    const platformMatch =
+      selectedPlatforms.length === 0 ||
+      selectedPlatforms.includes(webtoon.platform);
+
+    return genreMatch && platformMatch;
+  }) || [];
+
+  const finalRecommendation = filteredRecommendation.slice(0, 6);
 
   return (
     <div className="page home-page">
@@ -36,11 +71,17 @@ function Home() {
         <MoodSelector selectedMood={selectedMood} onSelect={setSelectedMood} />
       </div>
 
-      <RecommendationQuiz
-        mood={selectedMood}
-        weather={weather}
-        onResult={setRecommendation}
-      />
+      <div className="recommend-action">
+        <Button
+          variant="primary"
+          size="large"
+          fullWidth
+          shine
+          onClick={handleRecommend}
+        >
+          추천받기
+        </Button>
+      </div>
 
       {recommendation && (
         <section className="card recommend-result">
@@ -49,7 +90,56 @@ function Home() {
             title="오늘의 추천 웹툰 6개"
             description={recommendation.reason}
           />
-          <WebtoonGrid webtoons={recommendation.items} />
+          <div className="recommend-filters">
+            <div>
+              <h3>장르</h3>
+
+              <div className="choice-grid">
+                {genres
+                  .filter((genre) => genre !== "전체")
+                  .map((genre) => (
+                    <ChoiceButton
+                      key={genre}
+                      selected={selectedGenres.includes(genre)}
+                      onClick={() =>
+                        setSelectedGenres((prev) =>
+                          prev.includes(genre)
+                            ? prev.filter((g) => g !== genre)
+                            : [...prev, genre]
+                        )
+                      }
+                    >
+                      {genre}
+                    </ChoiceButton>
+                  ))}
+              </div>
+            </div>
+
+            <div>
+              <h3>플랫폼</h3>
+
+              <div className="segmented">
+                {platforms
+                  .filter((platform) => platform !== "전체")
+                  .map((platform) => (
+                    <ChoiceButton
+                      key={platform}
+                      selected={selectedPlatforms.includes(platform)}
+                      onClick={() =>
+                        setSelectedPlatforms((prev) =>
+                          prev.includes(platform)
+                            ? prev.filter((p) => p !== platform)
+                            : [...prev, platform]
+                        )
+                      }
+                    >
+                      {platform}
+                    </ChoiceButton>
+                  ))}
+              </div>
+            </div>
+          </div>
+          <WebtoonGrid webtoons={finalRecommendation} />
         </section>
       )}
 

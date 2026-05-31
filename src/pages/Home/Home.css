@@ -54,6 +54,12 @@
   line-height: 1.75;
 }
 
+.recommend-action {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0;
+}
+
 
 /* 추천 결과 */
 .recommend-result {
@@ -63,3 +69,4 @@
     var(--surface);
   animation: fadeUp 0.58s ease both;
 }
+
