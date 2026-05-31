@@ -5,63 +5,78 @@ import Button from "../ui/Button.jsx";
 function CommentItem({ comment, onDelete, onEdit, }) {
   const { currentUser } = useAuth();
 
+  // 댓글 주정 모드 여부
   const [isEditing, setIsEditing] = useState(false);
+  
+  // 수정 중인 댓글 내용
   const [editText, setEditText] = useState(comment.text);
   
   return (
     <article className="comment-item">
-      <strong>{comment.user}</strong>
+      {/* 작성자 표시 */}
+      <div className="comment-header">
+        <strong>{comment.user}</strong>
 
+        <div className="comment-actions">
+          {comment.user === currentUser?.nickname && !isEditing && (
+            <button
+              type="button"
+              onClick={() => setIsEditing(true)}
+            >
+              수정
+            </button>
+          )}
+
+          {comment.user === currentUser?.nickname && !isEditing && (
+            <button
+              type="button"
+              onClick={() => onDelete(comment.id)}
+            >
+              삭제
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* 수정 모드일 경우 textarea 표시 */}
       {isEditing ? (
         <textarea
           value={editText}
           onChange={(e) => setEditText(e.target.value)}
         />
       ) : (
+        // 일반 모드일 경우 댓글 내용 표시
         <p>{comment.text}</p>
       )}
 
-      <Button
-        variant="outline"
-        size="medium"
-        type="button"
-      >
-        공감 {comment.empathy}
-      </Button>
-
-      {comment.user === currentUser?.nickname && !isEditing && (
+      {/* 공감 수 표시 버튼 */}
+      {!isEditing && (
         <Button
           variant="outline"
           size="medium"
-          onClick={() => setIsEditing(true)}
+          type="button"
         >
-          수정
+          공감 {comment.empathy}
         </Button>
       )}
 
+
+
+      {/* 수정 모드일 때 저장 버튼 표시 */}
       {isEditing && (
-        <Button
-          variant="primary"
-          size="medium"
-          onClick={() => {
-            if (!editText.trim()) return;
+        <div className="comment-save">
+          <button
+            type="button"
+            onClick={() => {
+              if (!editText.trim()) return;
 
-            onEdit(comment.id, editText);
-            setIsEditing(false);
-          }}
-        >
-          저장
-        </Button>
-      )}
-      
-      {comment.user === currentUser?.nickname && (
-        <Button
-          variant="danger"
-          size="medium"
-          onClick={() => onDelete(comment.id)}
-        >
-          삭제
-        </Button>
+              onEdit(comment.id, editText);
+              setIsEditing(false);
+            }}
+          >
+            저장
+          </button>
+        </div>
       )}
     </article>
   );
