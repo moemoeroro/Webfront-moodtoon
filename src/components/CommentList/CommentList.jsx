@@ -4,13 +4,16 @@ import ChoiceButton from "../ui/ChoiceButton.jsx";
 import CommentItem from "./CommentItem.jsx";
 import CommentForm from "./CommentForm.jsx";
 import SectionTitle from "../ui/SectionTitle.jsx";
+import { useAuth } from "../../context/AuthContext.jsx";
 
-function CommentList({ comments }) {
+function CommentList({ comments, webtoonTitle, }) {
   // 댓글 정렬 기준: 'popular' 또는 'latest'
   const [sortType, setSortType] = useState("popular");
 
   // 댓글 목록 상태, 초기값은 props로 전달받은 comments
   const [commentList, setCommentList] = useState(comments);
+
+  const { currentUser, updateProfile } = useAuth();
 
   const sortedComments = useMemo(() => {
     const nextComments = [...commentList];
@@ -26,13 +29,22 @@ function CommentList({ comments }) {
   const handleAddComment = (text) => {
     const newComment = {
       id: Date.now(),
-      user: "익명",
+      user: currentUser?.nickname || "익명",
       text,
       empathy: 0,
     };
 
-    // 새 댓글을 맨 앞에 추가
     setCommentList((prev) => [newComment, ...prev]);
+
+    const profileComment = {
+      webtoonTitle,
+      text,
+      date: new Date().toISOString().slice(0, 10),
+    };
+
+    updateProfile({
+      comments: [profileComment, ...currentUser.comments],
+    });
   };
 
   return (
