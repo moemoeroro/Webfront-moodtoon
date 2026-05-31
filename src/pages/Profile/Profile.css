@@ -10,3 +10,14 @@
 .profile-panel {
   padding: 24px;
 }
+
+.comment-link {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+
+.comment-link:hover .comment-item {
+  transform: translateY(-2px);
+  transition: 0.2s;
+}

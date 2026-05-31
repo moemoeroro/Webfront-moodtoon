@@ -10,6 +10,8 @@ const defaultProfile = {
   likedWebtoonIds: ["wind-001", "star-002"],
   comments: [
     {
+      id: 1,
+      webtoonId: "wind-001",
       webtoonTitle: "비 오는 날의 서점",
       text: "잔잔해서 자기 전에 보기 좋았어요.",
       date: "2026-05-18",

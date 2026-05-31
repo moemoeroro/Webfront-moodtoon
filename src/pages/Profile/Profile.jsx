@@ -83,11 +83,17 @@ function Profile() {
         </SectionTitle>
         <div className="comment-list">
           {currentUser.comments.map((comment) => (
-            <article className="comment-item" key={`${comment.webtoonTitle}-${comment.date}`}>
-              <strong>{comment.webtoonTitle}</strong>
-              <p>{comment.text}</p>
-              <span>{comment.date}</span>
-            </article>
+            <Link
+              to={`/webtoon/${comment.webtoonId}`}
+              className="comment-link"
+              key={comment.id}
+            >
+              <article className="comment-item">
+                <strong>{comment.webtoonTitle}</strong>
+                <p>{comment.text}</p>
+                <span>{comment.date}</span>
+              </article>
+            </Link>
           ))}
         </div>
       </section>

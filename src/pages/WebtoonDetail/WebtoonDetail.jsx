@@ -81,7 +81,11 @@ function WebtoonDetail() {
         </div>
       </section>
 
-      <CommentList comments={webtoon.comments} webtoonTitle={webtoon.title} />
+      <CommentList
+        comments={webtoon.comments}
+        webtoonTitle={webtoon.title}
+        webtoonId={webtoon.id}
+      />
     </div>
   );
 }

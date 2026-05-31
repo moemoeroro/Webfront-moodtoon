@@ -6,7 +6,7 @@ import CommentForm from "./CommentForm.jsx";
 import SectionTitle from "../ui/SectionTitle.jsx";
 import { useAuth } from "../../context/AuthContext.jsx";
 
-function CommentList({ comments, webtoonTitle, }) {
+function CommentList({ comments, webtoonTitle, webtoonId, }) {
   // 댓글 정렬 기준: 'popular' 또는 'latest'
   const [sortType, setSortType] = useState("popular");
 
@@ -37,6 +37,8 @@ function CommentList({ comments, webtoonTitle, }) {
     setCommentList((prev) => [newComment, ...prev]);
 
     const profileComment = {
+      id: newComment.id,
+      webtoonId,
       webtoonTitle,
       text,
       date: new Date().toISOString().slice(0, 10),
@@ -44,6 +46,40 @@ function CommentList({ comments, webtoonTitle, }) {
 
     updateProfile({
       comments: [profileComment, ...currentUser.comments],
+    });
+  };
+
+  // 댓글 삭제 함수
+  const handleDeleteComment = (commentId) => {
+    // 웹툰 상세 댓글 목록 삭제
+    setCommentList((prev) =>
+      prev.filter((comment) => comment.id !== commentId)
+    );
+
+    // 프로필 댓글 목록 삭제
+    updateProfile({
+      comments: currentUser.comments.filter(
+        (comment) => comment.id !== commentId
+      ),
+    });
+  };
+
+  // 댓글 수정 함수
+  const handleEditComment = (commentId, newText) => {
+    setCommentList((prev) =>
+      prev.map((comment) =>
+        comment.id === commentId
+          ? { ...comment, text: newText }
+          : comment
+      )
+    );
+
+    updateProfile({
+      comments: currentUser.comments.map((comment) =>
+        comment.id === commentId
+          ? { ...comment, text: newText }
+          : comment
+      ),
     });
   };
 
@@ -78,6 +114,8 @@ function CommentList({ comments, webtoonTitle, }) {
           <CommentItem
             key={comment.id}
             comment={comment}
+            onDelete={handleDeleteComment}
+            onEdit={handleEditComment}
           />
         ))}
       </div>
