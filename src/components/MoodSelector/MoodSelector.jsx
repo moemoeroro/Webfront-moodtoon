@@ -1,6 +1,6 @@
 import { moods } from "../../data/mockWebtoons.js";
-import "./MoodSelector.css";
 import ChoiceButton from "../ui/ChoiceButton.jsx";
+import "./MoodSelector.css";
 
 const moodIcons = {
   행복함: "😊",

@@ -4,6 +4,7 @@ const AuthContext = createContext(null);
 const USERS_KEY = "moodtoon_users";
 const CURRENT_USER_KEY = "moodtoon_current_user";
 
+
 // 기본 프로필 정보
 const defaultProfile = {
   favoriteGenres: ["로맨스", "판타지"],
@@ -18,6 +19,9 @@ const defaultProfile = {
     },
   ],
   moodLogs: ["피곤함", "설렘", "피곤함", "편안함", "피곤함"],
+
+  // 👇 추가
+  likedComments: [],
 };
 
 function readStorage(key, fallback) {

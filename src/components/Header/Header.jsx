@@ -1,8 +1,9 @@
-import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
-import "./Header.css";
 import Button from "../ui/Button.jsx";
+import "./Header.css";
+
 
 function Header() {
   const navigate = useNavigate();

@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { searchWebtoons } from "../../services/webtoonApi.js";
 import FilterPanel from "../../components/FilterPanel/FilterPanel.jsx";
 import SearchBar from "../../components/SearchBar/SearchBar.jsx";
 import WebtoonGrid from "../../components/Webtoon/WebtoonGrid.jsx";
-import { searchWebtoons } from "../../services/webtoonApi.js";
-import "./Explore.css";
 import Button from "../../components/ui/Button.jsx";
 import SectionTitle from "../../components/ui/SectionTitle.jsx";
+import "./Explore.css";
 
 
 function Explore() {

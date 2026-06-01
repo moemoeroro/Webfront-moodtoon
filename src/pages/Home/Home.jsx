@@ -1,13 +1,13 @@
 import { useState } from "react";
+import { webtoons, genres, platforms } from "../../data/mockWebtoons.js";
+import { recommendWebtoons } from "../../services/webtoonApi.js";
 import WebtoonGrid from "../../components/Webtoon/WebtoonGrid.jsx";
 import WeatherSummary from "../../components/WeatherSummary/WeatherSummary.jsx";
 import MoodSelector from "../../components/MoodSelector/MoodSelector.jsx";
-import { webtoons, genres, platforms } from "../../data/mockWebtoons.js";
-import "./Home.css";
 import Button from "../../components/ui/Button.jsx";
 import SectionTitle from "../../components/ui/SectionTitle.jsx";
 import ChoiceButton from "../../components/ui/ChoiceButton.jsx";
-import { recommendWebtoons } from "../../services/webtoonApi.js";
+import "./Home.css";
 
 function Home() {
   const [selectedMood, setSelectedMood] = useState("피곤함");

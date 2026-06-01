@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import "./CommentList.css";
+import { useAuth } from "../../context/AuthContext.jsx";
 import ChoiceButton from "../ui/ChoiceButton.jsx";
 import CommentItem from "./CommentItem.jsx";
 import CommentForm from "./CommentForm.jsx";
 import SectionTitle from "../ui/SectionTitle.jsx";
-import { useAuth } from "../../context/AuthContext.jsx";
+import "./CommentList.css";
+
+const COMMENTS_KEY = "moodtoon_comments";
 
 function CommentList({ comments, webtoonTitle, webtoonId, }) {
 
@@ -12,10 +14,28 @@ function CommentList({ comments, webtoonTitle, webtoonId, }) {
   const [sortType, setSortType] = useState("popular");
 
   // 댓글 목록 상태
-  const [commentList, setCommentList] = useState(comments);
+  const [commentList, setCommentList] = useState(() => {
+    const savedComments =
+      JSON.parse(localStorage.getItem(COMMENTS_KEY)) || {};
+
+    return savedComments[webtoonId] || comments;
+  });
 
   // 로그인 사용자 정보 및 프로필 업데이트 함수
   const { currentUser, updateProfile } = useAuth();
+
+  // 댓글 저장 함수
+  const saveComments = (nextComments) => {
+    const savedComments =
+      JSON.parse(localStorage.getItem(COMMENTS_KEY)) || {};
+
+    savedComments[webtoonId] = nextComments;
+
+    localStorage.setItem(
+      COMMENTS_KEY,
+      JSON.stringify(savedComments)
+    );
+  };
 
   // 정렬 기준에 따라 댓글 목록 정렬
   const sortedComments = useMemo(() => {
@@ -43,7 +63,12 @@ function CommentList({ comments, webtoonTitle, webtoonId, }) {
       empathy: 0,
     };
 
-    setCommentList((prev) => [newComment, ...prev]);
+    
+
+    const nextComments = [newComment, ...commentList];
+
+    setCommentList(nextComments);
+    saveComments(nextComments);
 
     // WebtoonDetail 페이지 댓글 목록에 추가
     const profileComment = {
@@ -66,9 +91,12 @@ function CommentList({ comments, webtoonTitle, webtoonId, }) {
   // 댓글 삭제 함수
   const handleDeleteComment = (commentId) => {
     // WebtoonDetail 페이지 댓글 목록 삭제
-    setCommentList((prev) =>
-      prev.filter((comment) => comment.id !== commentId)
+    const nextComments = commentList.filter(
+      (comment) => comment.id !== commentId
     );
+
+    setCommentList(nextComments);
+    saveComments(nextComments);
 
     // Profile 페이지 댓글 목록 삭제
     updateProfile({
@@ -81,13 +109,14 @@ function CommentList({ comments, webtoonTitle, webtoonId, }) {
   // 댓글 수정 함수
   const handleEditComment = (commentId, newText) => {
     // WebtoonDetail 페이지 댓글 수정
-    setCommentList((prev) =>
-      prev.map((comment) =>
-        comment.id === commentId
-          ? { ...comment, text: newText }
-          : comment
-      )
+    const nextComments = commentList.map((comment) =>
+      comment.id === commentId
+        ? { ...comment, text: newText }
+        : comment
     );
+
+    setCommentList(nextComments);
+    saveComments(nextComments);
 
     // Profile 페이지 댓글 목록 수정
     updateProfile({
@@ -96,6 +125,38 @@ function CommentList({ comments, webtoonTitle, webtoonId, }) {
           ? { ...comment, text: newText }
           : comment
       ),
+    });
+  };
+
+  const handleEmpathy = (commentId) => {
+    if (!currentUser) {
+      alert("로그인 후 이용해주세요.");
+      return;
+    }
+
+    const alreadyLiked =
+      currentUser.likedComments?.includes(commentId);
+
+    const updatedLikedComments = alreadyLiked
+      ? currentUser.likedComments.filter((id) => id !== commentId)
+      : [...(currentUser.likedComments || []), commentId];
+
+    const nextComments = commentList.map((comment) => {
+      if (comment.id !== commentId) return comment;
+
+      return {
+        ...comment,
+        empathy: alreadyLiked
+          ? comment.empathy - 1
+          : comment.empathy + 1,
+      };
+    });
+
+    setCommentList(nextComments);
+    saveComments(nextComments);
+
+    updateProfile({
+      likedComments: updatedLikedComments,
     });
   };
 
@@ -132,6 +193,8 @@ function CommentList({ comments, webtoonTitle, webtoonId, }) {
             comment={comment}
             onDelete={handleDeleteComment}
             onEdit={handleEditComment}
+            onEmpathy={handleEmpathy}
+            isLiked={currentUser?.likedComments?.includes(comment.id)}
           />
         ))}
       </div>

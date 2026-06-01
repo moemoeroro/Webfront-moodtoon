@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import Button from "../ui/Button.jsx";
 
-function CommentItem({ comment, onDelete, onEdit, }) {
+function CommentItem({ comment, onDelete, onEdit, onEmpathy, isLiked, }) {
   const { currentUser } = useAuth();
 
   // 댓글 주정 모드 여부
@@ -52,11 +52,12 @@ function CommentItem({ comment, onDelete, onEdit, }) {
       {/* 공감 수 표시 버튼 */}
       {!isEditing && (
         <Button
-          variant="outline"
+          variant={isLiked ? "primary" : "outline"}
           size="medium"
           type="button"
+          onClick={() => onEmpathy(comment.id)}
         >
-          공감 {comment.empathy}
+          {isLiked ? "♥ 공감" : "♡ 공감"} {comment.empathy}
         </Button>
       )}
 

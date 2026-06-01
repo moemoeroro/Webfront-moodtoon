@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
-import "./auth.css";
 import Button from "../../components/ui/Button.jsx";
+import "./auth.css";
 
 function Login() {
   const navigate = useNavigate();

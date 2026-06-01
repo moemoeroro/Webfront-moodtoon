@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import "./WebtoonCard.css";
 import Tag from "../ui/Tag.jsx";
+import "./WebtoonCard.css";
 
 function WebtoonCard({ webtoon }) {
   return (
