@@ -1,10 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { storage } from "../utils/storage";
 
 const COMMENTS_KEY = "moodtoon_comments";
 
 export function useComments(webtoonId, initialComments) {
+
+  useEffect(() => {
+    const handleStorage = () => {
+      const saved = storage.get(COMMENTS_KEY, {});
+      setCommentList(saved[webtoonId] || initialComments);
+    };
+
+    window.addEventListener("storage", handleStorage);
+
+    return () => {
+      window.removeEventListener("storage", handleStorage);
+    };
+  }, [webtoonId, initialComments]);
+
   const { currentUser, updateProfile } = useAuth();
 
   const [commentList, setCommentList] = useState(() => {
@@ -43,6 +57,13 @@ export function useComments(webtoonId, initialComments) {
 
     setCommentList(next);
     save(next);
+
+    updateProfile({
+      likedComments:
+        currentUser?.likedComments?.filter(
+          (id) => id !== commentId
+        ) || [],
+    });
   };
 
   const editComment = (commentId, newText) => {
