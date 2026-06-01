@@ -80,9 +80,11 @@
   align-items: center;
   gap: 8px;
   min-width: 0;
+  flex: 1;
 }
 
 .header-search input {
+  flex: 1;
   min-width: 0;
   padding: 12px 15px;
 }
@@ -100,11 +102,16 @@
   border-radius: 8px;
   color: var(--muted);
   font-weight: 750;
+  transition: all 0.2s ease;
 }
 
-.site-nav a.active,
-.site-nav a:hover {
-  background: rgba(255, 255, 255, 0.72);
+.site-nav a.active {
+  background: rgba(255, 255, 255, 0.9);
   color: var(--primary-dark);
   box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.site-nav a:hover {
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--primary-dark);
 }

@@ -19,8 +19,7 @@ const defaultProfile = {
     },
   ],
   moodLogs: ["피곤함", "설렘", "피곤함", "편안함", "피곤함"],
-
-  // 👇 추가
+  
   likedComments: [],
 };
 
