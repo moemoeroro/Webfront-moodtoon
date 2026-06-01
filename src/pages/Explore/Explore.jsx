@@ -12,6 +12,11 @@ import "./Explore.css";
 function Explore() {
   const [searchParams] = useSearchParams();
   const [keyword, setKeyword] = useState(searchParams.get("keyword") || "");
+  
+  useEffect(() => {
+    setKeyword(searchParams.get("keyword") || "");
+  }, [searchParams]);
+  
   const [showFilters, setShowFilters] = useState(true);
   const [filters, setFilters] = useState({
     genre: "전체",
