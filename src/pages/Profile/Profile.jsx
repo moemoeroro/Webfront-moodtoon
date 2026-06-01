@@ -1,6 +1,7 @@
 import { Link, Navigate } from "react-router-dom";
 import { webtoons } from "../../data/mockWebtoons.js";
 import { useAuth } from "../../context/AuthContext.jsx";
+import { storage } from "../../utils/storage";
 import WebtoonGrid from "../../components/Webtoon/WebtoonGrid.jsx";
 import Button from "../../components/ui/Button.jsx";
 import Tag from "../../components/ui/Tag.jsx";
@@ -27,6 +28,24 @@ function Profile() {
 
   const likedWebtoons = webtoons.filter((webtoon) =>
     currentUser.likedWebtoonIds.includes(webtoon.id)
+  );
+
+  const allComments = storage.get(
+    "moodtoon_comments",
+    {}
+  );
+
+  const comments = Object.entries(allComments)
+    .flatMap(([webtoonId, comments]) =>
+      comments.map((comment) => ({
+        ...comment,
+        webtoonId,
+      }))
+    );
+
+  const myComments = comments.filter(
+    (comment) =>
+      comment.user === currentUser.nickname
   );
 
   return (
@@ -82,19 +101,29 @@ function Profile() {
           </Link>
         </SectionTitle>
         <div className="comment-list">
-          {currentUser.comments.map((comment) => (
-            <Link
-              to={`/webtoon/${comment.webtoonId}`}
-              className="comment-link"
-              key={comment.id}
-            >
-              <article className="comment-item">
-                <strong>{comment.webtoonTitle}</strong>
-                <p>{comment.text}</p>
-                <span>{comment.date}</span>
-              </article>
-            </Link>
-          ))}
+          {myComments.length === 0 ? (
+            <p>작성한 댓글이 없습니다.</p>
+          ) : (
+            myComments.map((comment) => {
+              const webtoon = webtoons.find(
+                (item) => item.id === comment.webtoonId
+              );
+
+              return (
+                <Link
+                  to={`/webtoon/${comment.webtoonId}`}
+                  className="comment-link"
+                  key={comment.id}
+                >
+                  <article className="comment-item">
+                    <strong>{webtoon?.title}</strong>
+                    <p>{comment.text}</p>
+                    <span>{comment.date}</span>
+                  </article>
+                </Link>
+              );
+            })
+          )}
         </div>
       </section>
     </div>

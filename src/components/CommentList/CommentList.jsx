@@ -7,7 +7,7 @@ import CommentForm from "./CommentForm.jsx";
 import SectionTitle from "../ui/SectionTitle.jsx";
 import "./CommentList.css";
 
-function CommentList({ comments, webtoonTitle, webtoonId, }) {
+function CommentList({ comments, webtoonId, }) {
 
   // 댓글 정렬 기준 (popular = 인기순 / latest = 최신순)
   const [sortType, setSortType] = useState("popular");
@@ -21,7 +21,7 @@ function CommentList({ comments, webtoonTitle, webtoonId, }) {
     deleteComment,
     editComment,
     toggleEmpathy
-  } = useComments(webtoonId, comments, webtoonTitle);
+  } = useComments(webtoonId, comments);
 
   // 정렬 기준에 따라 댓글 목록 정렬
   const sortedComments = useMemo(() => {

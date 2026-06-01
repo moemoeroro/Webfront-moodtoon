@@ -4,7 +4,7 @@ import { storage } from "../utils/storage";
 
 const COMMENTS_KEY = "moodtoon_comments";
 
-export function useComments(webtoonId, initialComments, webtoonTitle) {
+export function useComments(webtoonId, initialComments) {
   const { currentUser, updateProfile } = useAuth();
 
   const [commentList, setCommentList] = useState(() => {
@@ -28,24 +28,12 @@ export function useComments(webtoonId, initialComments, webtoonTitle) {
       user: currentUser.nickname,
       text,
       empathy: 0,
+      date: new Date().toISOString().slice(0, 10),
     };
 
     const next = [newComment, ...commentList];
     setCommentList(next);
     save(next);
-
-    updateProfile({
-      comments: [
-        {
-          id: newComment.id,
-          webtoonId,
-          webtoonTitle,
-          text,
-          date: new Date().toISOString().slice(0, 10),
-        },
-        ...(currentUser.comments ?? []),
-      ],
-    });
   };
 
   const deleteComment = (commentId) => {
@@ -55,12 +43,6 @@ export function useComments(webtoonId, initialComments, webtoonTitle) {
 
     setCommentList(next);
     save(next);
-
-    updateProfile({
-      comments: (currentUser.comments ?? []).filter(
-        (comment) => comment.id !== commentId
-      ),
-    });
   };
 
   const editComment = (commentId, newText) => {
@@ -72,15 +54,6 @@ export function useComments(webtoonId, initialComments, webtoonTitle) {
 
     setCommentList(next);
     save(next);
-
-    updateProfile({
-      comments: (currentUser.comments ?? []).map(
-        (comment) =>
-          comment.id === commentId
-            ? { ...comment, text: newText }
-            : comment
-      ),
-    });
   };
 
   // 공감 기능
@@ -114,7 +87,6 @@ export function useComments(webtoonId, initialComments, webtoonTitle) {
     setCommentList(nextComments);
     save(nextComments);
 
-    // 프로필 좋아요 목록 업데이트
     updateProfile({
       likedComments: updatedLikedComments,
     });

@@ -9,17 +9,8 @@ const CURRENT_USER_KEY = "moodtoon_current_user";
 const defaultProfile = {
   favoriteGenres: ["로맨스", "판타지"],
   likedWebtoonIds: ["wind-001", "star-002"],
-  comments: [
-    {
-      id: 1,
-      webtoonId: "wind-001",
-      webtoonTitle: "비 오는 날의 서점",
-      text: "잔잔해서 자기 전에 보기 좋았어요.",
-      date: "2026-05-18",
-    },
-  ],
   moodLogs: ["피곤함", "설렘", "피곤함", "편안함", "피곤함"],
-  
+
   likedComments: [],
 };
 
