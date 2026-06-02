@@ -1,0 +1,16 @@
+.page-heading {
+  margin-bottom: 28px;
+  padding: 26px;
+  animation: fadeUp 0.55s ease both;
+}
+
+.page-heading h1 {
+  font-size: clamp(32px, 4vw, 46px);
+}
+
+.explore-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  margin-bottom: 16px;
+}

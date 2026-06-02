@@ -1,0 +1,33 @@
+.auth-page {
+  display: grid;
+  place-items: center;
+}
+
+.auth-card {
+  width: min(460px, 100%);
+  padding: 30px;
+  animation: fadeUp 0.58s ease both;
+}
+
+.auth-card label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-weight: 760;
+}
+
+.auth-card input {
+  padding: 13px 14px;
+}
+
+.auth-card form {
+  display: grid;
+  gap: 16px;
+  margin: 24px 0 18px;
+}
+
+.form-message {
+  margin: 0;
+  color: #b42318;
+  font-weight: 800;
+}

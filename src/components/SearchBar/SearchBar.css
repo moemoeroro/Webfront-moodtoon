@@ -1,0 +1,10 @@
+.search-box {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  font-weight: 760;
+}
+
+.search-box input {
+  padding: 13px 14px;
+}

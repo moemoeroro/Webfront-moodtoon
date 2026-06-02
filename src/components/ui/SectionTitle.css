@@ -1,0 +1,38 @@
+.section-title {
+  margin-bottom: 18px;
+}
+
+.section-title.compact {
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.section-title p {
+  max-width: 720px;
+  color: var(--muted);
+}
+
+.section-title h2 {
+  margin: 0;
+}
+
+.section-title.compact {
+    display: flex;
+    align-items: center;
+}
+
+/* 작은 라벨 스타일 */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0 10px;
+  padding: 6px 10px;
+  border: 1px solid rgba(143, 230, 196, 0.45);
+  border-radius: 8px;
+  background: rgba(226, 252, 241, 0.72);
+  color: var(--soda-deep);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}

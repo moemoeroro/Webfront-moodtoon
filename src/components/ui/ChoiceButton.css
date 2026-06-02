@@ -1,0 +1,65 @@
+/* =========================
+   선택 버튼
+========================= */
+
+.choice-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  padding: 10px 14px;
+
+  border-radius: 8px;
+
+  border:
+    1px solid rgba(255,255,255,0.72);
+
+  background:
+    rgba(255,255,255,0.58);
+
+  color: var(--ink);
+
+  font-weight: 750;
+
+  box-shadow:
+    0 8px 20px rgba(82,61,140,0.08);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+/* hover */
+
+.choice-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    var(--shadow-hover);
+}
+
+/* active */
+
+.choice-button:active {
+  transform:
+    translateY(1px)
+    scale(0.985);
+}
+
+/* 선택 상태 */
+
+.choice-button.selected {
+  background:
+    linear-gradient(
+      135deg,
+      var(--primary),
+      #9a88ff
+    );
+
+  color: white;
+}

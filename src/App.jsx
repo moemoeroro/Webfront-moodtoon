@@ -1,13 +1,15 @@
 import { Route, Routes } from "react-router-dom";
-import Header from "./components/Header.jsx";
-import Footer from "./components/Footer.jsx";
-import Home from "./pages/Home.jsx";
-import Explore from "./pages/Explore.jsx";
-import WebtoonDetail from "./pages/WebtoonDetail.jsx";
-import Login from "./pages/Login.jsx";
-import Signup from "./pages/Signup.jsx";
-import Profile from "./pages/Profile.jsx";
-import NotFound from "./pages/NotFound.jsx";
+
+import Header from "./components/Header/Header.jsx";
+import Footer from "./components/Footer/Footer.jsx";
+
+import Home from "./pages/Home/Home.jsx";
+import Explore from "./pages/Explore/Explore.jsx";
+import WebtoonDetail from "./pages/WebtoonDetail/WebtoonDetail.jsx";
+import Login from "./pages/auth/Login.jsx";
+import Signup from "./pages/auth/Signup.jsx";
+import Profile from "./pages/Profile/Profile.jsx";
+import NotFound from "./pages/NotFound/NotFound.jsx";
 
 function App() {
   return (
