@@ -1,37 +1,27 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import {
+  login as loginUser,
+  sanitizeSessionUser,
+  signup as signupUser,
+  updateProfile as updateUserProfile,
+} from "../services/authApi.js";
 
 const AuthContext = createContext(null);
-const USERS_KEY = "moodtoon_users";
 const CURRENT_USER_KEY = "moodtoon_current_user";
-
-
-// 기본 프로필 정보
-const defaultProfile = {
-  favoriteGenres: ["로맨스", "판타지"],
-  likedWebtoonIds: ["wind-001", "star-002"],
-  moodLogs: ["피곤함", "설렘", "피곤함", "편안함", "피곤함"],
-
-  likedComments: [],
-};
 
 function readStorage(key, fallback) {
   try {
     const saved = localStorage.getItem(key);
-    return saved ? JSON.parse(saved) : fallback;
+    return saved ? sanitizeSessionUser(JSON.parse(saved)) : fallback;
   } catch {
     return fallback;
   }
 }
 
 export function AuthProvider({ children }) {
-  const [users, setUsers] = useState(() => readStorage(USERS_KEY, []));
   const [currentUser, setCurrentUser] = useState(() =>
     readStorage(CURRENT_USER_KEY, null)
   );
-
-  useEffect(() => {
-    localStorage.setItem(USERS_KEY, JSON.stringify(users));
-  }, [users]);
 
   useEffect(() => {
     if (currentUser) {
@@ -41,62 +31,45 @@ export function AuthProvider({ children }) {
     }
   }, [currentUser]);
 
-  // 회원가입
-  const signup = ({ email, password, nickname }) => {
-    const normalizedEmail = email.trim().toLowerCase();
-    const alreadyExists = users.some((user) => user.email === normalizedEmail);
+  const signup = async (form) => {
+    const result = await signupUser(form);
 
-    if (alreadyExists) {
-      return { ok: false, message: "이미 가입된 이메일입니다." };
+    if (result.ok) {
+      setCurrentUser(result.user);
     }
 
-    const newUser = {
-      id: Date.now().toString(),
-      email: normalizedEmail,
-      password,
-      nickname: nickname.trim(),
-      ...defaultProfile,
-    };
-
-    setUsers((prevUsers) => [...prevUsers, newUser]);
-    setCurrentUser(newUser);
-    return { ok: true };
+    return result;
   };
 
-  // 로그인
-  const login = ({ email, password }) => {
-    const normalizedEmail = email.trim().toLowerCase();
-    const foundUser = users.find(
-      (user) => user.email === normalizedEmail && user.password === password
-    );
+  const login = async (form) => {
+    const result = await loginUser(form);
 
-    if (!foundUser) {
-      return { ok: false, message: "이메일 또는 비밀번호를 확인해주세요." };
+    if (result.ok) {
+      setCurrentUser(result.user);
     }
 
-    setCurrentUser(foundUser);
-    return { ok: true };
+    return result;
   };
 
-  // 로그아웃
   const logout = () => {
     setCurrentUser(null);
   };
 
-  // 프로필 업데이트
-  const updateProfile = (nextProfile) => {
+  const updateProfile = async (nextProfile) => {
     if (!currentUser) return;
 
-    const updatedUser = { ...currentUser, ...nextProfile };
-    setCurrentUser(updatedUser);
-    setUsers((prevUsers) =>
-      prevUsers.map((user) => (user.id === updatedUser.id ? updatedUser : user))
-    );
+    const result = await updateUserProfile(currentUser.id, nextProfile);
+
+    if (result.ok) {
+      setCurrentUser(result.user);
+    }
+
+    return result;
   };
 
   return (
     <AuthContext.Provider
-      value={{ currentUser, users, signup, login, logout, updateProfile }}
+      value={{ currentUser, signup, login, logout, updateProfile }}
     >
       {children}
     </AuthContext.Provider>
