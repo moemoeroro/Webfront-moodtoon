@@ -30,6 +30,16 @@ function Profile() {
     currentUser.likedWebtoonIds.includes(webtoon.id)
   );
 
+  // 북마크한 웹툰의 장르 집계
+  const genreCounts = likedWebtoons.reduce((acc, webtoon) => {
+    acc[webtoon.genre] = (acc[webtoon.genre] || 0) + 1;
+    return acc;
+  }, {});
+
+  // 많이 북마크한 순으로 정렬
+  const topGenres = Object.entries(genreCounts)
+    .sort((a, b) => b[1] - a[1]);
+
   const allComments = storage.get(
     "moodtoon_comments",
     {}
@@ -65,11 +75,15 @@ function Profile() {
         <section className="card profile-panel">
           <SectionTitle title="선호하는 장르"/>
           <div className="tag-row">
-            {currentUser.favoriteGenres.map((genre) => (
-              <Tag key={genre} size="large">
-                {genre}
-              </Tag>
-            ))}
+            {topGenres.length === 0 ? (
+              <p>북마크한 작품이 없습니다.</p>
+            ) : (
+              topGenres.map(([genre, count], index) => (
+                <Tag key={genre} size="large">
+                  {index + 1}위 {genre} ({count})
+                </Tag>
+              ))
+            )}
           </div>
         </section>
 
