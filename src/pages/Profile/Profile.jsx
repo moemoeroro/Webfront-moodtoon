@@ -9,13 +9,23 @@ import SectionTitle from "../../components/ui/SectionTitle.jsx";
 import "./Profile.css";
 
 // 감정 로그에서 가장 많이 선택된 감정 추출
-function getTopMood(moodLogs) {
-  const counts = moodLogs.reduce((acc, mood) => {
+function getTopMood(moodLogs = []) {
+  const counts = moodLogs.reduce((acc, log) => {
+    const mood =
+      typeof log === "string"
+        ? log
+        : log.mood;
+
     acc[mood] = (acc[mood] || 0) + 1;
+
     return acc;
   }, {});
 
-  return Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] || "기록 없음";
+  return (
+    Object.entries(counts)
+      .sort((a, b) => b[1] - a[1])[0]?.[0] ||
+    "기록 없음"
+  );
 }
 
 function Profile() {
@@ -58,6 +68,26 @@ function Profile() {
       comment.user === currentUser.nickname
   );
 
+  const moodCounts = (currentUser.moodLogs || []).reduce((acc, log) => {
+    const mood =
+      typeof log === "string"
+        ? log
+        : log.mood;
+
+    acc[mood] = (acc[mood] || 0) + 1;
+
+    return acc;
+  }, {});
+
+  const topMoods = Object.entries(moodCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3);
+
+  const maxCount = Math.max(
+    ...topMoods.map(([, count]) => count),
+    1
+  );
+
   return (
     <div className="page">
       <section className="card profile-hero">
@@ -88,11 +118,37 @@ function Profile() {
         </section>
 
         <section className="card profile-panel">
-          <SectionTitle 
-            eyebrow="감정 통계"
-            title={getTopMood(currentUser.moodLogs)}
-          />
-          <p>감정 선택 기록을 기반으로 추천 정확도를 높일 수 있습니다.</p>
+          <SectionTitle title="감정 통계" />
+
+          {Object.keys(moodCounts).length === 0 ? (
+            <p>아직 감정 기록이 없습니다.</p>
+          ) : (
+            <div className="mood-chart">
+              {topMoods.map(
+                ([mood, count]) => (
+                  <div
+                    key={mood}
+                    className="mood-bar-row"
+                  >
+                    <span>{mood}</span>
+
+                    <div className="mood-bar-track">
+                      <div
+                        className="mood-bar-fill"
+                        style={{
+                          width: `${
+                            (count / maxCount) * 100
+                          }%`,
+                        }}
+                      />
+                    </div>
+
+                    <strong>{count}회</strong>
+                  </div>
+                )
+              )}
+            </div>
+          )}
         </section>
       </div>
 
