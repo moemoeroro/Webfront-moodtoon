@@ -22,6 +22,8 @@ function FindAccount() {
   const [resetResult, setResetResult] = useState(null);
   const [loadingType, setLoadingType] = useState("");
 
+  const [activeTab, setActiveTab] = useState("find");
+
   const handleFindUsername = async (e) => {
     e.preventDefault();
     setFindResult(null);
@@ -52,9 +54,29 @@ function FindAccount() {
         <p className="eyebrow">Account</p>
         <h1>계정 찾기</h1>
 
-        <div className="auth-split">
+        <div className="auth-tabs">
+          <button
+            type="button"
+            className={activeTab === "find" ? "active" : ""}
+            onClick={() => setActiveTab("find")}
+          >
+            아이디 찾기
+          </button>
+
+          <button
+            type="button"
+            className={activeTab === "reset" ? "active" : ""}
+            onClick={() => setActiveTab("reset")}
+          >
+            비밀번호 재설정
+          </button>
+        </div>
+
+        {/* 아이디 찾기 탭 */}
+        {activeTab === "find" && (
           <form onSubmit={handleFindUsername}>
             <h2>아이디 찾기</h2>
+
             <label>
               이메일
               <input
@@ -65,6 +87,7 @@ function FindAccount() {
                 required
               />
             </label>
+
             {findResult && (
               <p className={`form-message ${findResult.ok ? "success" : ""}`}>
                 {findResult.ok
@@ -72,13 +95,18 @@ function FindAccount() {
                   : findResult.message}
               </p>
             )}
+
             <Button shine type="submit" disabled={loadingType === "find"}>
               {loadingType === "find" ? "조회 중..." : "아이디 찾기"}
             </Button>
           </form>
+        )}
 
+        {/* 비밀번호 재설정 탭 */}
+        {activeTab === "reset" && (
           <form onSubmit={handleResetPassword}>
             <h2>비밀번호 재설정</h2>
+
             <label>
               아이디
               <input
@@ -129,16 +157,12 @@ function FindAccount() {
                 required
               />
             </label>
-            {resetResult && (
-              <p className={`form-message ${resetResult.ok ? "success" : ""}`}>
-                {resetResult.message}
-              </p>
-            )}
+
             <Button shine type="submit" disabled={loadingType === "reset"}>
               {loadingType === "reset" ? "변경 중..." : "비밀번호 변경"}
             </Button>
           </form>
-        </div>
+        )}
 
         <p>
           다시 로그인하려면 <Link to="/login">로그인 페이지</Link>
