@@ -11,12 +11,14 @@ import Signup from "./pages/auth/Signup.jsx";
 import FindAccount from "./pages/auth/FindAccount.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import NotFound from "./pages/NotFound/NotFound.jsx";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <div className="app">
       <Header />
       <main>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/explore" element={<Explore />} />
