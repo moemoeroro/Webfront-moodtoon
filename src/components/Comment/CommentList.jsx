@@ -62,7 +62,11 @@ function CommentList({ comments, webtoonId, }) {
       </SectionTitle>
 
       {/* 댓글 작성 폼 */}
-      <CommentForm onSubmit={addComment} />
+      {currentUser ? (
+        <CommentForm onSubmit={addComment} />
+      ) : (
+        <p>댓글 작성은 로그인 후 가능합니다.</p>
+      )}
 
       {/* 댓글 목록 렌더링 */}
       <div className="comment-list">

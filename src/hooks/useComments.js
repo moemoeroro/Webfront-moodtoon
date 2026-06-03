@@ -35,7 +35,10 @@ export function useComments(webtoonId, initialComments) {
 
   // 댓글 추가
   const addComment = (text) => {
-    if (!currentUser) return;
+    if (!currentUser) {
+      alert("로그인 후 이용해주세요.");
+      return;
+    }
 
     const newComment = {
       id: Date.now(),
