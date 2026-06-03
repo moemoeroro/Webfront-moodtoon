@@ -13,7 +13,6 @@ function Signup() {
     passwordConfirm: "",
     nickname: "",
     email: "",
-    phone: "",
   });
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -68,18 +67,6 @@ function Signup() {
               autoComplete="email"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
-              required
-            />
-          </label>
-          <label>
-            전화번호
-            <input
-              type="tel"
-              inputMode="numeric"
-              autoComplete="tel"
-              placeholder="01012345678"
-              value={form.phone}
-              onChange={(e) => setForm({ ...form, phone: e.target.value })}
               required
             />
           </label>

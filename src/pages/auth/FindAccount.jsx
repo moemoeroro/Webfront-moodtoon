@@ -56,7 +56,7 @@ function FindAccount() {
           <form onSubmit={handleFindUsername}>
             <h2>아이디 찾기</h2>
             <label>
-              이메일 또는 전화번호
+              이메일
               <input
                 value={findForm.contact}
                 onChange={(e) =>
@@ -91,7 +91,7 @@ function FindAccount() {
               />
             </label>
             <label>
-              이메일 또는 전화번호
+              이메일
               <input
                 value={resetForm.contact}
                 onChange={(e) =>

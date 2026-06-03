@@ -46,10 +46,6 @@ function normalizeEmail(email = "") {
   return email.trim().toLowerCase();
 }
 
-function normalizePhone(phone = "") {
-  return phone.replace(/\D/g, "");
-}
-
 function isEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
@@ -62,9 +58,6 @@ function isValidPassword(password) {
   return /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(password);
 }
 
-function isValidPhone(phone) {
-  return /^01[016789]\d{7,8}$/.test(phone);
-}
 
 async function hashPassword(password, salt) {
   const encoder = new TextEncoder();
@@ -79,7 +72,6 @@ async function hashPassword(password, salt) {
 async function createUserRecord(user) {
   const username = normalizeUsername(user.username);
   const email = normalizeEmail(user.email);
-  const phone = normalizePhone(user.phone);
   const salt = createId("salt");
 
   return {
@@ -88,7 +80,6 @@ async function createUserRecord(user) {
     id: user.id || createId("u"),
     username,
     email,
-    phone,
     passwordSalt: salt,
     passwordHash: await hashPassword(user.password, salt),
     password: undefined,
@@ -121,7 +112,6 @@ async function migrateLegacyUsers() {
           ...user,
           username,
           email,
-          phone: normalizePhone(user.phone || ""),
           nickname: user.nickname || username,
         });
       })
@@ -196,7 +186,6 @@ export async function signup(form) {
 
   const username = normalizeUsername(form.username);
   const email = normalizeEmail(form.email);
-  const phone = normalizePhone(form.phone);
   const nickname = form.nickname.trim();
 
   if (!isValidUsername(username)) {
@@ -212,10 +201,6 @@ export async function signup(form) {
 
   if (!isEmail(email)) {
     return { ok: false, message: "올바른 이메일을 입력해주세요." };
-  }
-
-  if (!isValidPhone(phone)) {
-    return { ok: false, message: "전화번호는 01012345678 형식으로 입력해주세요." };
   }
 
   if (!isValidPassword(form.password)) {
@@ -239,16 +224,11 @@ export async function signup(form) {
     return { ok: false, message: "이미 가입된 이메일입니다." };
   }
 
-  if (users.some((user) => user.phone === phone)) {
-    return { ok: false, message: "이미 가입된 전화번호입니다." };
-  }
-
   const newUser = await createUserRecord({
     username,
     password: form.password,
     nickname,
     email,
-    phone,
     favoriteGenres: form.favoriteGenres || defaultProfile.favoriteGenres,
   });
 
@@ -262,13 +242,11 @@ export async function findUsername({ contact }) {
   await wait();
 
   const trimmedContact = contact.trim();
-  const normalizedContact = trimmedContact.includes("@")
-    ? normalizeEmail(trimmedContact)
-    : normalizePhone(trimmedContact);
+  const normalizedContact = normalizeEmail(trimmedContact);
 
   const users = await getUsers();
   const foundUsers = users.filter(
-    (user) => user.email === normalizedContact || user.phone === normalizedContact
+    (user) => user.email === normalizedContact
   );
 
   if (foundUsers.length === 0) {
@@ -286,9 +264,7 @@ export async function resetPassword(form) {
 
   const username = normalizeUsername(form.username);
   const contact = form.contact.trim();
-  const normalizedContact = contact.includes("@")
-    ? normalizeEmail(contact)
-    : normalizePhone(contact);
+  const normalizedContact = normalizeEmail(contact);
 
   if (!isValidPassword(form.password)) {
     return {
@@ -305,7 +281,7 @@ export async function resetPassword(form) {
   const userIndex = users.findIndex(
     (user) =>
       user.username === username &&
-      (user.email === normalizedContact || user.phone === normalizedContact)
+      user.email === normalizedContact
   );
 
   if (userIndex < 0) {
