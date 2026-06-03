@@ -46,7 +46,7 @@ function CommentItem({ comment, onDelete, onEdit, onEmpathy, isLiked, }) {
         />
       ) : (
         // 일반 모드일 경우 댓글 내용 표시
-        <p>{comment.text}</p>
+        <p className="comment-text">{comment.text}</p>
       )}
 
       {/* 공감 수 표시 버튼 */}

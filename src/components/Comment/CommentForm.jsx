@@ -12,12 +12,20 @@ function CommentForm({ onSubmit }) {
     setCommentText("");
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault(); // 줄바꿈 방지
+      handleSubmit();
+    }
+  };
+
   return (
     <div className="comment-form">
       <textarea
         placeholder="댓글을 작성해주세요..."
         value={commentText}
         onChange={(e) => setCommentText(e.target.value)}
+        onKeyDown={handleKeyDown}
       />
 
       <Button onClick={handleSubmit}>
