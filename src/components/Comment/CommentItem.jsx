@@ -4,6 +4,8 @@ import Button from "../ui/Button.jsx";
 
 function CommentItem({ comment, onDelete, onEdit, onEmpathy, isLiked, }) {
   const { currentUser } = useAuth();
+  const canEdit =
+    Boolean(comment.userId) && comment.userId === currentUser?.id;
 
   // 댓글 주정 모드 여부
   const [isEditing, setIsEditing] = useState(false);
@@ -18,7 +20,7 @@ function CommentItem({ comment, onDelete, onEdit, onEmpathy, isLiked, }) {
         <strong>{comment.user}</strong>
 
         <div className="comment-actions">
-          {comment.user === currentUser?.nickname && !isEditing && (
+          {canEdit && !isEditing && (
             <button
               type="button"
               onClick={() => setIsEditing(true)}
@@ -27,7 +29,7 @@ function CommentItem({ comment, onDelete, onEdit, onEmpathy, isLiked, }) {
             </button>
           )}
 
-          {comment.user === currentUser?.nickname && !isEditing && (
+          {canEdit && !isEditing && (
             <button
               type="button"
               onClick={() => onDelete(comment.id)}

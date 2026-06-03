@@ -1,42 +1,11 @@
-import { seedUsers } from "../data/mockUsers.js";
-
-const MOCK_USERS_KEY = "moodtoon_mock_users";
-const LEGACY_USERS_KEY = "moodtoon_users";
-const MOCK_LATENCY = 180;
+import { isSupabaseConfigured, supabase } from "./supabaseClient.js";
 
 const defaultProfile = {
-  favoriteGenres: ["로맨스", "판타지"],
+  favoriteGenres: ["romance", "fantasy"],
   likedWebtoonIds: [],
   moodLogs: [],
   likedComments: [],
 };
-
-function wait(ms = MOCK_LATENCY) {
-  return new Promise((resolve) => {
-    window.setTimeout(resolve, ms);
-  });
-}
-
-function readStorage(key, fallback) {
-  try {
-    const saved = localStorage.getItem(key);
-    return saved ? JSON.parse(saved) : fallback;
-  } catch {
-    return fallback;
-  }
-}
-
-function writeStorage(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
-}
-
-function createId(prefix = "u") {
-  if (crypto.randomUUID) {
-    return `${prefix}_${crypto.randomUUID()}`;
-  }
-
-  return `${prefix}_${Date.now()}_${Math.random().toString(16).slice(2)}`;
-}
 
 function normalizeUsername(username = "") {
   return username.trim().toLowerCase();
@@ -58,98 +27,19 @@ function isValidPassword(password) {
   return /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(password);
 }
 
-
-async function hashPassword(password, salt) {
-  const encoder = new TextEncoder();
-  const source = encoder.encode(`${salt}:${password}`);
-  const buffer = await crypto.subtle.digest("SHA-256", source);
-
-  return Array.from(new Uint8Array(buffer))
-    .map((byte) => byte.toString(16).padStart(2, "0"))
-    .join("");
-}
-
-async function createUserRecord(user) {
-  const username = normalizeUsername(user.username);
-  const email = normalizeEmail(user.email);
-  const salt = createId("salt");
-
-  return {
-    ...defaultProfile,
-    ...user,
-    id: user.id || createId("u"),
-    username,
-    email,
-    passwordSalt: salt,
-    passwordHash: await hashPassword(user.password, salt),
-    password: undefined,
-    createdAt: user.createdAt || new Date().toISOString(),
-  };
-}
-
-async function createSeedRecords() {
-  return Promise.all(seedUsers.map((user) => createUserRecord(user)));
-}
-
-async function migrateLegacyUsers() {
-  const legacyUsers = readStorage(LEGACY_USERS_KEY, []);
-
-  if (!Array.isArray(legacyUsers) || legacyUsers.length === 0) {
-    return [];
+function requireSupabase() {
+  if (!isSupabaseConfigured || !supabase) {
+    return {
+      ok: false,
+      message:
+        "Supabase 환경변수가 설정되지 않았습니다. .env에 VITE_SUPABASE_URL과 VITE_SUPABASE_ANON_KEY를 추가해 주세요.",
+    };
   }
 
-  return Promise.all(
-    legacyUsers
-      .filter((user) => user.email && user.password)
-      .map((user) => {
-        const email = normalizeEmail(user.email);
-        const username = normalizeUsername(
-          user.username || email.split("@")[0] || user.nickname
-        );
-
-        return createUserRecord({
-          ...defaultProfile,
-          ...user,
-          username,
-          email,
-          nickname: user.nickname || username,
-        });
-      })
-  );
+  return null;
 }
 
-async function getUsers() {
-  const savedUsers = readStorage(MOCK_USERS_KEY, null);
-
-  if (Array.isArray(savedUsers)) {
-    return savedUsers;
-  }
-
-  const migratedUsers = await migrateLegacyUsers();
-  const users = migratedUsers.length > 0 ? migratedUsers : await createSeedRecords();
-  writeStorage(MOCK_USERS_KEY, users);
-  return users;
-}
-
-function saveUsers(users) {
-  writeStorage(MOCK_USERS_KEY, users);
-}
-
-function toSessionUser(user) {
-  if (!user) return null;
-
-  return {
-    id: user.id,
-    username: user.username,
-    nickname: user.nickname,
-    favoriteGenres: user.favoriteGenres || defaultProfile.favoriteGenres,
-    likedWebtoonIds: user.likedWebtoonIds || defaultProfile.likedWebtoonIds,
-    moodLogs: user.moodLogs || defaultProfile.moodLogs,
-    likedComments: user.likedComments || defaultProfile.likedComments,
-  };
-}
-
-function maskUsername(username) {
+function maskUsername(username = "") {
   if (username.length <= 4) {
     return `${username.slice(0, 2)}**`;
   }
@@ -157,32 +47,175 @@ function maskUsername(username) {
   return `${username.slice(0, 4)}${"*".repeat(username.length - 4)}`;
 }
 
+function toSessionUser(profile, authUser) {
+  if (!profile && !authUser) return null;
+
+  const metadata = authUser?.user_metadata || {};
+
+  return {
+    id: profile?.id || authUser?.id,
+    username: profile?.username || metadata.username || "",
+    email: profile?.email || authUser?.email || "",
+    nickname:
+      profile?.nickname || metadata.nickname || metadata.username || "user",
+    favoriteGenres:
+      profile?.favorite_genres ||
+      metadata.favoriteGenres ||
+      defaultProfile.favoriteGenres,
+    likedWebtoonIds:
+      profile?.liked_webtoon_ids || defaultProfile.likedWebtoonIds,
+    moodLogs: profile?.mood_logs || defaultProfile.moodLogs,
+    likedComments: profile?.liked_comments || defaultProfile.likedComments,
+  };
+}
+
+function toProfilePatch(nextProfile) {
+  const patch = {};
+
+  if ("username" in nextProfile) {
+    patch.username = normalizeUsername(nextProfile.username);
+  }
+
+  if ("nickname" in nextProfile) {
+    patch.nickname = nextProfile.nickname;
+  }
+
+  if ("favoriteGenres" in nextProfile) {
+    patch.favorite_genres = nextProfile.favoriteGenres;
+  }
+
+  if ("likedWebtoonIds" in nextProfile) {
+    patch.liked_webtoon_ids = nextProfile.likedWebtoonIds;
+  }
+
+  if ("moodLogs" in nextProfile) {
+    patch.mood_logs = nextProfile.moodLogs;
+  }
+
+  if ("likedComments" in nextProfile) {
+    patch.liked_comments = nextProfile.likedComments;
+  }
+
+  return patch;
+}
+
+function getRedirectUrl(path = "/find-account") {
+  if (typeof window === "undefined") return undefined;
+  return `${window.location.origin}${path}`;
+}
+
+async function findLoginEmail(identifier) {
+  const normalizedIdentifier = identifier.trim();
+
+  if (isEmail(normalizedIdentifier)) {
+    return normalizeEmail(normalizedIdentifier);
+  }
+
+  const username = normalizeUsername(normalizedIdentifier);
+  const { data, error } = await supabase.rpc("find_profile_by_username", {
+    p_username: username,
+  });
+
+  if (error) {
+    throw new Error(
+      "아이디 조회용 Supabase RPC가 준비되지 않았습니다. supabase/schema.sql을 먼저 실행해 주세요."
+    );
+  }
+
+  return data?.[0]?.email || "";
+}
+
+async function fetchProfile(authUser) {
+  if (!authUser) return null;
+
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", authUser.id)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(
+      "프로필을 불러오지 못했습니다. profiles 테이블과 RLS 정책을 확인해 주세요."
+    );
+  }
+
+  return toSessionUser(data, authUser);
+}
+
 export function sanitizeSessionUser(user) {
-  return toSessionUser(user);
+  return user ? { ...defaultProfile, ...user } : null;
+}
+
+export async function getCurrentUser() {
+  const configError = requireSupabase();
+  if (configError) return null;
+
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+
+  if (error || !user) return null;
+
+  return fetchProfile(user);
+}
+
+export function onAuthStateChange(callback) {
+  if (!isSupabaseConfigured || !supabase) {
+    return { unsubscribe: () => {} };
+  }
+
+  const {
+    data: { subscription },
+  } = supabase.auth.onAuthStateChange(async (event, session) => {
+    if (event === "SIGNED_OUT" || !session?.user) {
+      callback({ user: null, event });
+      return;
+    }
+
+    try {
+      const user = await fetchProfile(session.user);
+      callback({ user, event });
+    } catch {
+      callback({ user: null, event });
+    }
+  });
+
+  return subscription;
 }
 
 export async function login({ username, password }) {
-  await wait();
+  const configError = requireSupabase();
+  if (configError) return configError;
 
-  const normalizedUsername = normalizeUsername(username);
-  const users = await getUsers();
-  const foundUser = users.find((user) => user.username === normalizedUsername);
+  try {
+    const email = await findLoginEmail(username);
 
-  if (!foundUser) {
-    return { ok: false, message: "아이디 또는 비밀번호를 확인해주세요." };
+    if (!email) {
+      return { ok: false, message: "아이디 또는 비밀번호를 확인해 주세요." };
+    }
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      return { ok: false, message: "아이디 또는 비밀번호를 확인해 주세요." };
+    }
+
+    const user = await fetchProfile(data.user);
+
+    return { ok: true, user };
+  } catch (error) {
+    return { ok: false, message: error.message };
   }
-
-  const passwordHash = await hashPassword(password, foundUser.passwordSalt);
-
-  if (passwordHash !== foundUser.passwordHash) {
-    return { ok: false, message: "아이디 또는 비밀번호를 확인해주세요." };
-  }
-
-  return { ok: true, user: toSessionUser(foundUser) };
 }
 
 export async function signup(form) {
-  await wait();
+  const configError = requireSupabase();
+  if (configError) return configError;
 
   const username = normalizeUsername(form.username);
   const email = normalizeEmail(form.email);
@@ -191,16 +224,16 @@ export async function signup(form) {
   if (!isValidUsername(username)) {
     return {
       ok: false,
-      message: "아이디는 영문 소문자, 숫자, 밑줄로 4~20자 입력해주세요.",
+      message: "아이디는 영문 소문자, 숫자, 밑줄로 4~20자 입력해 주세요.",
     };
   }
 
   if (!nickname) {
-    return { ok: false, message: "닉네임을 입력해주세요." };
+    return { ok: false, message: "닉네임을 입력해 주세요." };
   }
 
   if (!isEmail(email)) {
-    return { ok: false, message: "올바른 이메일을 입력해주세요." };
+    return { ok: false, message: "올바른 이메일을 입력해 주세요." };
   }
 
   if (!isValidPassword(form.password)) {
@@ -214,57 +247,148 @@ export async function signup(form) {
     return { ok: false, message: "비밀번호 확인이 일치하지 않습니다." };
   }
 
-  const users = await getUsers();
+  try {
+    const existingEmail = await findLoginEmail(username);
 
-  if (users.some((user) => user.username === username)) {
-    return { ok: false, message: "이미 사용 중인 아이디입니다." };
+    if (existingEmail) {
+      return { ok: false, message: "이미 사용 중인 아이디입니다." };
+    }
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password: form.password,
+      options: {
+        data: {
+          favoriteGenres:
+            form.favoriteGenres || defaultProfile.favoriteGenres,
+          nickname,
+          username,
+        },
+      },
+    });
+
+    if (error) {
+      return {
+        ok: false,
+        message:
+          error.status === 422
+            ? "이미 가입된 이메일이거나 사용할 수 없는 정보입니다."
+            : error.message,
+      };
+    }
+
+    if (!data.session) {
+      return {
+        ok: false,
+        message:
+          "가입 확인 메일을 보냈습니다. 이메일 인증을 마친 뒤 로그인해 주세요.",
+      };
+    }
+
+    const user = await fetchProfile(data.user);
+
+    return { ok: true, user };
+  } catch (error) {
+    return { ok: false, message: error.message };
+  }
+}
+
+export async function logout() {
+  const configError = requireSupabase();
+  if (configError) return configError;
+
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    return { ok: false, message: "로그아웃에 실패했습니다." };
   }
 
-  if (users.some((user) => user.email === email)) {
-    return { ok: false, message: "이미 가입된 이메일입니다." };
-  }
-
-  const newUser = await createUserRecord({
-    username,
-    password: form.password,
-    nickname,
-    email,
-    favoriteGenres: form.favoriteGenres || defaultProfile.favoriteGenres,
-  });
-
-  const nextUsers = [...users, newUser];
-  saveUsers(nextUsers);
-
-  return { ok: true, user: toSessionUser(newUser) };
+  return { ok: true };
 }
 
 export async function findUsername({ contact }) {
-  await wait();
+  const configError = requireSupabase();
+  if (configError) return configError;
 
-  const trimmedContact = contact.trim();
-  const normalizedContact = normalizeEmail(trimmedContact);
+  const normalizedContact = normalizeEmail(contact);
 
-  const users = await getUsers();
-  const foundUsers = users.filter(
-    (user) => user.email === normalizedContact
-  );
+  if (!isEmail(normalizedContact)) {
+    return { ok: false, message: "올바른 이메일을 입력해 주세요." };
+  }
 
-  if (foundUsers.length === 0) {
+  const { data, error } = await supabase.rpc("find_usernames_by_email", {
+    p_email: normalizedContact,
+  });
+
+  if (error) {
+    return {
+      ok: false,
+      message:
+        "아이디 찾기용 Supabase RPC가 준비되지 않았습니다. supabase/schema.sql을 먼저 실행해 주세요.",
+    };
+  }
+
+  if (!data || data.length === 0) {
     return { ok: false, message: "일치하는 계정을 찾을 수 없습니다." };
   }
 
   return {
     ok: true,
-    usernames: foundUsers.map((user) => maskUsername(user.username)),
+    usernames: data.map((user) => maskUsername(user.username)),
   };
 }
 
 export async function resetPassword(form) {
-  await wait();
+  const configError = requireSupabase();
+  if (configError) return configError;
 
   const username = normalizeUsername(form.username);
-  const contact = form.contact.trim();
-  const normalizedContact = normalizeEmail(contact);
+  const normalizedContact = normalizeEmail(form.contact);
+
+  if (!isValidUsername(username) || !isEmail(normalizedContact)) {
+    return { ok: false, message: "아이디와 이메일을 확인해 주세요." };
+  }
+
+  const { data, error } = await supabase.rpc("find_profile_by_username", {
+    p_username: username,
+  });
+
+  if (error) {
+    return {
+      ok: false,
+      message:
+        "비밀번호 재설정용 Supabase RPC가 준비되지 않았습니다. supabase/schema.sql을 먼저 실행해 주세요.",
+    };
+  }
+
+  if (!data?.[0] || data[0].email !== normalizedContact) {
+    return {
+      ok: false,
+      message: "아이디와 계정 이메일이 일치하지 않습니다.",
+    };
+  }
+
+  const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+    normalizedContact,
+    {
+      redirectTo: getRedirectUrl("/find-account?mode=recovery"),
+    }
+  );
+
+  if (resetError) {
+    return { ok: false, message: "재설정 메일 발송에 실패했습니다." };
+  }
+
+  return {
+    ok: true,
+    message:
+      "비밀번호 재설정 메일을 보냈습니다. 메일의 링크를 열어 새 비밀번호를 설정해 주세요.",
+  };
+}
+
+export async function completePasswordReset(form) {
+  const configError = requireSupabase();
+  if (configError) return configError;
 
   if (!isValidPassword(form.password)) {
     return {
@@ -277,46 +401,43 @@ export async function resetPassword(form) {
     return { ok: false, message: "새 비밀번호 확인이 일치하지 않습니다." };
   }
 
-  const users = await getUsers();
-  const userIndex = users.findIndex(
-    (user) =>
-      user.username === username &&
-      user.email === normalizedContact
-  );
+  const { error } = await supabase.auth.updateUser({
+    password: form.password,
+  });
 
-  if (userIndex < 0) {
-    return { ok: false, message: "아이디와 계정 정보가 일치하지 않습니다." };
+  if (error) {
+    return {
+      ok: false,
+      message: "비밀번호를 변경하지 못했습니다. 재설정 링크를 다시 요청해 주세요.",
+    };
   }
 
-  const nextUsers = [...users];
-  const passwordSalt = createId("salt");
-  nextUsers[userIndex] = {
-    ...nextUsers[userIndex],
-    passwordSalt,
-    passwordHash: await hashPassword(form.password, passwordSalt),
+  return {
+    ok: true,
+    message: "비밀번호가 변경되었습니다. 새 비밀번호로 로그인해 주세요.",
   };
-
-  saveUsers(nextUsers);
-
-  return { ok: true, message: "비밀번호가 변경되었습니다. 새 비밀번호로 로그인해주세요." };
 }
 
 export async function updateProfile(userId, nextProfile) {
-  await wait(90);
+  const configError = requireSupabase();
+  if (configError) return configError;
 
-  const users = await getUsers();
-  const userIndex = users.findIndex((user) => user.id === userId);
+  const patch = toProfilePatch(nextProfile);
 
-  if (userIndex < 0) {
-    return { ok: false, message: "사용자 정보를 찾을 수 없습니다." };
+  const { data, error } = await supabase
+    .from("profiles")
+    .update(patch)
+    .eq("id", userId)
+    .select("*")
+    .single();
+
+  if (error) {
+    return { ok: false, message: "사용자 정보를 저장하지 못했습니다." };
   }
 
-  const nextUsers = [...users];
-  nextUsers[userIndex] = {
-    ...nextUsers[userIndex],
-    ...nextProfile,
-  };
-  saveUsers(nextUsers);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  return { ok: true, user: toSessionUser(nextUsers[userIndex]) };
+  return { ok: true, user: toSessionUser(data, user) };
 }

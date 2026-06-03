@@ -1,126 +1,124 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { storage } from "../utils/storage";
+import {
+  createComment,
+  fetchComments,
+  removeComment,
+  toggleCommentLike,
+  updateComment,
+} from "../services/commentApi.js";
 
-const COMMENTS_KEY = "moodtoon_comments";
-
-export function useComments(webtoonId, initialComments) {
+export function useComments(webtoonId) {
+  const { currentUser, updateProfile } = useAuth();
+  const [commentList, setCommentList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const handleStorage = () => {
-      const saved = storage.get(COMMENTS_KEY, {});
-      setCommentList(saved[webtoonId] || initialComments);
-    };
+    let isMounted = true;
 
-    window.addEventListener("storage", handleStorage);
+    setIsLoading(true);
+
+    fetchComments(webtoonId)
+      .then((result) => {
+        if (isMounted && result.ok) {
+          setCommentList(result.comments);
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      });
 
     return () => {
-      window.removeEventListener("storage", handleStorage);
+      isMounted = false;
     };
-  }, [webtoonId, initialComments]);
+  }, [webtoonId]);
 
-  const { currentUser, updateProfile } = useAuth();
-
-  const [commentList, setCommentList] = useState(() => {
-    const saved = storage.get(COMMENTS_KEY, {});
-    return saved[webtoonId] || initialComments;
-  });
-
-  // 저장 함수
-  const save = (next) => {
-    const saved = storage.get(COMMENTS_KEY, {});
-    saved[webtoonId] = next;
-    storage.set(COMMENTS_KEY, saved);
-  };
-
-  // 댓글 추가
-  const addComment = (text) => {
+  const addComment = async (text) => {
     if (!currentUser) {
-      alert("로그인 후 이용해주세요.");
+      alert("로그인 후 이용해 주세요.");
       return;
     }
 
-    const newComment = {
-      id: Date.now(),
-      user: currentUser.nickname,
-      text,
-      empathy: 0,
-      date: new Date().toISOString().slice(0, 10),
-    };
+    const result = await createComment({ currentUser, text, webtoonId });
 
-    const next = [newComment, ...commentList];
-    setCommentList(next);
-    save(next);
+    if (!result.ok) {
+      alert(result.message);
+      return;
+    }
+
+    setCommentList((comments) => [result.comment, ...comments]);
   };
 
-  const deleteComment = (commentId) => {
-    const next = commentList.filter(
-      (comment) => comment.id !== commentId
-    );
+  const deleteComment = async (commentId) => {
+    const result = await removeComment(commentId);
 
-    setCommentList(next);
-    save(next);
+    if (!result.ok) {
+      alert(result.message);
+      return;
+    }
+
+    setCommentList((comments) =>
+      comments.filter((comment) => comment.id !== commentId)
+    );
 
     updateProfile({
       likedComments:
-        currentUser?.likedComments?.filter(
-          (id) => id !== commentId
-        ) || [],
+        currentUser?.likedComments?.filter((id) => id !== commentId) || [],
     });
   };
 
-  const editComment = (commentId, newText) => {
-    const next = commentList.map((comment) =>
-      comment.id === commentId
-        ? { ...comment, text: newText }
-        : comment
-    );
+  const editComment = async (commentId, newText) => {
+    const result = await updateComment(commentId, newText);
 
-    setCommentList(next);
-    save(next);
-  };
-
-  // 공감 기능
-  const toggleEmpathy = (commentId) => {
-    if (!currentUser) {
-      alert("로그인 후 이용해주세요.");
+    if (!result.ok) {
+      alert(result.message);
       return;
     }
 
-    // 이미 공감 눌렀는지 확인
-    const alreadyLiked =
-      currentUser.likedComments?.includes(commentId);
+    setCommentList((comments) =>
+      comments.map((comment) =>
+        comment.id === commentId ? result.comment : comment
+      )
+    );
+  };
 
-    // 좋아요 토글 처리
-    const updatedLikedComments = alreadyLiked
-      ? currentUser.likedComments.filter((id) => id !== commentId)
-      : [...(currentUser.likedComments || []), commentId];
+  const toggleEmpathy = async (commentId) => {
+    if (!currentUser) {
+      alert("로그인 후 이용해 주세요.");
+      return;
+    }
 
-    // 댓글 empathy 값 증가/감소
-    const nextComments = commentList.map((comment) => {
-      if (comment.id !== commentId) return comment;
+    const result = await toggleCommentLike(commentId);
 
-      return {
-        ...comment,
-        empathy: alreadyLiked
-          ? comment.empathy - 1
-          : comment.empathy + 1,
-      };
-    });
+    if (!result.ok) {
+      alert(result.message);
+      return;
+    }
 
-    setCommentList(nextComments);
-    save(nextComments);
+    const likedCommentIds = result.result?.liked_comment_ids || [];
+    const empathyCount = result.result?.empathy_count || 0;
+
+    setCommentList((comments) =>
+      comments.map((comment) =>
+        comment.id === commentId
+          ? { ...comment, empathy: empathyCount }
+          : comment
+      )
+    );
 
     updateProfile({
-      likedComments: updatedLikedComments,
+      likedComments: likedCommentIds,
     });
   };
 
   return {
-    commentList,
     addComment,
+    commentList,
     deleteComment,
     editComment,
+    isLoading,
     toggleEmpathy,
   };
 }

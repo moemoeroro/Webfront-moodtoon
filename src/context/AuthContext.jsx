@@ -1,35 +1,47 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import {
+  completePasswordReset as completePasswordResetUser,
+  getCurrentUser,
   login as loginUser,
-  sanitizeSessionUser,
+  logout as logoutUser,
+  onAuthStateChange,
   signup as signupUser,
   updateProfile as updateUserProfile,
 } from "../services/authApi.js";
 
 const AuthContext = createContext(null);
-const CURRENT_USER_KEY = "moodtoon_current_user";
-
-function readStorage(key, fallback) {
-  try {
-    const saved = localStorage.getItem(key);
-    return saved ? sanitizeSessionUser(JSON.parse(saved)) : fallback;
-  } catch {
-    return fallback;
-  }
-}
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState(() =>
-    readStorage(CURRENT_USER_KEY, null)
-  );
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
 
   useEffect(() => {
-    if (currentUser) {
-      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(currentUser));
-    } else {
-      localStorage.removeItem(CURRENT_USER_KEY);
-    }
-  }, [currentUser]);
+    let isMounted = true;
+
+    getCurrentUser()
+      .then((user) => {
+        if (isMounted) {
+          setCurrentUser(user);
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      });
+
+    const subscription = onAuthStateChange(({ user, event }) => {
+      setCurrentUser(user);
+      setIsPasswordRecovery(event === "PASSWORD_RECOVERY");
+      setIsLoading(false);
+    });
+
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
+  }, []);
 
   const signup = async (form) => {
     const result = await signupUser(form);
@@ -51,8 +63,15 @@ export function AuthProvider({ children }) {
     return result;
   };
 
-  const logout = () => {
-    setCurrentUser(null);
+  const logout = async () => {
+    const result = await logoutUser();
+
+    if (result.ok) {
+      setCurrentUser(null);
+      setIsPasswordRecovery(false);
+    }
+
+    return result;
   };
 
   const updateProfile = async (nextProfile) => {
@@ -67,9 +86,29 @@ export function AuthProvider({ children }) {
     return result;
   };
 
+  const completePasswordReset = async (form) => {
+    const result = await completePasswordResetUser(form);
+
+    if (result.ok) {
+      setIsPasswordRecovery(false);
+      await logout();
+    }
+
+    return result;
+  };
+
   return (
     <AuthContext.Provider
-      value={{ currentUser, signup, login, logout, updateProfile }}
+      value={{
+        completePasswordReset,
+        currentUser,
+        isLoading,
+        isPasswordRecovery,
+        login,
+        logout,
+        signup,
+        updateProfile,
+      }}
     >
       {children}
     </AuthContext.Provider>
@@ -79,4 +118,3 @@ export function AuthProvider({ children }) {
 export function useAuth() {
   return useContext(AuthContext);
 }
-

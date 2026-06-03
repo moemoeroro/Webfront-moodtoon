@@ -1,7 +1,8 @@
+import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { webtoons } from "../../data/mockWebtoons.js";
 import { useAuth } from "../../context/AuthContext.jsx";
-import { storage } from "../../utils/storage";
+import { fetchMyComments } from "../../services/commentApi.js";
 import WebtoonGrid from "../../components/Webtoon/WebtoonGrid.jsx";
 import Button from "../../components/ui/Button.jsx";
 import Tag from "../../components/ui/Tag.jsx";
@@ -29,9 +30,46 @@ function getTopMood(moodLogs = []) {
 }
 
 function Profile() {
-  const { currentUser, logout } = useAuth();
+  const { currentUser, isLoading, logout } = useAuth();
+  const [myComments, setMyComments] = useState([]);
+  const [isCommentsLoading, setIsCommentsLoading] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    if (!currentUser?.id) {
+      setMyComments([]);
+      return;
+    }
+
+    setIsCommentsLoading(true);
+
+    fetchMyComments(currentUser.id)
+      .then((result) => {
+        if (isMounted && result.ok) {
+          setMyComments(result.comments);
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setIsCommentsLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [currentUser?.id]);
 
   // 로그인하지 않은 사용자는 로그인 페이지로 이동
+  if (isLoading) {
+    return (
+      <div className="page empty-page">
+        <h1>프로필을 불러오는 중입니다.</h1>
+      </div>
+    );
+  }
+
   if (!currentUser) {
     return <Navigate to="/login" replace />;
   }
@@ -49,24 +87,6 @@ function Profile() {
   // 많이 북마크한 순으로 정렬
   const topGenres = Object.entries(genreCounts)
     .sort((a, b) => b[1] - a[1]);
-
-  const allComments = storage.get(
-    "moodtoon_comments",
-    {}
-  );
-
-  const comments = Object.entries(allComments)
-    .flatMap(([webtoonId, comments]) =>
-      comments.map((comment) => ({
-        ...comment,
-        webtoonId,
-      }))
-    );
-
-  const myComments = comments.filter(
-    (comment) =>
-      comment.user === currentUser.nickname
-  );
 
   const moodCounts = (currentUser.moodLogs || []).reduce((acc, log) => {
     const mood =
@@ -171,7 +191,9 @@ function Profile() {
           </Link>
         </SectionTitle>
         <div className="comment-list">
-          {myComments.length === 0 ? (
+          {isCommentsLoading ? (
+            <p>댓글을 불러오는 중입니다.</p>
+          ) : myComments.length === 0 ? (
             <p>작성한 댓글이 없습니다.</p>
           ) : (
             myComments.map((comment) => {

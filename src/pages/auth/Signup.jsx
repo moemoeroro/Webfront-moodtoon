@@ -91,7 +91,10 @@ function Signup() {
               value={form.passwordConfirm}
               minLength="8"
               onChange={(e) =>
-                setForm({ ...form, passwordConfirm: e.target.value })
+                setForm({
+                  ...form,
+                  passwordConfirm: e.target.value,
+                })
               }
               required
             />

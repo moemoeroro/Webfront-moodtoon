@@ -34,7 +34,7 @@ function Login() {
         <h1>moodtoon 로그인</h1>
         <form onSubmit={handleSubmit}>
           <label>
-            아이디
+            아이디 또는 이메일
             <input
               autoComplete="username"
               value={form.username}

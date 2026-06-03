@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import Button from "../../components/ui/Button.jsx";
+import { useAuth } from "../../context/AuthContext.jsx";
 import { findUsername, resetPassword } from "../../services/authApi.js";
 import "./auth.css";
 
@@ -11,18 +12,32 @@ const initialFindForm = {
 const initialResetForm = {
   username: "",
   contact: "",
+};
+
+const initialRecoveryForm = {
   password: "",
   passwordConfirm: "",
 };
 
 function FindAccount() {
+  const [searchParams] = useSearchParams();
+  const { completePasswordReset, isPasswordRecovery } = useAuth();
   const [findForm, setFindForm] = useState(initialFindForm);
   const [resetForm, setResetForm] = useState(initialResetForm);
+  const [recoveryForm, setRecoveryForm] = useState(initialRecoveryForm);
   const [findResult, setFindResult] = useState(null);
   const [resetResult, setResetResult] = useState(null);
+  const [recoveryResult, setRecoveryResult] = useState(null);
   const [loadingType, setLoadingType] = useState("");
+  const [activeTab, setActiveTab] = useState(
+    searchParams.get("mode") === "recovery" ? "recovery" : "find"
+  );
 
-  const [activeTab, setActiveTab] = useState("find");
+  useEffect(() => {
+    if (isPasswordRecovery || searchParams.get("mode") === "recovery") {
+      setActiveTab("recovery");
+    }
+  }, [isPasswordRecovery, searchParams]);
 
   const handleFindUsername = async (e) => {
     e.preventDefault();
@@ -48,6 +63,20 @@ function FindAccount() {
     }
   };
 
+  const handleCompletePasswordReset = async (e) => {
+    e.preventDefault();
+    setRecoveryResult(null);
+    setLoadingType("recovery");
+
+    const result = await completePasswordReset(recoveryForm);
+    setLoadingType("");
+    setRecoveryResult(result);
+
+    if (result.ok) {
+      setRecoveryForm(initialRecoveryForm);
+    }
+  };
+
   return (
     <div className="page auth-page">
       <section className="card auth-card auth-card-wide">
@@ -70,9 +99,14 @@ function FindAccount() {
           >
             비밀번호 재설정
           </button>
+
+          {activeTab === "recovery" && (
+            <button type="button" className="active">
+              새 비밀번호
+            </button>
+          )}
         </div>
 
-        {/* 아이디 찾기 탭 */}
         {activeTab === "find" && (
           <form onSubmit={handleFindUsername}>
             <h2>아이디 찾기</h2>
@@ -80,6 +114,7 @@ function FindAccount() {
             <label>
               이메일
               <input
+                type="email"
                 value={findForm.contact}
                 onChange={(e) =>
                   setFindForm({ ...findForm, contact: e.target.value })
@@ -102,7 +137,6 @@ function FindAccount() {
           </form>
         )}
 
-        {/* 비밀번호 재설정 탭 */}
         {activeTab === "reset" && (
           <form onSubmit={handleResetPassword}>
             <h2>비밀번호 재설정</h2>
@@ -121,6 +155,7 @@ function FindAccount() {
             <label>
               이메일
               <input
+                type="email"
                 value={resetForm.contact}
                 onChange={(e) =>
                   setResetForm({ ...resetForm, contact: e.target.value })
@@ -128,15 +163,35 @@ function FindAccount() {
                 required
               />
             </label>
+
+            {resetResult && (
+              <p className={`form-message ${resetResult.ok ? "success" : ""}`}>
+                {resetResult.message}
+              </p>
+            )}
+
+            <Button shine type="submit" disabled={loadingType === "reset"}>
+              {loadingType === "reset" ? "발송 중..." : "재설정 메일 받기"}
+            </Button>
+          </form>
+        )}
+
+        {activeTab === "recovery" && (
+          <form onSubmit={handleCompletePasswordReset}>
+            <h2>새 비밀번호 설정</h2>
+
             <label>
               새 비밀번호
               <input
                 type="password"
                 autoComplete="new-password"
-                value={resetForm.password}
+                value={recoveryForm.password}
                 minLength="8"
                 onChange={(e) =>
-                  setResetForm({ ...resetForm, password: e.target.value })
+                  setRecoveryForm({
+                    ...recoveryForm,
+                    password: e.target.value,
+                  })
                 }
                 required
               />
@@ -146,11 +201,11 @@ function FindAccount() {
               <input
                 type="password"
                 autoComplete="new-password"
-                value={resetForm.passwordConfirm}
+                value={recoveryForm.passwordConfirm}
                 minLength="8"
                 onChange={(e) =>
-                  setResetForm({
-                    ...resetForm,
+                  setRecoveryForm({
+                    ...recoveryForm,
                     passwordConfirm: e.target.value,
                   })
                 }
@@ -158,8 +213,18 @@ function FindAccount() {
               />
             </label>
 
-            <Button shine type="submit" disabled={loadingType === "reset"}>
-              {loadingType === "reset" ? "변경 중..." : "비밀번호 변경"}
+            {recoveryResult && (
+              <p
+                className={`form-message ${
+                  recoveryResult.ok ? "success" : ""
+                }`}
+              >
+                {recoveryResult.message}
+              </p>
+            )}
+
+            <Button shine type="submit" disabled={loadingType === "recovery"}>
+              {loadingType === "recovery" ? "변경 중..." : "비밀번호 변경"}
             </Button>
           </form>
         )}
