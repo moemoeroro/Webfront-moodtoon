@@ -62,8 +62,8 @@ function WebtoonDetail() {
 
           <dl className="info-list">
             <div>
-              <dt>작가명</dt>
-              <dd>{webtoon.author}</dd>
+              <dt>글/그림 작가</dt>
+              <dd>{webtoon.sntncWritrNm} · {webtoon.pictrWritrNm}</dd>
             </div>
             <div>
               <dt>장르태그</dt>

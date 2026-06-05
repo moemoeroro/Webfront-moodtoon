@@ -2,8 +2,10 @@ export const webtoons = [
   {
     id: "wind-001",
     title: "비 오는 날의 서점",
-    author: "서하늘",
+    pictrWritrNm: "서하늘",
+    sntncWritrNm: "서하늘",
     platform: "네이버웹툰",
+    plscmpnIdNm: "마루출판사",
     genre: "힐링",
     tags: ["잔잔함", "감성", "일상"],
     image:
@@ -17,8 +19,10 @@ export const webtoons = [
   {
     id: "star-002",
     title: "별빛 아래 계약연애",
-    author: "지온",
+    pictrWritrNm: "지온",
+    sntncWritrNm: "지온",
     platform: "카카오웹툰",
+    plscmpnIdNm: "라온북스",
     genre: "로맨스",
     tags: ["설렘", "캠퍼스", "관계"],
     image:
@@ -31,8 +35,10 @@ export const webtoons = [
   {
     id: "hero-003",
     title: "오늘도 레벨업",
-    author: "강태오",
+    pictrWritrNm: "강태오",
+    sntncWritrNm: "강태오",
     platform: "네이버웹툰",
+    plscmpnIdNm: "대원씨아이",
     genre: "액션",
     tags: ["성장", "판타지", "전투"],
     image:
@@ -45,8 +51,10 @@ export const webtoons = [
   {
     id: "moon-004",
     title: "달빛 고양이 카페",
-    author: "모아",
+    pictrWritrNm: "모아",
+    sntncWritrNm: "모아",
     platform: "레진코믹스",
+    plscmpnIdNm: "문라이트",
     genre: "일상",
     tags: ["귀여움", "카페", "힐링"],
     image:
@@ -59,8 +67,10 @@ export const webtoons = [
   {
     id: "code-005",
     title: "마감 전날의 개발자",
-    author: "이루리",
+    pictrWritrNm: "이루리",
+    sntncWritrNm: "이루리",
     platform: "만화규장각",
+    plscmpnIdNm: "블랙북스",
     genre: "코미디",
     tags: ["학교", "개발", "공감"],
     image:
@@ -73,8 +83,10 @@ export const webtoons = [
   {
     id: "snow-006",
     title: "첫눈의 약속",
-    author: "다원",
+    pictrWritrNm: "다원",
+    sntncWritrNm: "다원",
     platform: "카카오웹툰",
+    plscmpnIdNm: "하늘출판",
     genre: "드라마",
     tags: ["겨울", "재회", "감성"],
     image:
@@ -87,8 +99,10 @@ export const webtoons = [
   {
     id: "food-007",
     title: "오늘 뭐 먹지?",
-    author: "반달",
+    pictrWritrNm: "반달",
+    sntncWritrNm: "보름달",
     platform: "네이버웹툰",
+    plscmpnIdNm: "하늘출판",
     genre: "일상",
     tags: ["음식", "친구", "가벼움"],
     image:
@@ -101,8 +115,10 @@ export const webtoons = [
   {
     id: "mystery-008",
     title: "자정의 알림",
-    author: "노을",
+    pictrWritrNm: "노을",
+    sntncWritrNm: "노을",
     platform: "만화규장각",
+    plscmpnIdNm: "문라이트",
     genre: "스릴러",
     tags: ["미스터리", "긴장감", "추리"],
     image:

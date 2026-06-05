@@ -13,7 +13,8 @@ export async function searchWebtoons({ keyword = "", genre = "전체", platform 
     const matchesKeyword =
       !lowerKeyword ||
       webtoon.title.toLowerCase().includes(lowerKeyword) ||
-      webtoon.author.toLowerCase().includes(lowerKeyword) ||
+      webtoon.pictrWritrNm.toLowerCase().includes(lowerKeyword) ||
+      webtoon.sntncWritrNm.toLowerCase().includes(lowerKeyword) ||
       webtoon.tags.some((tag) => tag.toLowerCase().includes(lowerKeyword));
     const matchesGenre = genre === "전체" || webtoon.genre === genre;
     const matchesPlatform = platform === "전체" || webtoon.platform === platform;
