@@ -14,7 +14,6 @@ export const webtoons = [
       "비가 오는 날마다 오래된 서점에서 만나는 사람들의 고민과 회복을 담은 힐링 웹툰입니다.",
     moods: ["피곤함", "차분함", "우울함"],
     weather: ["rainy", "cloudy"],
-    likes: 1420,
   },
   {
     id: "star-002",

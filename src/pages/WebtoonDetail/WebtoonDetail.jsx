@@ -66,8 +66,8 @@ function WebtoonDetail() {
               <dd>{webtoon.sntncWritrNm} · {webtoon.pictrWritrNm}</dd>
             </div>
             <div>
-              <dt>장르태그</dt>
-              <dd>{webtoon.genre} · {webtoon.tags.join(", ")}</dd>
+              <dt>장르</dt>
+              <dd>{webtoon.genre}</dd>
             </div>
           </dl>
         </div>
