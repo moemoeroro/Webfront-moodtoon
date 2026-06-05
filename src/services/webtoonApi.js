@@ -1,26 +1,29 @@
 import { webtoons } from "../data/mockWebtoons.js";
-
-export async function fetchWebtoons() {
-  // 만화규장각 API를 연결할 때 이 함수 내부만 교체하면 됩니다.
-  return webtoons;
-}
+import { fetchKmasWebtoons } from "./kmasApi.js";
 
 export async function searchWebtoons({ keyword = "", genre = "전체", platform = "전체" }) {
-  const items = await fetchWebtoons();
   const lowerKeyword = keyword.trim().toLowerCase();
 
-  return items.filter((webtoon) => {
-    const matchesKeyword =
+  
+  // 1. 목업 데이터
+  const local = webtoons.filter((w) => {
+    const matchKeyword =
       !lowerKeyword ||
-      webtoon.title.toLowerCase().includes(lowerKeyword) ||
-      webtoon.pictrWritrNm.toLowerCase().includes(lowerKeyword) ||
-      webtoon.sntncWritrNm.toLowerCase().includes(lowerKeyword) ||
-      webtoon.tags.some((tag) => tag.toLowerCase().includes(lowerKeyword));
-    const matchesGenre = genre === "전체" || webtoon.genre === genre;
-    const matchesPlatform = platform === "전체" || webtoon.platform === platform;
+      w.title.toLowerCase().includes(lowerKeyword) ||
+      w.pictrWritrNm.toLowerCase().includes(lowerKeyword) ||
+      w.sntncWritrNm.toLowerCase().includes(lowerKeyword);
 
-    return matchesKeyword && matchesGenre && matchesPlatform;
+    const matchGenre = genre === "전체" || w.genre === genre;
+    const matchPlatform = platform === "전체" || w.platform === platform;
+
+    return matchKeyword && matchGenre && matchPlatform;
   });
+
+  // 2. KMAS API
+  const api = await fetchKmasWebtoons(keyword);
+
+  // 3. 합치기
+  return [...local, ...api];
 }
 
 export async function fetchWebtoonById(id) {
