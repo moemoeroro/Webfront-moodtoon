@@ -70,10 +70,6 @@ function WebtoonDetail() {
               <dd>{webtoon.genre} · {webtoon.tags.join(", ")}</dd>
             </div>
             <div>
-              <dt>전체회차</dt>
-              <dd>{webtoon.episodes}화</dd>
-            </div>
-            <div>
               <dt>연재시작일</dt>
               <dd>{webtoon.startYear}년</dd>
             </div>
@@ -82,7 +78,6 @@ function WebtoonDetail() {
       </section>
 
       <CommentList
-        comments={webtoon.comments}
         webtoonId={webtoon.id}
       />
     </div>

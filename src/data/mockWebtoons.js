@@ -15,10 +15,6 @@ export const webtoons = [
     moods: ["피곤함", "차분함", "우울함"],
     weather: ["rainy", "cloudy"],
     likes: 1420,
-    comments: [
-      { id: 1, user: "하린", text: "분위기가 좋아서 계속 보게 돼요.", empathy: 18 },
-      { id: 2, user: "민준", text: "비 오는 날 읽으면 더 몰입돼요.", empathy: 11 },
-    ],
   },
   {
     id: "star-002",
@@ -35,11 +31,6 @@ export const webtoons = [
       "서로의 목표를 위해 계약 연애를 시작한 두 사람이 진심을 알아가는 로맨스 웹툰입니다.",
     moods: ["설렘", "행복함"],
     weather: ["sunny", "cloudy"],
-    likes: 2380,
-    comments: [
-      { id: 1, user: "유나", text: "주인공 케미가 너무 좋아요.", empathy: 31 },
-      { id: 2, user: "도윤", text: "가볍게 보기 좋은 로맨스예요.", empathy: 7 },
-    ],
   },
   {
     id: "hero-003",
@@ -56,11 +47,6 @@ export const webtoons = [
       "평범한 학생이 숨겨진 능력을 깨우치며 새로운 세계의 균형을 지키는 액션 판타지입니다.",
     moods: ["신남", "스트레스"],
     weather: ["sunny"],
-    likes: 3510,
-    comments: [
-      { id: 1, user: "준서", text: "전투 장면이 시원해요.", empathy: 25 },
-      { id: 2, user: "아린", text: "스트레스 풀 때 보기 좋습니다.", empathy: 14 },
-    ],
   },
   {
     id: "moon-004",
@@ -77,11 +63,6 @@ export const webtoons = [
       "밤에만 문을 여는 카페에서 벌어지는 작고 따뜻한 사건들을 그린 일상 웹툰입니다.",
     moods: ["편안함", "피곤함"],
     weather: ["cloudy", "snowy"],
-    likes: 980,
-    comments: [
-      { id: 1, user: "소은", text: "그림체가 포근해요.", empathy: 16 },
-      { id: 2, user: "지후", text: "짧게 보기 좋아요.", empathy: 9 },
-    ],
   },
   {
     id: "code-005",
@@ -98,11 +79,6 @@ export const webtoons = [
       "팀 프로젝트 마감을 앞둔 학생 개발자들의 웃픈 상황을 담은 코미디 웹툰입니다.",
     moods: ["스트레스", "신남"],
     weather: ["sunny", "rainy", "cloudy"],
-    likes: 1675,
-    comments: [
-      { id: 1, user: "재현", text: "너무 현실적이라 웃겼어요.", empathy: 22 },
-      { id: 2, user: "나현", text: "팀플 생각나서 아찔합니다.", empathy: 17 },
-    ],
   },
   {
     id: "snow-006",
@@ -119,11 +95,6 @@ export const webtoons = [
       "첫눈이 내리던 날 헤어진 친구들이 다시 만나며 오래된 약속을 찾아가는 드라마입니다.",
     moods: ["우울함", "차분함"],
     weather: ["snowy", "cloudy"],
-    likes: 1884,
-    comments: [
-      { id: 1, user: "연우", text: "겨울 분위기가 정말 좋아요.", empathy: 20 },
-      { id: 2, user: "세아", text: "감정선이 섬세합니다.", empathy: 13 },
-    ],
   },
   {
     id: "food-007",
@@ -140,11 +111,6 @@ export const webtoons = [
       "매일 다른 메뉴를 고르며 관계를 쌓아가는 친구들의 밝은 일상 웹툰입니다.",
     moods: ["행복함", "편안함"],
     weather: ["sunny", "cloudy"],
-    likes: 2018,
-    comments: [
-      { id: 1, user: "해솔", text: "읽으면 배고파져요.", empathy: 19 },
-      { id: 2, user: "은채", text: "편하게 보기 좋은 작품입니다.", empathy: 8 },
-    ],
   },
   {
     id: "mystery-008",
@@ -161,11 +127,6 @@ export const webtoons = [
       "매일 자정 도착하는 알 수 없는 알림을 따라 진실을 파헤치는 미스터리 웹툰입니다.",
     moods: ["신남", "스트레스"],
     weather: ["rainy", "cloudy"],
-    likes: 2560,
-    comments: [
-      { id: 1, user: "시온", text: "다음 화가 계속 궁금해져요.", empathy: 27 },
-      { id: 2, user: "라온", text: "복선 찾는 재미가 있어요.", empathy: 12 },
-    ],
   },
 ];
 

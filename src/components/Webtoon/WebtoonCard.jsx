@@ -10,7 +10,6 @@ function WebtoonCard({ webtoon }) {
         <div className="webtoon-card-body">
           <div className="card-meta">
             <span>{webtoon.platform}</span>
-            <span>{webtoon.episodes}화</span>
           </div>
           <h3>{webtoon.title}</h3>
           <p>{webtoon.author}</p>
