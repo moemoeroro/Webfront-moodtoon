@@ -6,8 +6,6 @@ export const webtoons = [
     platform: "네이버웹툰",
     genre: "힐링",
     tags: ["잔잔함", "감성", "일상"],
-    episodes: 64,
-    startYear: 2023,
     image:
       "https://images.unsplash.com/photo-1513001900722-370f803f498d?auto=format&fit=crop&w=600&q=80",
     description:
@@ -23,8 +21,6 @@ export const webtoons = [
     platform: "카카오웹툰",
     genre: "로맨스",
     tags: ["설렘", "캠퍼스", "관계"],
-    episodes: 48,
-    startYear: 2024,
     image:
       "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=600&q=80",
     description:
@@ -39,8 +35,6 @@ export const webtoons = [
     platform: "네이버웹툰",
     genre: "액션",
     tags: ["성장", "판타지", "전투"],
-    episodes: 112,
-    startYear: 2022,
     image:
       "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80",
     description:
@@ -55,8 +49,6 @@ export const webtoons = [
     platform: "레진코믹스",
     genre: "일상",
     tags: ["귀여움", "카페", "힐링"],
-    episodes: 36,
-    startYear: 2025,
     image:
       "https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80",
     description:
@@ -71,8 +63,6 @@ export const webtoons = [
     platform: "만화규장각",
     genre: "코미디",
     tags: ["학교", "개발", "공감"],
-    episodes: 28,
-    startYear: 2024,
     image:
       "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80",
     description:
@@ -87,8 +77,6 @@ export const webtoons = [
     platform: "카카오웹툰",
     genre: "드라마",
     tags: ["겨울", "재회", "감성"],
-    episodes: 72,
-    startYear: 2021,
     image:
       "https://images.unsplash.com/photo-1517299321609-52687d1bc55a?auto=format&fit=crop&w=600&q=80",
     description:
@@ -103,8 +91,6 @@ export const webtoons = [
     platform: "네이버웹툰",
     genre: "일상",
     tags: ["음식", "친구", "가벼움"],
-    episodes: 90,
-    startYear: 2020,
     image:
       "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=600&q=80",
     description:
@@ -119,8 +105,6 @@ export const webtoons = [
     platform: "만화규장각",
     genre: "스릴러",
     tags: ["미스터리", "긴장감", "추리"],
-    episodes: 54,
-    startYear: 2023,
     image:
       "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80",
     description:

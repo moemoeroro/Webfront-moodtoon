@@ -69,10 +69,6 @@ function WebtoonDetail() {
               <dt>장르태그</dt>
               <dd>{webtoon.genre} · {webtoon.tags.join(", ")}</dd>
             </div>
-            <div>
-              <dt>연재시작일</dt>
-              <dd>{webtoon.startYear}년</dd>
-            </div>
           </dl>
         </div>
       </section>
