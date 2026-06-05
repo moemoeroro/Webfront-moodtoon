@@ -22,13 +22,66 @@ export async function searchWebtoons({ keyword = "", genre = "전체", platform 
   // 2. KMAS API
   const api = await fetchKmasWebtoons(keyword);
 
+  const safeApi = api.filter(
+    (item) => item && item.id && item.title
+  );
+
   // 3. 합치기
-  return [...local, ...api];
+  return [...local, ...safeApi];
+}
+
+function normalizeWebtoon(item) {
+  if (!item) return null;
+
+  return {
+    id: item.id,
+    title: item.title ?? "",
+    image: item.image ?? "",
+    platform: item.platform ?? "",
+    genre: item.genre ?? "기타",
+    pictrWritrNm: item.pictrWritrNm ?? "",
+    sntncWritrNm: item.sntncWritrNm ?? "",
+    description: item.description ?? "",
+    tags: item.tags ?? [],
+  };
+}
+
+export async function fetchAllWebtoons() {
+  const [local, api] = await Promise.all([
+    webtoons,
+    fetchKmasWebtoons("")
+  ]);
+
+  const safeLocal = (local || []).filter(Boolean);
+
+  const safeApi = (api || [])
+    .filter(Boolean)
+    .filter((item) => item.id && item.title);
+
+  return [...safeLocal, ...safeApi]
+    .map(normalizeWebtoon)
+    .filter(Boolean);
 }
 
 export async function fetchWebtoonById(id) {
-  const items = await fetchWebtoons();
-  return items.find((webtoon) => webtoon.id === id);
+  const [local, api] = await Promise.all([
+    webtoons,
+    fetchKmasWebtoons("")
+  ]);
+
+  const safeLocal = local.map(normalizeWebtoon);
+  const safeApi = fetchKmasWebtoons("")
+    .then(list => list.map(normalizeWebtoon));
+
+  const apiData = await safeApi;
+
+  const all = [...safeLocal, ...apiData];
+
+  console.log("ALL IDS:", all.map(w => w.id));
+  console.log("TARGET ID:", id);
+
+
+  return all.find((w) => w.id === id) || null;
 }
 
 export function recommendWebtoons({ mood, weatherType }) {

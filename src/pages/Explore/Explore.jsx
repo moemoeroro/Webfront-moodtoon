@@ -10,13 +10,12 @@ import "./Explore.css";
 
 function Explore() {
   const [searchParams] = useSearchParams();
+
+  const [inputValue, setInputValue] = useState(searchParams.get("keyword") || "");
   const [keyword, setKeyword] = useState(searchParams.get("keyword") || "");
 
-  useEffect(() => {
-    setKeyword(searchParams.get("keyword") || "");
-  }, [searchParams]);
-
   const [showFilters, setShowFilters] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [filters, setFilters] = useState({
     genre: "전체",
@@ -25,17 +24,30 @@ function Explore() {
 
   const [items, setItems] = useState([]);
 
+  const filteredItems = useMemo(() => {
+    return items;
+  }, [items]);
+
   useEffect(() => {
+    let ignore = false;
+
+    setLoading(true);  
+    setItems([]);
+
     searchWebtoons({
       keyword,
       genre: filters.genre,
       platform: filters.platform,
-    }).then(setItems);
-  }, [keyword, filters.genre, filters.platform]);
+    }).then((data) => {
+      if (!ignore) setItems(data);
+    }).finally(() => {
+      if (!ignore) setLoading(false);  
+    });
 
-  const filteredItems = useMemo(() => {
-    return items;
-  }, [items]);
+    return () => {
+      ignore = true;
+    };
+  }, [keyword, filters.genre, filters.platform]);
 
   return (
     <div className="page">
@@ -48,7 +60,11 @@ function Explore() {
       <SectionTitle title="통합 검색" />
 
       <section className="explore-toolbar">
-        <SearchBar keyword={keyword} onKeywordChange={setKeyword} />
+        <SearchBar
+          keyword={inputValue}
+          onKeywordChange={setInputValue}
+          onEnter={() => setKeyword(inputValue)}
+        />
 
         <Button
           variant="outline"
@@ -67,10 +83,19 @@ function Explore() {
       <section>
         <SectionTitle
           eyebrow="Search Result"
-          title={`${filteredItems.length}개의 웹툰`}
+          title={
+            loading
+              ? "검색 중..."
+              : `${filteredItems.length}개의 웹툰`
+          }
           compact
         />
-        <WebtoonGrid webtoons={filteredItems} />
+
+        {loading && items.length === 0 ? (
+          <p className="loading">검색 중...</p>
+        ) : (
+          <WebtoonGrid webtoons={filteredItems} />
+        )}
       </section>
     </div>
   );
