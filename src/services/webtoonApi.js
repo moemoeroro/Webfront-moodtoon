@@ -2,10 +2,13 @@ import { webtoons } from "../data/mockWebtoons.js";
 import { fetchKmasWebtoons, fetchKmasWebtoonByIsbn, fetchKmasWebtoonByTitle } from "./kmasApi.js";
 
 // 검색 기능
-export async function searchWebtoons({ keyword = "", genre = "전체", platform = "전체" }) {
+export async function searchWebtoons({
+  keyword = "",
+  genre = "전체",
+  platform = "전체",
+}) {
   const lowerKeyword = keyword.trim().toLowerCase();
 
-  
   // 1. 목업 데이터
   const local = webtoons.filter((w) => {
     const matchKeyword =
@@ -14,8 +17,11 @@ export async function searchWebtoons({ keyword = "", genre = "전체", platform 
       w.pictrWritrNm.toLowerCase().includes(lowerKeyword) ||
       w.sntncWritrNm.toLowerCase().includes(lowerKeyword);
 
-    const matchGenre = genre === "전체" || w.genre === genre;
-    const matchPlatform = platform === "전체" || w.platform === platform;
+    const matchGenre =
+      genre === "전체" || w.genre === genre;
+
+    const matchPlatform =
+      platform === "전체" || w.platform === platform;
 
     return matchKeyword && matchGenre && matchPlatform;
   });
@@ -38,10 +44,23 @@ export async function searchWebtoons({ keyword = "", genre = "전체", platform 
     }
   });
 
-  const safeApi = [...mergedMap.values()];
+  // KMAS 결과 필터 적용
+  const filteredApi = [...mergedMap.values()].filter(
+    (item) => {
+      const matchGenre =
+        genre === "전체" || item.genre === genre;
+
+      const matchPlatform =
+        platform === "전체" ||
+        item.platform === platform ||
+        item.platforms?.includes(platform);
+
+      return matchGenre && matchPlatform;
+    }
+  );
 
   // 3. 합치기
-  return [...local, ...safeApi];
+  return [...local, ...filteredApi];
 }
 
 
