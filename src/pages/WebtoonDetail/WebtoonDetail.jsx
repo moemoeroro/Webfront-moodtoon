@@ -24,7 +24,11 @@ function WebtoonDetail() {
     async function load() {
       setLoading(true);
 
+      console.log("DETAIL ID:", id);
+
       const data = await fetchWebtoonById(id);
+
+      console.log("DETAIL DATA:", data);
 
       setWebtoon(data);
       setLoading(false);

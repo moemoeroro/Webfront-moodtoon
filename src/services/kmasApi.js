@@ -29,3 +29,33 @@ export async function fetchKmasWebtoons(keyword = "") {
   }
 }
 
+export async function fetchKmasWebtoonByIsbn(isbn) {
+  try {
+    const res = await fetch(
+      `/kmas/openapi/search/bookAndWebtoonList?prvKey=${API_KEY}&isbn=${isbn}`
+    );
+
+    const data = await res.json();
+
+    console.log("ISBN RESULT:", data);
+
+    const item = data.itemList?.[0];
+
+    if (!item) return null;
+
+    return {
+      id: item.isbn,
+      title: item.title,
+      pictrWritrNm: item.pictrWritrNm,
+      sntncWritrNm: item.sntncWritrNm,
+      genre: item.mainGenreCdNm,
+      platform: item.pltfomCdNm,
+      description: item.outline,
+      image: item.imageDownloadUrl,
+      tags: [],
+    };
+  } catch (err) {
+    console.error("ISBN 조회 실패:", err);
+    return null;
+  }
+}

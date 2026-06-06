@@ -1,5 +1,5 @@
 import { webtoons } from "../data/mockWebtoons.js";
-import { fetchKmasWebtoons } from "./kmasApi.js";
+import { fetchKmasWebtoons, fetchKmasWebtoonByIsbn } from "./kmasApi.js";
 
 // 검색 기능
 export async function searchWebtoons({ keyword = "", genre = "전체", platform = "전체" }) {
@@ -67,23 +67,22 @@ export async function fetchAllWebtoons() {
     .filter(Boolean);
 }
 
-// 상세 페이지 용
+
 export async function fetchWebtoonById(id) {
-  const [local, api] = await Promise.all([
-    webtoons,
-    fetchKmasWebtoons("")
-  ]);
 
-  const safeLocal = local.map(normalizeWebtoon);
-  const safeApi = api.map(normalizeWebtoon);
+  // mock 데이터 먼저 찾기
+  const local = webtoons.find(
+    (w) => w.id === id
+  );
 
-  const all = [...safeLocal, ...safeApi];
+  if (local) {
+    return normalizeWebtoon(local);
+  }
 
-  console.log("ALL IDS:", all.map(w => w.id));
-  console.log("TARGET ID:", id);
-
-  return all.find((w) => w.id === id) || null;
+  // 없으면 KMAS ISBN 조회
+  return await fetchKmasWebtoonByIsbn(id);
 }
+
 
 // 추천 기능
 export function recommendWebtoons({ mood, weatherType }) {
