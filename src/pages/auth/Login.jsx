@@ -7,12 +7,17 @@ import "./auth.css";
 function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({ username: "", password: "" });
   const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = login(form);
+    setMessage("");
+    setIsSubmitting(true);
+
+    const result = await login(form);
+    setIsSubmitting(false);
 
     if (!result.ok) {
       setMessage(result.message);
@@ -29,11 +34,11 @@ function Login() {
         <h1>moodtoon 로그인</h1>
         <form onSubmit={handleSubmit}>
           <label>
-            이메일
+            아이디 또는 이메일
             <input
-              type="email"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              autoComplete="username"
+              value={form.username}
+              onChange={(e) => setForm({ ...form, username: e.target.value })}
               required
             />
           </label>
@@ -42,6 +47,7 @@ function Login() {
             <input
               type="password"
               value={form.password}
+              autoComplete="current-password"
               onChange={(e) =>
                 setForm({ ...form, password: e.target.value })
               }
@@ -49,13 +55,14 @@ function Login() {
             />
           </label>
           {message && <p className="form-message">{message}</p>}
-          <Button className="button primary shine" type="submit">
-            로그인
+          <Button shine type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "확인 중..." : "로그인"}
           </Button>
         </form>
-        <p>
-          계정이 없다면 <Link to="/signup">회원가입</Link>
-        </p>
+        <div className="auth-links">
+          <Link to="/find-account">아이디/비밀번호 찾기</Link>
+          <Link to="/signup">회원가입</Link>
+        </div>
       </section>
     </div>
   );

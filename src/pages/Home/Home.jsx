@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "../../context/AuthContext.jsx";
 import { webtoons, genres, platforms } from "../../data/mockWebtoons.js";
 import { recommendWebtoons } from "../../services/webtoonApi.js";
 import WebtoonGrid from "../../components/Webtoon/WebtoonGrid.jsx";
@@ -10,6 +11,7 @@ import ChoiceButton from "../../components/ui/ChoiceButton.jsx";
 import "./Home.css";
 
 function Home() {
+  const { currentUser, updateProfile } = useAuth();
   const [selectedMood, setSelectedMood] = useState("피곤함");
   const [weather, setWeather] = useState(null);
   const [recommendation, setRecommendation] = useState(null);
@@ -17,7 +19,19 @@ function Home() {
   const [selectedPlatforms, setSelectedPlatforms] = useState([]);
   const popularWebtoons = [...webtoons].sort((a, b) => b.likes - a.likes).slice(0, 4);
   
-  const handleRecommend = () => {
+  const handleRecommend = async () => {
+    if (currentUser) {
+      await updateProfile({
+        moodLogs: [
+          ...(currentUser.moodLogs || []),
+          {
+            mood: selectedMood,
+            createdAt: new Date().toISOString(),
+          },
+        ],
+      });
+    }
+
     setSelectedGenres([]);
     setSelectedPlatforms([]);
     

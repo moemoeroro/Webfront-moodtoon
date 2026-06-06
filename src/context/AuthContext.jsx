@@ -1,102 +1,114 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import {
+  completePasswordReset as completePasswordResetUser,
+  getCurrentUser,
+  login as loginUser,
+  logout as logoutUser,
+  onAuthStateChange,
+  signup as signupUser,
+  updateProfile as updateUserProfile,
+} from "../services/authApi.js";
 
 const AuthContext = createContext(null);
-const USERS_KEY = "moodtoon_users";
-const CURRENT_USER_KEY = "moodtoon_current_user";
-
-
-// 기본 프로필 정보
-const defaultProfile = {
-  favoriteGenres: ["로맨스", "판타지"],
-  likedWebtoonIds: ["wind-001", "star-002"],
-  moodLogs: ["피곤함", "설렘", "피곤함", "편안함", "피곤함"],
-
-  likedComments: [],
-};
-
-function readStorage(key, fallback) {
-  try {
-    const saved = localStorage.getItem(key);
-    return saved ? JSON.parse(saved) : fallback;
-  } catch {
-    return fallback;
-  }
-}
 
 export function AuthProvider({ children }) {
-  const [users, setUsers] = useState(() => readStorage(USERS_KEY, []));
-  const [currentUser, setCurrentUser] = useState(() =>
-    readStorage(CURRENT_USER_KEY, null)
-  );
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem(USERS_KEY, JSON.stringify(users));
-  }, [users]);
+    let isMounted = true;
 
-  useEffect(() => {
-    if (currentUser) {
-      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(currentUser));
-    } else {
-      localStorage.removeItem(CURRENT_USER_KEY);
-    }
-  }, [currentUser]);
+    getCurrentUser()
+      .then((user) => {
+        if (isMounted) {
+          setCurrentUser(user);
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      });
 
-  // 회원가입
-  const signup = ({ email, password, nickname }) => {
-    const normalizedEmail = email.trim().toLowerCase();
-    const alreadyExists = users.some((user) => user.email === normalizedEmail);
+    const subscription = onAuthStateChange(({ user, event }) => {
+      setCurrentUser(user);
+      setIsPasswordRecovery(event === "PASSWORD_RECOVERY");
+      setIsLoading(false);
+    });
 
-    if (alreadyExists) {
-      return { ok: false, message: "이미 가입된 이메일입니다." };
-    }
-
-    const newUser = {
-      id: Date.now().toString(),
-      email: normalizedEmail,
-      password,
-      nickname: nickname.trim(),
-      ...defaultProfile,
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
     };
+  }, []);
 
-    setUsers((prevUsers) => [...prevUsers, newUser]);
-    setCurrentUser(newUser);
-    return { ok: true };
-  };
+  const signup = async (form) => {
+    const result = await signupUser(form);
 
-  // 로그인
-  const login = ({ email, password }) => {
-    const normalizedEmail = email.trim().toLowerCase();
-    const foundUser = users.find(
-      (user) => user.email === normalizedEmail && user.password === password
-    );
-
-    if (!foundUser) {
-      return { ok: false, message: "이메일 또는 비밀번호를 확인해주세요." };
+    if (result.ok) {
+      setCurrentUser(result.user);
     }
 
-    setCurrentUser(foundUser);
-    return { ok: true };
+    return result;
   };
 
-  // 로그아웃
-  const logout = () => {
-    setCurrentUser(null);
+  const login = async (form) => {
+    const result = await loginUser(form);
+
+    if (result.ok) {
+      setCurrentUser(result.user);
+    }
+
+    return result;
   };
 
-  // 프로필 업데이트
-  const updateProfile = (nextProfile) => {
+  const logout = async () => {
+    const result = await logoutUser();
+
+    if (result.ok) {
+      setCurrentUser(null);
+      setIsPasswordRecovery(false);
+    }
+
+    return result;
+  };
+
+  const updateProfile = async (nextProfile) => {
     if (!currentUser) return;
 
-    const updatedUser = { ...currentUser, ...nextProfile };
-    setCurrentUser(updatedUser);
-    setUsers((prevUsers) =>
-      prevUsers.map((user) => (user.id === updatedUser.id ? updatedUser : user))
-    );
+    const result = await updateUserProfile(currentUser.id, nextProfile);
+
+    if (result.ok) {
+      setCurrentUser(result.user);
+    }
+
+    return result;
+  };
+
+  const completePasswordReset = async (form) => {
+    const result = await completePasswordResetUser(form);
+
+    if (result.ok) {
+      setIsPasswordRecovery(false);
+      await logout();
+    }
+
+    return result;
   };
 
   return (
     <AuthContext.Provider
-      value={{ currentUser, users, signup, login, logout, updateProfile }}
+      value={{
+        completePasswordReset,
+        currentUser,
+        isLoading,
+        isPasswordRecovery,
+        login,
+        logout,
+        signup,
+        updateProfile,
+      }}
     >
       {children}
     </AuthContext.Provider>
@@ -106,4 +118,3 @@ export function AuthProvider({ children }) {
 export function useAuth() {
   return useContext(AuthContext);
 }
-

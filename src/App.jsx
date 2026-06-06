@@ -8,20 +8,24 @@ import Explore from "./pages/Explore/Explore.jsx";
 import WebtoonDetail from "./pages/WebtoonDetail/WebtoonDetail.jsx";
 import Login from "./pages/auth/Login.jsx";
 import Signup from "./pages/auth/Signup.jsx";
+import FindAccount from "./pages/auth/FindAccount.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import NotFound from "./pages/NotFound/NotFound.jsx";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <div className="app">
       <Header />
       <main>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/explore" element={<Explore />} />
           <Route path="/webtoon/:id" element={<WebtoonDetail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/find-account" element={<FindAccount />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

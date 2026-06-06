@@ -12,9 +12,9 @@ const weatherIcons = {
 function WeatherSummary({ onWeatherChange }) {
   const [weather, setWeather] = useState({
     city: "서울",
-    text: "눈",
-    temperature: 13,
-    type: "snowy",
+    text: "불러오는 중",
+    temperature: "--",
+    type: "cloudy",
   });
   const [status, setStatus] = useState("loading");
 
@@ -42,7 +42,7 @@ function WeatherSummary({ onWeatherChange }) {
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [onWeatherChange]);
 
   return (
     <section className="card info-card weather-summary">

@@ -7,12 +7,23 @@ import "./auth.css";
 function Signup() {
   const navigate = useNavigate();
   const { signup } = useAuth();
-  const [form, setForm] = useState({ nickname: "", email: "", password: "" });
+  const [form, setForm] = useState({
+    username: "",
+    password: "",
+    passwordConfirm: "",
+    nickname: "",
+    email: "",
+  });
   const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = signup(form);
+    setMessage("");
+    setIsSubmitting(true);
+
+    const result = await signup(form);
+    setIsSubmitting(false);
 
     if (!result.ok) {
       setMessage(result.message);
@@ -29,6 +40,17 @@ function Signup() {
         <h1>moodtoon 회원가입</h1>
         <form onSubmit={handleSubmit}>
           <label>
+            아이디
+            <input
+              autoComplete="username"
+              value={form.username}
+              onChange={(e) =>
+                setForm({ ...form, username: e.target.value })
+              }
+              required
+            />
+          </label>
+          <label>
             닉네임
             <input
               value={form.nickname}
@@ -42,6 +64,7 @@ function Signup() {
             이메일
             <input
               type="email"
+              autoComplete="email"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               required
@@ -51,17 +74,34 @@ function Signup() {
             비밀번호
             <input
               type="password"
+              autoComplete="new-password"
               value={form.password}
-              minLength="4"
+              minLength="8"
               onChange={(e) =>
                 setForm({ ...form, password: e.target.value })
               }
               required
             />
           </label>
+          <label>
+            비밀번호 확인
+            <input
+              type="password"
+              autoComplete="new-password"
+              value={form.passwordConfirm}
+              minLength="8"
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  passwordConfirm: e.target.value,
+                })
+              }
+              required
+            />
+          </label>
           {message && <p className="form-message">{message}</p>}
-          <Button className="button primary shine" type="submit">
-            가입하기
+          <Button shine type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "가입 중..." : "가입하기"}
           </Button>
         </form>
         <p>

@@ -20,6 +20,7 @@ function CommentList({ comments, webtoonId, }) {
     addComment,
     deleteComment,
     editComment,
+    isLoading,
     toggleEmpathy
   } = useComments(webtoonId, comments);
 
@@ -62,11 +63,19 @@ function CommentList({ comments, webtoonId, }) {
       </SectionTitle>
 
       {/* 댓글 작성 폼 */}
-      <CommentForm onSubmit={addComment} />
+      {currentUser ? (
+        <CommentForm onSubmit={addComment} />
+      ) : (
+        <p>댓글 작성은 로그인 후 가능합니다.</p>
+      )}
 
       {/* 댓글 목록 렌더링 */}
       <div className="comment-list">
-        {sortedComments.map((comment) => (
+        {isLoading ? (
+          <p>댓글을 불러오는 중입니다.</p>
+        ) : sortedComments.length === 0 ? (
+          <p>아직 작성된 댓글이 없습니다.</p>
+        ) : sortedComments.map((comment) => (
           <CommentItem
             key={comment.id}
             comment={comment}

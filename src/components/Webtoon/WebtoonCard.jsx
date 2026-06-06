@@ -3,6 +3,8 @@ import Tag from "../ui/Tag.jsx";
 import "./WebtoonCard.css";
 
 function WebtoonCard({ webtoon }) {
+  console.log("CARD ID:", webtoon.id);
+  
   return (
     <article className="webtoon-card">
       <Link to={`/webtoon/${webtoon.id}`}>
@@ -10,12 +12,11 @@ function WebtoonCard({ webtoon }) {
         <div className="webtoon-card-body">
           <div className="card-meta">
             <span>{webtoon.platform}</span>
-            <span>{webtoon.episodes}화</span>
           </div>
           <h3>{webtoon.title}</h3>
-          <p>{webtoon.author}</p>
+          <p>글/그림: {webtoon.sntncWritrNm} · {webtoon.pictrWritrNm}</p>
           <div className="tag-row">
-            {webtoon.tags.slice(0, 3).map((tag) => (
+            {(webtoon.tags || []).slice(0, 3).map((tag) => (
               <Tag key={tag} hasHash={true}>
                 {tag}
               </Tag>
