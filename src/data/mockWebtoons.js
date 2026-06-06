@@ -123,7 +123,7 @@ export const webtoons = [
     title: "자정의 알림",
     pictrWritrNm: "노을",
     sntncWritrNm: "노을",
-    platform: "만화규장각",
+    platform: "카카오페이지",
     plscmpnIdNm: "문라이트",
     genre: "스릴러",
     ageGrade: "전체연령",

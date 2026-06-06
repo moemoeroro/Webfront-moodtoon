@@ -18,7 +18,7 @@ function WebtoonCard({ webtoon }) {
             </span>
           </div>
           <h3>{webtoon.title}</h3>
-          <p>글/그림: {webtoon.sntncWritrNm} · {webtoon.pictrWritrNm}</p>
+          <p>글/그림: {webtoon.sntncWritrNm === webtoon.pictrWritrNm ? webtoon.sntncWritrNm : `${webtoon.sntncWritrNm} · ${webtoon.pictrWritrNm}`}</p>
           <div className="tag-row">
             {(webtoon.tags || []).slice(0, 3).map((tag) => (
               <Tag key={tag} hasHash={true}>

@@ -98,7 +98,11 @@ function WebtoonDetail() {
           <dl className="info-list">
             <div>
               <dt>글/그림 작가</dt>
-              <dd>{webtoon.sntncWritrNm} · {webtoon.pictrWritrNm}</dd>
+              <dd>
+                {webtoon.sntncWritrNm === webtoon.pictrWritrNm
+                  ? webtoon.sntncWritrNm
+                  : `${webtoon.sntncWritrNm} · ${webtoon.pictrWritrNm}`}
+              </dd>
             </div>
             <div>
               <dt>장르</dt>
