@@ -124,7 +124,7 @@ function Profile() {
       <div className="profile-grid">
         <section className="card profile-panel">
           <SectionTitle title="선호하는 장르"/>
-          <div className="tag-row">
+          <div className="profile-tag">
             {topGenres.length === 0 ? (
               <p>북마크한 작품이 없습니다.</p>
             ) : (

@@ -54,7 +54,7 @@
   transition: width 0.3s ease;
 }
 
-.tag-row {
+.profile-tag {
   display: flex;
   flex-direction: column;
   gap: 10px;
