@@ -80,20 +80,18 @@ function WebtoonDetail() {
       <section className="detail-layout">
         <img className="detail-cover" src={webtoon.image} alt={`${webtoon.title} 표지`} />
         <div className="card detail-info">
-          <p className="eyebrow">
-            {webtoon.platforms?.length
-              ? webtoon.platforms.join(", ")
-              : webtoon.platform}
-          </p>
+          <div className="detail-topbar">
+            <p className="eyebrow">
+              {webtoon.platforms?.length
+                ? webtoon.platforms.join(", ")
+                : webtoon.platform}
+            </p>
+            <button className="bookmark-button" onClick={handleBookmark}>
+              {isBookmarked ? "★ 북마크됨" : "☆ 북마크"}
+            </button>
+          </div>
           <h1>{webtoon.title}</h1>
           <p>{webtoon.description}</p>
-
-          <button
-            className="bookmark-button"
-            onClick={handleBookmark}
-          >
-            {isBookmarked ? "★ 북마크됨" : "☆ 북마크"}
-          </button>
 
           <dl className="info-list">
             <div>

@@ -53,3 +53,10 @@
   );
   transition: width 0.3s ease;
 }
+
+.tag-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}

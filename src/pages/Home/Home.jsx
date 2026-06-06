@@ -48,6 +48,8 @@ function Home() {
     });
   };
 
+  const [showFilters, setShowFilters] = useState(false);
+
   const filteredRecommendation =
   recommendation?.items.filter((webtoon) => {
     const genreMatch =
@@ -99,12 +101,22 @@ function Home() {
 
       {recommendation && (
         <section className="card recommend-result">
-          <SectionTitle
-            eyebrow="추천 결과"
-            title="오늘의 추천 웹툰 6개"
-            description={recommendation.reason}
-          />
-          <div className="recommend-filters">
+          <div className="recommend-header">
+            <SectionTitle
+              eyebrow="추천 결과"
+              title="오늘의 추천 웹툰 6개"
+              description={recommendation.reason}
+            />
+
+            <Button
+              variant={showFilters ? "primary" : "outline"}
+              size="small"
+              onClick={() => setShowFilters((prev) => !prev)}
+            >
+              ☰
+            </Button>
+          </div>
+          <div className={`recommend-filters ${showFilters ? "open" : "hide"}`}>
             <div>
               <h3>장르</h3>
 
