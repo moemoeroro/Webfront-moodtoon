@@ -12,8 +12,10 @@ export async function fetchKmasWebtoons(keyword = "") {
 
     const data = await res.json();
 
+    console.log("KMAS RAW:", data.itemList);
+
     return (data.itemList || []).map((item) => ({
-      id: item.isbn,
+      id: item.isbn || `${item.title}|||${item.pltfomCdNm}`,
       title: item.title,
       pictrWritrNm: item.pictrWritrNm,
       sntncWritrNm: item.sntncWritrNm,
@@ -57,5 +59,20 @@ export async function fetchKmasWebtoonByIsbn(isbn) {
   } catch (err) {
     console.error("ISBN 조회 실패:", err);
     return null;
+  }
+}
+
+export async function fetchKmasWebtoonByTitle(title) {
+  try {
+    const res = await fetch(
+      `/kmas/openapi/search/bookAndWebtoonList?prvKey=${API_KEY}&title=${encodeURIComponent(title)}`
+    );
+
+    const data = await res.json();
+
+    return data.itemList || [];
+  } catch (err) {
+    console.error(err);
+    return [];
   }
 }

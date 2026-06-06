@@ -1,5 +1,5 @@
 import { webtoons } from "../data/mockWebtoons.js";
-import { fetchKmasWebtoons, fetchKmasWebtoonByIsbn } from "./kmasApi.js";
+import { fetchKmasWebtoons, fetchKmasWebtoonByIsbn, fetchKmasWebtoonByTitle } from "./kmasApi.js";
 
 // 검색 기능
 export async function searchWebtoons({ keyword = "", genre = "전체", platform = "전체" }) {
@@ -70,16 +70,39 @@ export async function fetchAllWebtoons() {
 
 export async function fetchWebtoonById(id) {
 
-  // mock 데이터 먼저 찾기
-  const local = webtoons.find(
-    (w) => w.id === id
-  );
+  const local = webtoons.find((w) => w.id === id);
 
   if (local) {
     return normalizeWebtoon(local);
   }
 
-  // 없으면 KMAS ISBN 조회
+  // ISBN 없는 KMAS 작품
+  if (id.includes("|||")) {
+
+    const [title, platform] = id.split("|||");
+
+    const list = await fetchKmasWebtoonByTitle(title);
+
+    const target = list.find(
+      (item) => item.pltfomCdNm === platform
+    );
+
+    if (!target) return null;
+
+    return normalizeWebtoon({
+      id,
+      title: target.title,
+      pictrWritrNm: target.pictrWritrNm,
+      sntncWritrNm: target.sntncWritrNm,
+      genre: target.mainGenreCdNm,
+      platform: target.pltfomCdNm,
+      description: target.outline,
+      image: target.imageDownloadUrl,
+      tags: [],
+    });
+  }
+
+  // ISBN 있는 작품
   return await fetchKmasWebtoonByIsbn(id);
 }
 
