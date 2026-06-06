@@ -23,9 +23,22 @@ export async function searchWebtoons({ keyword = "", genre = "전체", platform 
   // 2. KMAS API
   const api = await fetchKmasWebtoons(keyword);
 
-  const safeApi = api.filter(
-    (item) => item && item.id && item.title
-  );
+  const mergedMap = new Map();
+
+  api.forEach((item) => {
+    const key = `${item.title}-${item.pictrWritrNm}`;
+
+    if (!mergedMap.has(key)) {
+      mergedMap.set(key, {
+        ...item,
+        platforms: [item.platform],
+      });
+    } else {
+      mergedMap.get(key).platforms.push(item.platform);
+    }
+  });
+
+  const safeApi = [...mergedMap.values()];
 
   // 3. 합치기
   return [...local, ...safeApi];
@@ -41,6 +54,7 @@ function normalizeWebtoon(item) {
     title: item.title ?? "",
     image: item.image ?? "",
     platform: item.platform ?? "",
+    platforms: item.platforms ?? [],
     genre: item.genre ?? "기타",
     ageGrade: item.ageGrade ?? "",
     pictrWritrNm: item.pictrWritrNm ?? "",
@@ -90,6 +104,12 @@ export async function fetchWebtoonById(id) {
 
     if (!target) return null;
 
+    const platforms = [
+      ...new Set(
+        list.map((item) => item.pltfomCdNm)
+      ),
+    ];
+
     return normalizeWebtoon({
       id,
       title: target.title,
@@ -97,6 +117,7 @@ export async function fetchWebtoonById(id) {
       sntncWritrNm: target.sntncWritrNm,
       genre: target.mainGenreCdNm,
       platform: target.pltfomCdNm,
+      platforms,
       ageGrade: target.ageGradCdNm,
       description: target.outline,
       image: target.imageDownloadUrl,

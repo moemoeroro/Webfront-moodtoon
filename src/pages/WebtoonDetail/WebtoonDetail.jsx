@@ -80,7 +80,11 @@ function WebtoonDetail() {
       <section className="detail-layout">
         <img className="detail-cover" src={webtoon.image} alt={`${webtoon.title} 표지`} />
         <div className="card detail-info">
-          <p className="eyebrow">{webtoon.platform}</p>
+          <p className="eyebrow">
+            {webtoon.platforms?.length
+              ? webtoon.platforms.join(", ")
+              : webtoon.platform}
+          </p>
           <h1>{webtoon.title}</h1>
           <p>{webtoon.description}</p>
 
