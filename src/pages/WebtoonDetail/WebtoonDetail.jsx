@@ -100,6 +100,10 @@ function WebtoonDetail() {
               <dt>장르</dt>
               <dd>{webtoon.genre}</dd>
             </div>
+            <div>
+              <dt>연령등급</dt>
+              <dd>{webtoon.ageGrade || "정보 없음"}</dd>
+            </div>
           </dl>
         </div>
       </section>
