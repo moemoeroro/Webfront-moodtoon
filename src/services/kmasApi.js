@@ -13,7 +13,7 @@ export async function fetchKmasWebtoons(keyword = "") {
     const data = await res.json();
 
     return (data.itemList || []).map((item) => ({
-      id: item.isbn ? `isbn-${item.isbn}` : `title-${item.title}`,
+      id: item.isbn,
       title: item.title,
       pictrWritrNm: item.pictrWritrNm,
       sntncWritrNm: item.sntncWritrNm,
@@ -28,3 +28,4 @@ export async function fetchKmasWebtoons(keyword = "") {
     return [];
   }
 }
+

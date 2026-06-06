@@ -1,6 +1,7 @@
 import { webtoons } from "../data/mockWebtoons.js";
 import { fetchKmasWebtoons } from "./kmasApi.js";
 
+// 검색 기능
 export async function searchWebtoons({ keyword = "", genre = "전체", platform = "전체" }) {
   const lowerKeyword = keyword.trim().toLowerCase();
 
@@ -30,6 +31,8 @@ export async function searchWebtoons({ keyword = "", genre = "전체", platform 
   return [...local, ...safeApi];
 }
 
+
+// 데이터 형태 통일
 function normalizeWebtoon(item) {
   if (!item) return null;
 
@@ -46,6 +49,7 @@ function normalizeWebtoon(item) {
   };
 }
 
+// 전체 웹툰 가져오기
 export async function fetchAllWebtoons() {
   const [local, api] = await Promise.all([
     webtoons,
@@ -63,6 +67,7 @@ export async function fetchAllWebtoons() {
     .filter(Boolean);
 }
 
+// 상세 페이지 용
 export async function fetchWebtoonById(id) {
   const [local, api] = await Promise.all([
     webtoons,
@@ -70,20 +75,17 @@ export async function fetchWebtoonById(id) {
   ]);
 
   const safeLocal = local.map(normalizeWebtoon);
-  const safeApi = fetchKmasWebtoons("")
-    .then(list => list.map(normalizeWebtoon));
+  const safeApi = api.map(normalizeWebtoon);
 
-  const apiData = await safeApi;
-
-  const all = [...safeLocal, ...apiData];
+  const all = [...safeLocal, ...safeApi];
 
   console.log("ALL IDS:", all.map(w => w.id));
   console.log("TARGET ID:", id);
 
-
   return all.find((w) => w.id === id) || null;
 }
 
+// 추천 기능
 export function recommendWebtoons({ mood, weatherType }) {
   const scored = webtoons.map((webtoon) => {
     let score = 0;

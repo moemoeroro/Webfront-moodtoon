@@ -10,9 +10,14 @@ import "./WebtoonDetail.css";
 function WebtoonDetail() {
   
   const { id } = useParams();
+
+  // 웹툰 정보를 저장할 상태
   const [webtoon, setWebtoon] = useState(null);
+
+  // 로딩 상태 저장
   const [loading, setLoading] = useState(true);
   
+  // 로그인한 사용자 정보와 프로필 수정 함수 가져오기
   const { currentUser, updateProfile } = useAuth();
 
   useEffect(() => {
@@ -26,12 +31,14 @@ function WebtoonDetail() {
     }
 
     load();
-  }, [id]);
+  }, [id]); // id가 바뀌면 다시 실행
 
+  // 로딩 중일 때 화면
   if (loading) {
     return <div>로딩 중...</div>;
   }
 
+  // 웹툰을 찾지 못했을 때
   if (!webtoon) {
     return (
       <div className="page empty-page">
@@ -43,8 +50,10 @@ function WebtoonDetail() {
     );
   }
 
+  // 현재 웹툰이 북마크되어 있는지 확인
   const isBookmarked = currentUser?.likedWebtoonIds.includes(webtoon.id);
 
+  // 북마크 버튼 클릭 시 실행
   const handleBookmark = () => {
     if (!currentUser) {
       alert("로그인 후 이용해주세요.");
