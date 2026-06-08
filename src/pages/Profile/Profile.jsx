@@ -31,8 +31,8 @@ function getTopMood(moodLogs = []) {
 
 function Profile() {
   const { currentUser, isLoading, logout } = useAuth();
-  const [myComments, setMyComments] = useState([]);
-  const [isCommentsLoading, setIsCommentsLoading] = useState(false);
+  const [myComments, setMyComments] = useState([]); // 내 댓글 저장
+  const [isCommentsLoading, setIsCommentsLoading] = useState(false); // 댓글 로딩 상태
 
   useEffect(() => {
     let isMounted = true;
@@ -70,10 +70,14 @@ function Profile() {
     );
   }
 
+  // 로그인 체크
   if (!currentUser) {
     return <Navigate to="/login" replace />;
   }
 
+
+
+  // 북마크 웹툰 찾기
   const likedWebtoons = webtoons.filter((webtoon) =>
     currentUser.likedWebtoonIds.includes(webtoon.id)
   );
@@ -84,10 +88,12 @@ function Profile() {
     return acc;
   }, {});
 
-  // 많이 북마크한 순으로 정렬
-  const topGenres = Object.entries(genreCounts)
-    .sort((a, b) => b[1] - a[1]);
+  // 장르 순위
+  const topGenres = Object.entries(genreCounts).sort((a, b) => b[1] - a[1]);
 
+
+
+  // 감정 통계
   const moodCounts = (currentUser.moodLogs || []).reduce((acc, log) => {
     const mood =
       typeof log === "string"
@@ -99,10 +105,12 @@ function Profile() {
     return acc;
   }, {});
 
+  // 상위 3개 감정
   const topMoods = Object.entries(moodCounts)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 3);
 
+  // 가장 큰 감정 찾기
   const maxCount = Math.max(
     ...topMoods.map(([, count]) => count),
     1

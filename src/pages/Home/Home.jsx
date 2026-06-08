@@ -12,14 +12,23 @@ import "./Home.css";
 
 function Home() {
   const { currentUser, updateProfile } = useAuth();
-  const [selectedMood, setSelectedMood] = useState("피곤함");
-  const [weather, setWeather] = useState(null);
-  const [recommendation, setRecommendation] = useState(null);
-  const [selectedGenres, setSelectedGenres] = useState([]);
-  const [selectedPlatforms, setSelectedPlatforms] = useState([]);
+  const [selectedMood, setSelectedMood] = useState(null); // 기분
+  const [weather, setWeather] = useState(null); // 날씨
+  const [recommendation, setRecommendation] = useState(null); // 추천 결과
+  const [selectedGenres, setSelectedGenres] = useState([]); // 장르 필터
+  const [selectedPlatforms, setSelectedPlatforms] = useState([]); // 플랫폼 필터
+  
+  // 인기 웹툰 계산
   const popularWebtoons = [...webtoons].sort((a, b) => b.likes - a.likes).slice(0, 4);
   
+  // 추천 버튼 함수
   const handleRecommend = async () => {
+    
+    if (!selectedMood) {
+      alert("기분을 선택해 주세요.");
+      return;
+    }
+    
     if (currentUser) {
       await updateProfile({
         moodLogs: [
@@ -41,15 +50,15 @@ function Home() {
     });
 
     setRecommendation({
-      items: result,
-      reason: `${weather?.text || "흐림"} 날씨와 '${
-        selectedMood || "피곤함"
-      }' 기분을 반영했습니다.`,
+      items: result, 
+      reason: `${weather?.text || "흐림"} 날씨와 '${selectedMood}' 기분을 반영했습니다.`,
     });
   };
 
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilters, setShowFilters] = useState(false); // 필터 펼침 여부
 
+  
+  // 추천 결과 (장르/플랫폼)
   const filteredRecommendation =
   recommendation?.items.filter((webtoon) => {
     const genreMatch =
@@ -63,7 +72,7 @@ function Home() {
     return genreMatch && platformMatch;
   }) || [];
 
-  const finalRecommendation = filteredRecommendation.slice(0, 6);
+  const finalRecommendation = filteredRecommendation.slice(0, 8);
 
   return (
     <div className="page home-page">
