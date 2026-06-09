@@ -47,7 +47,7 @@ function Home() {
     const result = recommendWebtoons({
       mood: selectedMood || "피곤함",
       weatherType: weather?.type || "cloudy",
-    });
+    }).filter(w => w.score > 0);;
 
     setRecommendation({
       items: result, 

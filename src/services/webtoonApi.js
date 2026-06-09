@@ -193,7 +193,7 @@ export function recommendWebtoons({ mood, weatherType }) {
       let score = 0;
 
       // 웹툰 moods가 현재 감정과 일치하면 +
-      if (w.moods.includes(mood)) {
+      if (w.moods?.includes(mood)) {
         score += 5;
       }
 
@@ -203,7 +203,7 @@ export function recommendWebtoons({ mood, weatherType }) {
       }
 
       // 웹툰 weather이 현재 날씨와 일치하면 +
-      if (w.weather.includes(weatherType)) {
+      if (w.weather?.includes(weatherType)) {
         score += 4;
       }
 
