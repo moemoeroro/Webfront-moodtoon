@@ -14,6 +14,13 @@ function Explore() {
   const [inputValue, setInputValue] = useState(searchParams.get("keyword") || "");
   const [keyword, setKeyword] = useState(searchParams.get("keyword") || "");
 
+  useEffect(() => {
+    const urlKeyword = searchParams.get("keyword") || "";
+
+    setInputValue(urlKeyword);
+    setKeyword(urlKeyword);
+  }, [searchParams]);
+
   const [showFilters, setShowFilters] = useState(true);
   const [loading, setLoading] = useState(false);
 
