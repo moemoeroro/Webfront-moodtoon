@@ -36,53 +36,57 @@ function Profile() {
   const [myComments, setMyComments] = useState([]); // 내 댓글 저장
   const [isCommentsLoading, setIsCommentsLoading] = useState(false); // 댓글 로딩 상태
 
+  // 북마크 웹툰 로딩
   useEffect(() => {
-    let isMounted = true;
-
     if (!currentUser?.id) {
-      setMyComments([]);
+      setLikedWebtoons([]);
       return;
     }
+
+    let ignore = false;
 
     Promise.all(
       (currentUser.likedWebtoonIds || []).map((id) =>
         fetchWebtoonById(id)
       )
     ).then((data) => {
-      if (isMounted) {
-        setLikedWebtoons(
-          data.filter(Boolean)
-        );
+      if (!ignore) {
+        setLikedWebtoons(data.filter(Boolean));
       }
     });
+
+    return () => {
+      ignore = true;
+    };
+  }, [currentUser?.likedWebtoonIds]);
+
+  // 댓글 로딩
+  useEffect(() => {
+    if (!currentUser?.id) {
+      setMyComments([]);
+      return;
+    }
+
+    let ignore = false;
 
     setIsCommentsLoading(true);
 
     fetchMyComments(currentUser.id)
       .then((result) => {
-        if (isMounted && result.ok) {
+        if (!ignore && result.ok) {
           setMyComments(result.comments);
         }
       })
       .finally(() => {
-        if (isMounted) {
+        if (!ignore) {
           setIsCommentsLoading(false);
         }
       });
 
     return () => {
-      isMounted = false;
+      ignore = true;
     };
   }, [currentUser?.id]);
-
-  // 로그인하지 않은 사용자는 로그인 페이지로 이동
-  if (isLoading) {
-    return (
-      <div className="page empty-page">
-        <h1>프로필을 불러오는 중입니다.</h1>
-      </div>
-    );
-  }
 
   // 로그인 체크
   if (!currentUser) {
@@ -121,6 +125,11 @@ function Profile() {
   const maxCount = Math.max(
     ...topMoods.map(([, count]) => count),
     1
+  );
+
+  // 댓글의 웹툰 id 찾기
+  const webtoonMap = new Map(
+    likedWebtoons.map((w) => [w.id, w])
   );
 
 
@@ -222,6 +231,7 @@ function Profile() {
                 >
                   <CommentItem
                     comment={comment}
+                    title={webtoonMap.get(comment.webtoonId)?.title}
                   />
                 </Link>
               );

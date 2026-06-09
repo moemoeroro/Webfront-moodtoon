@@ -1,7 +1,7 @@
 import { webtoons } from "../data/mockWebtoons.js";
 import { fetchKmasWebtoons, fetchKmasWebtoonByIsbn, fetchKmasWebtoonByTitle } from "./kmasApi.js";
 
-// 검색 기능
+// 웹툰 검색 기능
 export async function searchWebtoons({
   keyword = "",
   genre = "전체",
@@ -84,6 +84,7 @@ function normalizeWebtoon(item) {
   };
 }
 
+// id로 웹툰 찾기
 export async function fetchWebtoonById(id) {
 
   const local = webtoons.find((w) => w.id === id);

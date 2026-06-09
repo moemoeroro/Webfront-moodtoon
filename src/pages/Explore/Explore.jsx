@@ -61,7 +61,7 @@ function Explore() {
       <div className="card page-heading">
         <p className="eyebrow">Explore</p>
         <h1>웹툰 탐색</h1>
-        <p>작품명, 작가, 태그를 검색하고 장르와 플랫폼 조건으로 좁혀보세요.</p>
+        <p>작품명, 작가를 검색하고 장르와 플랫폼 필터로 원하는 웹툰을 찾아보세요.</p>
       </div>
 
       <SectionTitle title="통합 검색" />
