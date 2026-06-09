@@ -196,13 +196,15 @@ export function recommendWebtoons({ mood, weatherType }) {
     .map((w) => {
       let score = 0;
 
+      const genres = (w.genre || "").split("/").map(g => g.trim());;
+
       // 웹툰 moods가 현재 감정과 일치하면 +
       if (w.moods?.includes(mood)) {
         score += 5;
       }
 
       // 현재 감정과 잘 맞는 장르면 +
-      if (moodGenreMap[mood]?.includes(w.genre)) {
+      if (moodGenreMap[mood]?.some(g => genres.includes(g))) {
         score += 3;
       }
 
@@ -212,7 +214,7 @@ export function recommendWebtoons({ mood, weatherType }) {
       }
 
       // 현재 날씨와 잘 맞는 장르면 +
-      if (weatherMap[weatherType]?.includes(w.genre)) {
+      if (weatherMap[weatherType]?.some(g => genres.includes(g))) {
         score += 2;
       }
 
