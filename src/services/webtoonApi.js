@@ -62,7 +62,45 @@ export async function searchWebtoons({
   );
 
   // 3. 합치기
-  return [...local, ...filteredApi];
+
+  const merged = [...local, ...filteredApi];
+
+  const unique = deduplicateWebtoons(merged);
+
+  return unique;
+}
+
+// 중복 제거
+function deduplicateWebtoons(list) {
+  const map = new Map();
+
+  for (const item of list) {
+    if (!item) continue;
+
+    const key = `${item.title?.trim()}|${item.pictrWritrNm?.trim()}`;
+
+    if (!map.has(key)) {
+      map.set(key, {
+        ...item,
+        platforms: item.platforms || (item.platform ? [item.platform] : []),
+      });
+    } else {
+      const prev = map.get(key);
+
+      map.set(key, {
+        ...prev,
+        ...item,
+        platforms: Array.from(
+          new Set([
+            ...(prev.platforms || []),
+            ...(item.platforms || (item.platform ? [item.platform] : [])),
+          ])
+        ),
+      });
+    }
+  }
+
+  return Array.from(map.values());
 }
 
 
@@ -133,17 +171,52 @@ export async function fetchWebtoonById(id) {
 
 // 추천 기능
 export function recommendWebtoons({ mood, weatherType }) {
-  const scored = webtoons.map((webtoon) => {
-    let score = 0;
+  const moodGenreMap = {
+    행복함: ["로맨스", "개그"],
+    우울함: ["공포", "스릴러"],
+    스트레스: ["공포", "스릴러"],
+    차분함: ["힐링", "드라마"],
+    피곤함: ["힐링", "개그"],
+    설렘: ["로맨스", "로판", "순정"],
+    신남: ["액션", "소년", "개그"],
+  };
 
-    if (webtoon.moods.includes(mood)) score += 3;
-    if (webtoon.weather.includes(weatherType)) score += 2;
+  const weatherMap = {
+    rainy: ["공포", "스릴러"],
+    sunny: ["액션", "로맨스", "일상"],
+    snowy: ["드라마", "힐링"],
+    cloudy: ["공포", "스릴러"],
+  };
 
-    return { ...webtoon, score };
-  });
+  return webtoons
+    .map((w) => {
+      let score = 0;
 
-  return scored.sort(
-    (a, b) => b.score - a.score || b.likes - a.likes
-  );
+      // 웹툰 moods가 현재 감정과 일치하면 +
+      if (w.moods.includes(mood)) {
+        score += 5;
+      }
+
+      // 현재 감정과 잘 맞는 장르면 +
+      if (moodGenreMap[mood]?.includes(w.genre)) {
+        score += 3;
+      }
+
+      // 웹툰 weather이 현재 날씨와 일치하면 +
+      if (w.weather.includes(weatherType)) {
+        score += 4;
+      }
+
+      // 현재 날씨와 잘 맞는 장르면 +
+      if (weatherMap[weatherType]?.includes(w.genre)) {
+        score += 2;
+      }
+
+      return {
+        ...w,
+        score,
+      };
+    })
+    .sort((a, b) => b.score - a.score);
 }
 
