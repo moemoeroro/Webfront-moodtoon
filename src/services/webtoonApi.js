@@ -173,8 +173,8 @@ export async function fetchWebtoonById(id) {
 export function recommendWebtoons({ mood, weatherType }) {
   const moodGenreMap = {
     행복함: ["로맨스", "개그"],
-    우울함: ["공포", "스릴러"],
-    스트레스: ["공포", "스릴러"],
+    우울함: ["공포", "스릴러", "힐링"],
+    스트레스: ["공포", "스릴러", "힐링"],
     차분함: ["힐링", "드라마"],
     피곤함: ["힐링", "개그"],
     설렘: ["로맨스", "로판", "순정"],
@@ -184,7 +184,7 @@ export function recommendWebtoons({ mood, weatherType }) {
   const weatherMap = {
     rainy: ["공포", "스릴러"],
     sunny: ["액션", "로맨스", "일상"],
-    snowy: ["드라마", "힐링"],
+    snowy: ["드라마", "힐링", "순정"],
     cloudy: ["공포", "스릴러"],
   };
 

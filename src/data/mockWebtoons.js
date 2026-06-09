@@ -1,19 +1,19 @@
 export const webtoons = [
   {
-    id: "괴담 동아리|||카카오웹툰",
-    title: "괴담 동아리",
-    pictrWritrNm: "햐롭",
-    sntncWritrNm: "앵무새",
-    platforms: ["카카오웹툰", "카카오페이지"],
+    id: "도나츠와 서커스|||네이버웹툰",
+    title: "도나츠와 서커스",
+    pictrWritrNm: "오븐",
+    sntncWritrNm: "오븐",
+    platforms: ["네이버웹툰"],
     plscmpnIdNm: null,
-    genre: "공포",
-    ageGrade: "전체연령",
+    genre: "스릴러",
+    ageGrade: "15세 이상",
     image:
-      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=27a19df7-0178-463b-9075-2e324eb79926",
+      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=d10670fa-ff5e-4f84-b410-cce9efcc4c22",
     description:
-      "갑자기 당신의 눈앞에서 전교생의 머리가 터지면 어떻게 하시겠습니까.\r\n\r\n갑자기 당신의 눈앞에 시스템창이 나타나면 어떡하겠습니까.\r\n\r\n잠시만요, 고민하기 전에 시스템창에 작성된 내용부터 읽어드리겠습니다.\r\n\r\n『괴담들과 맞서 싸우세요.』 『괴담을 이겨내지 못한다면…』 『마왕이 부활하고』 『세계가 멸망합니다.』\r\n\r\n그저 평범한 고등학생인 이준 앞에 나타난 시스템창.\r\n\r\n괴력, 마법, 초월적인 능력, 그 무엇도 없다.\r\n\r\n죽고 죽어 일백 번 고쳐 죽고 도전하고 부서지며 해결책을 찾아내는 이준과 친구들의 괴담타파 일대기.",
-    moods: ["스트레스", "우울함"],
-    weather: ["rainy", "cloudy"],
+      "어서오세요! 케이크 서커스에!  서커스는 오늘도 공연을 위해 떠나요.\r\n\r\n도나츠도 어서 무대에 서고 싶지만, 망쳐버리면 어떡하죠?\r\n\r\n가ㄹ 길이 먼 도나츠! 무사히 공연을 마칠 수 있을까요?",
+    moods: ["우울함", "스트레스"],
+    weather: ["sunny", "snowy"],
   },
   {
     id: "엄마를 만나러 가는 길|||네이버웹툰",
@@ -160,21 +160,37 @@ export const webtoons = [
     weather: ["sunny", "snowy"],
   },
   {
-    id: "도나츠와 서커스|||네이버웹툰",
-    title: "도나츠와 서커스",
-    pictrWritrNm: "오븐",
-    sntncWritrNm: "오븐",
+    id: "타인은 지옥이다|||네이버웹툰",
+    title: "타인은 지옥이다",
+    pictrWritrNm: "김용키",
+    sntncWritrNm: "김용키",
     platforms: ["네이버웹툰"],
     plscmpnIdNm: null,
-    genre: "스릴러",
+    genre: "액션",
     ageGrade: "15세 이상",
     image:
-      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=d10670fa-ff5e-4f84-b410-cce9efcc4c22",
+      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=3000267462",
     description:
-      "어서오세요! 케이크 서커스에!  서커스는 오늘도 공연을 위해 떠나요.\r\n\r\n도나츠도 어서 무대에 서고 싶지만, 망쳐버리면 어떡하죠?\r\n\r\n가ㄹ 길이 먼 도나츠! 무사히 공연을 마칠 수 있을까요?",
+      "모든 게 낯선 고시원 생활. 그곳에 수상한 자들이 있다.",
     moods: ["우울함", "스트레스"],
-    weather: ["sunny", "snowy"],
-  }
+    weather: ["rainy", "cloudy"],
+  },
+  {
+    id: "괴담 동아리|||카카오웹툰",
+    title: "괴담 동아리",
+    pictrWritrNm: "햐롭",
+    sntncWritrNm: "앵무새",
+    platforms: ["카카오웹툰", "카카오페이지"],
+    plscmpnIdNm: null,
+    genre: "공포",
+    ageGrade: "전체연령",
+    image:
+      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=27a19df7-0178-463b-9075-2e324eb79926",
+    description:
+      "갑자기 당신의 눈앞에서 전교생의 머리가 터지면 어떻게 하시겠습니까.\r\n\r\n갑자기 당신의 눈앞에 시스템창이 나타나면 어떡하겠습니까.\r\n\r\n잠시만요, 고민하기 전에 시스템창에 작성된 내용부터 읽어드리겠습니다.\r\n\r\n『괴담들과 맞서 싸우세요.』 『괴담을 이겨내지 못한다면…』 『마왕이 부활하고』 『세계가 멸망합니다.』\r\n\r\n그저 평범한 고등학생인 이준 앞에 나타난 시스템창.\r\n\r\n괴력, 마법, 초월적인 능력, 그 무엇도 없다.\r\n\r\n죽고 죽어 일백 번 고쳐 죽고 도전하고 부서지며 해결책을 찾아내는 이준과 친구들의 괴담타파 일대기.",
+    moods: ["스트레스", "우울함"],
+    weather: ["rainy", "cloudy"],
+  },
 ];
 
 export const genres = ["전체", "로맨스", "판타지", "액션", "힐링", "일상", "코미디", "드라마", "스릴러"];
