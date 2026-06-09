@@ -119,7 +119,7 @@ export async function fetchWebtoonById(id) {
       sntncWritrNm: target.sntncWritrNm,
       genre: target.mainGenreCdNm,
       platform: target.pltfomCdNm,
-      platforms,
+      platforms: [...new Set(list.map(i => i.pltfomCdNm).filter(Boolean))],
       ageGrade: target.ageGradCdNm,
       description: target.outline,
       image: target.imageDownloadUrl,
