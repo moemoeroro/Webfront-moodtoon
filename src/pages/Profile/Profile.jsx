@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { fetchAllWebtoons } from "../../services/webtoonApi.js";
+import { fetchWebtoonById } from "../../services/webtoonApi.js";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { fetchMyComments } from "../../services/commentApi.js";
 import WebtoonGrid from "../../components/Webtoon/WebtoonGrid.jsx";
@@ -32,7 +32,7 @@ function getTopMood(moodLogs = []) {
 
 function Profile() {
   const { currentUser, isLoading, logout } = useAuth();
-  const [allWebtoons, setAllWebtoons] = useState([]);
+  const [likedWebtoons, setLikedWebtoons] = useState([]);
   const [myComments, setMyComments] = useState([]); // 내 댓글 저장
   const [isCommentsLoading, setIsCommentsLoading] = useState(false); // 댓글 로딩 상태
 
@@ -44,9 +44,15 @@ function Profile() {
       return;
     }
 
-    fetchAllWebtoons().then((data) => {
+    Promise.all(
+      (currentUser.likedWebtoonIds || []).map((id) =>
+        fetchWebtoonById(id)
+      )
+    ).then((data) => {
       if (isMounted) {
-        setAllWebtoons(data);
+        setLikedWebtoons(
+          data.filter(Boolean)
+        );
       }
     });
 
@@ -83,13 +89,6 @@ function Profile() {
     return <Navigate to="/login" replace />;
   }
 
-
-
-  // 북마크 웹툰 찾기
-  const likedWebtoons = allWebtoons.filter((webtoon) =>
-    currentUser.likedWebtoonIds.includes(webtoon.id)
-  );
-
   // 북마크한 웹툰의 장르 집계
   const genreCounts = likedWebtoons.reduce((acc, webtoon) => {
     acc[webtoon.genre] = (acc[webtoon.genre] || 0) + 1;
@@ -123,6 +122,7 @@ function Profile() {
     ...topMoods.map(([, count]) => count),
     1
   );
+
 
   return (
     <div className="page">
@@ -213,9 +213,6 @@ function Profile() {
             <p>작성한 댓글이 없습니다.</p>
           ) : (
             myComments.map((comment) => {
-              const webtoon = allWebtoons.find(
-                (item) => item.id === comment.webtoonId
-              );
 
               return (
                 <Link

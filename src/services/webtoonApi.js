@@ -9,7 +9,7 @@ export async function searchWebtoons({
 }) {
   const lowerKeyword = keyword.trim().toLowerCase();
 
-  // 1. 목업 데이터
+  // 목업 데이터에서 검색
   const local = webtoons.filter((w) => {
     const matchKeyword =
       !lowerKeyword ||
@@ -82,21 +82,6 @@ function normalizeWebtoon(item) {
     sntncWritrNm: item.sntncWritrNm ?? "",
     description: item.description ?? "",
   };
-}
-
-// 전체 웹툰 가져오기
-export async function fetchAllWebtoons() {
-  const api = await fetchKmasWebtoons("");
-
-  const safeLocal = (webtoons || []).filter(Boolean);
-
-  const safeApi = (api || [])
-    .filter(Boolean)
-    .filter((item) => item.id && item.title);
-
-  return [...safeLocal, ...safeApi]
-    .map(normalizeWebtoon)
-    .filter(Boolean);
 }
 
 export async function fetchWebtoonById(id) {

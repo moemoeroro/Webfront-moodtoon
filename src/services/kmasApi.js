@@ -6,6 +6,7 @@ function isAdultContent(item) {
   return grade.includes("18세 이상");
 }
 
+// KMAS API 검색
 export async function fetchKmasWebtoons(keyword = "") {
   try {
     const query = keyword
@@ -37,6 +38,7 @@ export async function fetchKmasWebtoons(keyword = "") {
   }
 }
 
+// ISBN으로 작품 조회
 export async function fetchKmasWebtoonByIsbn(isbn) {
   try {
     const res = await fetch(
@@ -68,6 +70,7 @@ export async function fetchKmasWebtoonByIsbn(isbn) {
   }
 }
 
+// 제목으로 작품 조회
 export async function fetchKmasWebtoonByTitle(title) {
   try {
     const res = await fetch(
