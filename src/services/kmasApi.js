@@ -30,7 +30,6 @@ export async function fetchKmasWebtoons(keyword = "") {
       ageGrade: item.ageGradCdNm,
       description: item.outline,
       image: item.imageDownloadUrl,
-      tags: [],
     }));
   } catch (err) {
     console.error("KMAS API 실패:", err);
@@ -62,7 +61,6 @@ export async function fetchKmasWebtoonByIsbn(isbn) {
       ageGrade: item.ageGradCdNm,
       description: item.outline,
       image: item.imageDownloadUrl,
-      tags: [],
     };
   } catch (err) {
     console.error("ISBN 조회 실패:", err);

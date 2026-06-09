@@ -8,7 +8,6 @@ export const webtoons = [
     plscmpnIdNm: "마루출판사",
     genre: "힐링",
     ageGrade: "전체연령",
-    tags: ["잔잔함", "감성", "일상"],
     image:
       "https://images.unsplash.com/photo-1513001900722-370f803f498d?auto=format&fit=crop&w=600&q=80",
     description:
@@ -25,7 +24,6 @@ export const webtoons = [
     plscmpnIdNm: "라온북스",
     genre: "로맨스",
     ageGrade: "전체연령",
-    tags: ["설렘", "캠퍼스", "관계"],
     image:
       "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=600&q=80",
     description:
@@ -42,7 +40,6 @@ export const webtoons = [
     plscmpnIdNm: "대원씨아이",
     genre: "액션",
     ageGrade: "전체연령",
-    tags: ["성장", "판타지", "전투"],
     image:
       "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80",
     description:
@@ -59,7 +56,6 @@ export const webtoons = [
     plscmpnIdNm: "문라이트",
     genre: "일상",
     ageGrade: "전체연령",
-    tags: ["귀여움", "카페", "힐링"],
     image:
       "https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80",
     description:
@@ -76,7 +72,6 @@ export const webtoons = [
     plscmpnIdNm: "블랙북스",
     genre: "코미디",
     ageGrade: "전체연령",
-    tags: ["학교", "개발", "공감"],
     image:
       "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80",
     description:
@@ -93,7 +88,6 @@ export const webtoons = [
     plscmpnIdNm: "하늘출판",
     genre: "드라마",
     ageGrade: "전체연령",
-    tags: ["겨울", "재회", "감성"],
     image:
       "https://images.unsplash.com/photo-1517299321609-52687d1bc55a?auto=format&fit=crop&w=600&q=80",
     description:
@@ -110,7 +104,6 @@ export const webtoons = [
     plscmpnIdNm: "하늘출판",
     genre: "일상",
     ageGrade: "전체연령",
-    tags: ["음식", "친구", "가벼움"],
     image:
       "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=600&q=80",
     description:
@@ -127,7 +120,6 @@ export const webtoons = [
     plscmpnIdNm: "문라이트",
     genre: "스릴러",
     ageGrade: "전체연령",
-    tags: ["미스터리", "긴장감", "추리"],
     image:
       "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80",
     description:

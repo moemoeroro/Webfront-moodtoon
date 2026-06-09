@@ -81,7 +81,6 @@ function normalizeWebtoon(item) {
     pictrWritrNm: item.pictrWritrNm ?? "",
     sntncWritrNm: item.sntncWritrNm ?? "",
     description: item.description ?? "",
-    tags: item.tags ?? [],
   };
 }
 
@@ -138,7 +137,6 @@ export async function fetchWebtoonById(id) {
       ageGrade: target.ageGradCdNm,
       description: target.outline,
       image: target.imageDownloadUrl,
-      tags: [],
     });
   }
 
