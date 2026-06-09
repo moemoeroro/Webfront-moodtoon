@@ -52,6 +52,31 @@
   margin: 0;
 }
 
+.description-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; /* 텍스트 기준으로 버튼 붙이기 */
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.description {
+  flex: 1;
+  line-height: 1.6;
+  white-space: pre-line;
+  margin: 0;
+}
+
+.more-button {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 .bookmark-button {
   margin-top: 1rem;
   padding: 0.75rem 1rem;

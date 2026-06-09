@@ -11,14 +11,17 @@ function WebtoonDetail() {
   
   const { id } = useParams();
 
+  // 로그인한 사용자 정보와 프로필 수정 함수 가져오기
+  const { currentUser, updateProfile } = useAuth();
+
   // 웹툰 정보를 저장할 상태
   const [webtoon, setWebtoon] = useState(null);
 
   // 로딩 상태 저장
   const [loading, setLoading] = useState(true);
   
-  // 로그인한 사용자 정보와 프로필 수정 함수 가져오기
-  const { currentUser, updateProfile } = useAuth();
+  // 웹툰 설명 자세히보기 상태
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     async function load() {
@@ -91,7 +94,23 @@ function WebtoonDetail() {
             </button>
           </div>
           <h1>{webtoon.title}</h1>
-          <p>{webtoon.description}</p>
+          <div className="description-wrap">
+            <p className="description">
+              {isExpanded
+                ? webtoon.description
+                : webtoon.description?.slice(0, 120)}
+              {!isExpanded && webtoon.description?.length > 120 && "..."}
+            </p>
+
+            {webtoon.description?.length > 120 && (
+              <button
+                className="more-button"
+                onClick={() => setIsExpanded((prev) => !prev)}
+              >
+                {isExpanded ? "접기" : "더보기"}
+              </button>
+            )}
+          </div>
 
           <dl className="info-list">
             <div>

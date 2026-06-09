@@ -113,7 +113,7 @@ function Home() {
           <div className="recommend-header">
             <SectionTitle
               eyebrow="추천 결과"
-              title="오늘의 추천 웹툰 6개"
+              title="오늘의 추천 웹툰 8개"
               description={recommendation.reason}
             />
 

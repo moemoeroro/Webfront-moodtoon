@@ -14,7 +14,7 @@ export async function fetchKmasWebtoons(keyword = "") {
       : "";
 
     const res = await fetch(
-      `/kmas/openapi/search/bookAndWebtoonList?prvKey=${API_KEY}${query}`
+      `/kmas/openapi/search/bookAndWebtoonList?prvKey=${API_KEY}${query}&viewItemCnt=100`
     );
 
     const data = await res.json();
