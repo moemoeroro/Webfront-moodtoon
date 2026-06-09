@@ -191,6 +191,152 @@ export const webtoons = [
     moods: ["스트레스", "우울함"],
     weather: ["rainy", "cloudy"],
   },
+  {
+    id: "광마회귀|||네이버웹툰",
+    title: "광마회귀",
+    pictrWritrNm: "이히",
+    sntncWritrNm: "JP",
+    platforms: ['네이버시리즈', '네이버웹툰'],
+    plscmpnIdNm: null,
+    genre: "무협",
+    ageGrade: "15세 이상",
+    image:
+      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=3000268562",
+    description:
+      "무공에 미친 광마 이자하. 그는 마교 교주의 천옥을 훔쳐 쫓기던 중 벼랑에서 떨어지게 된다. 모든 게 끝났다고 생각한 순간 눈을 떠보니, 사람들에게 무시당하던 점소이 시절로 돌아와 있는데... 게다가 억울한 누명으로 두들겨 맞고 객잔은 박살이 나 있는 상황.  점소이 시절로 회귀한 광마!  사내는 다시 미치게 될 것인가? 아니면 사내의 적들이 미치게 될 것인가.",
+    moods: ["우울함", "스트레스", "신남"],
+    weather: ["rainy", "cloudy"],
+  },
+  {
+    id: "환생동물학교|||네이버웹툰",
+    title: "환생동물학교",
+    pictrWritrNm: "엘렌 심",
+    sntncWritrNm: "엘렌 심",
+    platforms: ["네이버웹툰"],
+    plscmpnIdNm: null,
+    genre: "드라마",
+    ageGrade: "전체연령",
+    image:
+      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=3000268879",
+    description:
+      "동물들이 인간으로 환생하기 전, 동물의 습성을 버리고 인간 세계에서 잘 적응할 수 있는 교육을 받는 학교. 그곳에는 주인을 걱정하고 그리워하는 사랑스러운 동물들로 가득하다. 신입 선생님은 이제 이들을 가르쳐 주인을 잊고 인간이 될 수 있도록 해야 하는데….",
+    moods: ["우울함", "스트레스", "편안함"],
+    weather: ["rainy", "cloudy"],
+  },
+  {
+    id: "역대급 영지 설계사|||네이버웹툰",
+    title: "역대급 영지 설계사",
+    pictrWritrNm: "김현수",
+    sntncWritrNm: "몰락인생",
+    platforms: ['네이버시리즈', '네이버웹툰'],
+    plscmpnIdNm: null,
+    genre: "판타지",
+    ageGrade: "전체연령",
+    image:
+      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=3000286149",
+    description:
+      "소설 속 귀족이 된 토목공학도 김수호.  그런데 뭐? 내 영지가 곧 망할 거라고?  그럼 살려야지. 설계하고, 건설하고, 분양해서.  [전 대륙이 기다려온 특별한 기회! 퍼펙트한 교통, 최상의 학군, 쾌적한 숲세권, 원스톱 프리미엄 영지 라이프의 프론테라 남작령이 여러분을 기다립니다. 선착순 분양계약중!]",
+    moods: ["행복함", "편안함"],
+    weather: ["sunny"],
+  },
+  {
+    id: "신수 유치원|||네이버웹툰",
+    title: "신수 유치원",
+    pictrWritrNm: "밈바",
+    sntncWritrNm: "여눅",
+    platforms: ['네이버시리즈', '네이버웹툰'],
+    plscmpnIdNm: null,
+    genre: "판타지",
+    ageGrade: "전체연령",
+    image:
+      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=c9681c6d-0853-4fbd-80ec-46944bceac57",
+    description:
+      "하루하루 근근이 살아가던 소시민, 서민우.\r\n\r\n어릴 때 자신을 버리고 떠난 어머니의 유산을 물려받게 되는데,\r\n\r\n그 유산은 바로.\r\n\r\n\"신수 유치원?\" 호랑이, 토끼, 고양이, 뱀, 거북이, 양까지 다양한 신수 아이들이 다니는 유치원이라니.\r\n\r\n그리고 그의 눈앞에 나타난.\r\n\r\n【시스템을 계승합니다.】\r\n\r\n【▶새로운 신수 유치원장이 될 수 있습니다.】\r\n\r\n'시스템!?' \r\n\r\n시스템과 함께 알게 된 세상의 비밀.\r\n\r\n요괴들과의 전쟁을 앞두고 있다는 것.\r\n\r\n전쟁에서 승리하려면 강해지는 방법밖엔 없다!\r\n\r\n강해지기 위해선 신수 꼬맹이들이랑 위험한 탑을 올라가야 한다.\r\n\r\n'나는 평범한 인간이라고!'\r\n\r\n하지만 모두가 그를 요괴를 무찌르는 '정의의 용사'로 생각하는데...\r\n\r\n신수 아이들과 함께하는 서민우 원장의 탑 등반 육아 이야기가 시작된다.",
+    moods: ["행복함", "편안함", "신남"],
+    weather: ["sunny"],
+  },
+  {
+    id: "어떻게 용사 이름이 아아아아|||네이버시리즈",
+    title: "어떻게 용사 이름이 아아아아",
+    pictrWritrNm: "알그",
+    sntncWritrNm: "알그",
+    platforms: ['네이버시리즈', '네이버웹툰'],
+    plscmpnIdNm: null,
+    genre: "소년",
+    ageGrade: "12세 이상",
+    image:
+      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=ffe35332-cf9d-4624-b12e-bcc1d7b91e04",
+    description:
+      "상자와 항아리만 보면 부수고, 남의 집 서랍을 뒤지는 용사에게 평범한 마을주민이 동료로 선택받았다!\r\n\r\n과연 이딴 용사가 마왕을 무찌르고 세상을 구할 수 있을까?",
+    moods: ["설렘", "신남"],
+    weather: ["sunny", "rainy", "snowy"],
+  },
+  {
+    id: "1초|||네이버웹툰",
+    title: "1초",
+    pictrWritrNm: "광운",
+    sntncWritrNm: "시니",
+    platforms: ["네이버웹툰"],
+    plscmpnIdNm: null,
+    genre: "드라마",
+    ageGrade: "전체연령",
+    image:
+      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=36d86e12-cd6c-48c4-bce9-b1077d502840",
+    description:
+      "구조율 100%의 전설적인 소방관.\r\n\r\n그의 특별한 능력은 긴장하는 순간, 미래가 보인다는 것!\r\n\r\n촌각을 다투는 진짜 소방관들의 이야기",
+    moods: ["우울함", "스트레스"],
+    weather: ["sunny", "rainy", "cloudy"],
+  },
+  {
+    id: "디펜스 게임의 폭군이 되었다|||네이버웹툰",
+    title: "디펜스 게임의 폭군이 되었다",
+    pictrWritrNm: "하정, 우새새",
+    sntncWritrNm: "류은가람",
+    platforms: ["네이버웹툰"],
+    plscmpnIdNm: null,
+    genre: "판타지",
+    ageGrade: "12세 이상",
+    image:
+      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=6c3b7110-f261-465c-b600-73a1b4509efc",
+    description:
+      "타워디펜스&던전오펜스 RPG  누구도 클리어하지 못한 난이도로 게임의 엔딩을 봤다. 그런데 정신을 차리니 게임 속이다. \r\n그것도 공략이 불가능한 튜토리얼 스테이지다. \"반드시 클리어해 주마, 이 거지 같은 게임……!\"",
+    moods: ["우울함", "스트레스"],
+    weather: ["cloudy"],
+  },
+  {
+    id: "오!주예수여|||네이버웹툰",
+    title: "오!주예수여",
+    pictrWritrNm: "아현",
+    sntncWritrNm: null,
+    platforms: ["네이버웹툰"],
+    plscmpnIdNm: null,
+    genre: "일상",
+    ageGrade: "전체연령",
+    image:
+      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=3000220841",
+    description:
+      "모든게 완벽한 여고생 주예수 귀신을 보는 음침한 남고생 오수빈을 좋아해 구해주려다 사고로 유체이탈 상황에 놓이게 되는데...",
+    moods: ["행복함", "설렘", "신남"],
+    weather: ["cloudy", "rainy"],
+  },
+  {
+    id: "지구의 주인은 고양이다|||카카오페이지",
+    title: "지구의 주인은 고양이다",
+    pictrWritrNm: "HON",
+    sntncWritrNm: "HON",
+    platforms: ["카카오페이지"],
+    plscmpnIdNm: null,
+    genre: "드라마",
+    ageGrade: null,
+    image:
+      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=3000259000",
+    description:
+      "지구 정복을 꿈꾸는 고양이 '치치'와\n인간이 좋은 강아지 '모랑',\n그리고 하드보일드 야생햄스터\n'카이사르 강태식'의 좌충우돌 지구(?) 정복기,",
+    moods: ["행복함", "설렘", "신남"],
+    weather: ["sunny", "snowy"],
+  }
+
+
 ];
 
 export const genres = ["전체", "로맨스", "판타지", "액션", "힐링", "일상", "코미디", "드라마", "스릴러"];

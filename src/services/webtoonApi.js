@@ -11,11 +11,15 @@ export async function searchWebtoons({
 
   // 목업 데이터에서 검색
   const local = webtoons.filter((w) => {
+    const title = (w.title || "").toLowerCase();
+    const pic = (w.pictrWritrNm || "").toLowerCase();
+    const sen = (w.sntncWritrNm || "").toLowerCase();
+
     const matchKeyword =
       !lowerKeyword ||
-      w.title.toLowerCase().includes(lowerKeyword) ||
-      w.pictrWritrNm.toLowerCase().includes(lowerKeyword) ||
-      w.sntncWritrNm.toLowerCase().includes(lowerKeyword);
+      title.includes(lowerKeyword) ||
+      pic.includes(lowerKeyword) ||
+      sen.includes(lowerKeyword);
 
     const matchGenre =
       genre === "전체" || w.genre === genre;
@@ -34,7 +38,7 @@ export async function searchWebtoons({
   api.forEach((item) => {
     if (!item.platform) return; 
 
-    const key = `${item.title}-${item.pictrWritrNm}`;
+    const key = `${item.title || ""}-${item.pictrWritrNm || ""}`;
 
     if (!mergedMap.has(key)) {
       mergedMap.set(key, {
@@ -77,7 +81,7 @@ function deduplicateWebtoons(list) {
   for (const item of list) {
     if (!item) continue;
 
-    const key = `${item.title?.trim()}|${item.pictrWritrNm?.trim()}`;
+    const key = `${(item.title || "").trim()}|${(item.pictrWritrNm || "").trim()}`;
 
     if (!map.has(key)) {
       map.set(key, {
