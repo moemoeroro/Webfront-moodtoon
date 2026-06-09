@@ -137,9 +137,9 @@ function Profile() {
               <p>북마크한 작품이 없습니다.</p>
             ) : (
               topGenres.map(([genre, count], index) => (
-                <Tag key={genre} size="large">
+                <div key={genre} size="large">
                   {index + 1}위 {genre} ({count})
-                </Tag>
+                </div>
               ))
             )}
           </div>

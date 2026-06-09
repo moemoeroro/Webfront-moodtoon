@@ -32,6 +32,8 @@ export async function searchWebtoons({
   const mergedMap = new Map();
 
   api.forEach((item) => {
+    if (!item.platform) return; 
+
     const key = `${item.title}-${item.pictrWritrNm}`;
 
     if (!mergedMap.has(key)) {
