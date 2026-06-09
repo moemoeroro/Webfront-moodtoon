@@ -4,6 +4,7 @@ import { fetchAllWebtoons } from "../../services/webtoonApi.js";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { fetchMyComments } from "../../services/commentApi.js";
 import WebtoonGrid from "../../components/Webtoon/WebtoonGrid.jsx";
+import CommentItem from "../../components/Comment/CommentItem.jsx";
 import Button from "../../components/ui/Button.jsx";
 import Tag from "../../components/ui/Tag.jsx";
 import SectionTitle from "../../components/ui/SectionTitle.jsx";
@@ -222,11 +223,9 @@ function Profile() {
                   className="comment-link"
                   key={comment.id}
                 >
-                  <article className="comment-item">
-                    <strong>{webtoon?.title}</strong>
-                    <p>{comment.text}</p>
-                    <span>{comment.date}</span>
-                  </article>
+                  <CommentItem
+                    comment={comment}
+                  />
                 </Link>
               );
             })

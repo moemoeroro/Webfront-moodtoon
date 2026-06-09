@@ -2,25 +2,27 @@ import { useState } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import Button from "../ui/Button.jsx";
 
-function CommentItem({ comment, onDelete, onEdit, onEmpathy, isLiked, }) {
+function CommentItem({ comment, title, onDelete, onEdit, onEmpathy, isLiked, }) {
   const { currentUser } = useAuth();
-  const canEdit =
-    Boolean(comment.userId) && comment.userId === currentUser?.id;
+  const canEdit = Boolean(comment.userId) && comment.userId === currentUser?.id;
 
   // 댓글 주정 모드 여부
   const [isEditing, setIsEditing] = useState(false);
   
   // 수정 중인 댓글 내용
   const [editText, setEditText] = useState(comment.text);
+
+  console.log(comment);
+  console.log(title);
   
   return (
     <article className="comment-item">
       {/* 작성자 표시 */}
       <div className="comment-header">
-        <strong>{comment.user}</strong>
+        <strong>{title || comment.user}</strong>
 
         <div className="comment-actions">
-          {canEdit && !isEditing && (
+          {onEdit && canEdit && !isEditing && (
             <button
               type="button"
               onClick={() => setIsEditing(true)}
@@ -29,7 +31,7 @@ function CommentItem({ comment, onDelete, onEdit, onEmpathy, isLiked, }) {
             </button>
           )}
 
-          {canEdit && !isEditing && (
+          {onDelete && canEdit && !isEditing && (
             <button
               type="button"
               onClick={() => onDelete(comment.id)}
@@ -52,7 +54,7 @@ function CommentItem({ comment, onDelete, onEdit, onEmpathy, isLiked, }) {
       )}
 
       {/* 공감 수 표시 버튼 */}
-      {!isEditing && (
+      {onEmpathy && !isEditing && (
         <Button
           variant={isLiked ? "primary" : "outline"}
           size="medium"
@@ -72,6 +74,7 @@ function CommentItem({ comment, onDelete, onEdit, onEmpathy, isLiked, }) {
             type="button"
             onClick={() => {
               if (!editText.trim()) return;
+              if (!onEdit) return;
 
               onEdit(comment.id, editText);
               setIsEditing(false);
