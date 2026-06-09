@@ -276,7 +276,7 @@ export const webtoons = [
     title: "1초",
     pictrWritrNm: "광운",
     sntncWritrNm: "시니",
-    platforms: ["네이버웹툰"],
+    platforms: ['네이버시리즈', '네이버웹툰'],
     plscmpnIdNm: null,
     genre: "드라마",
     ageGrade: "전체연령",
@@ -334,6 +334,70 @@ export const webtoons = [
       "지구 정복을 꿈꾸는 고양이 '치치'와\n인간이 좋은 강아지 '모랑',\n그리고 하드보일드 야생햄스터\n'카이사르 강태식'의 좌충우돌 지구(?) 정복기,",
     moods: ["행복함", "설렘", "신남"],
     weather: ["sunny", "snowy"],
+  },
+  {
+    id: "대마법사 커리큘럼|||네이버웹툰",
+    title: "대마법사 커리큘럼",
+    pictrWritrNm: "덩배",
+    sntncWritrNm: "덩배",
+    platforms: ["네이버웹툰"],
+    plscmpnIdNm: null,
+    genre: "판타지",
+    ageGrade: "15세 이상",
+    image:
+      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=0045a8cd-e663-4fcc-8ef4-885b65a3d9bf",
+    description:
+      "착하고 의롭지만 조금? 무섭게 생긴 마법사 유진, 스승의 딸인 아인을 제자로 거둬 대마법사로 키우고자 한다.\r\n\r\n마법으로 구원받고 마법으로 혼란스러워진 세상에서, 유진쌤과 함께 위대한 대마법사를 목표로 나아가자!",
+    moods: ["행복함", "설렘", "신남"],
+    weather: ["sunny", "rainy"],
+  },
+  {
+    id: "스위트홈|||네이버웹툰",
+    title: "스위트홈",
+    pictrWritrNm: "황영찬",
+    sntncWritrNm: "김칸비,황영찬",
+    platforms: ["네이버웹툰"],
+    plscmpnIdNm: null,
+    genre: "스릴러/공포",
+    ageGrade: "15세 이상",
+    image:
+      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=3000256460",
+    description:
+      "\"절망의 세상을 비관하고 스스로를 고립시킨 한 소년, 하지만 이제 소년은 밖으로 나가고 싶다.\"",
+    moods:  ["피곤함", "우울함", "스트레스"],
+    weather: ["cloudy", "rainy"],
+  },
+  {
+    id: "흉가에 들어가면 안되는 이유|||네이버시리즈",
+    title: "흉가에 들어가면 안되는 이유",
+    pictrWritrNm: "벽돌",
+    sntncWritrNm: "벽돌",
+    platforms: ['네이버시리즈', '네이버웹툰'],
+    plscmpnIdNm: null,
+    genre: "드라마",
+    ageGrade: "15세 이상",
+    image:
+      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=c28bb04c-68c8-4294-8fb5-f6350c32fb33",
+    description:
+      "밝은 세상은 어떤 모습일까? '이현'의 세상은 흉측한 귀신과 영혼이 남기고 간 검은 덩어리로 가득하다.\r\n\r\n평범한 삶을 살기위해 애써 그것들을 모른척하던 현의 앞에 흉가만 찾아다니는 이상한놈이 나타나는데...\r\n\r\n위험천만한 그곳에서 우리는 무사히 빠져나갈수 있을까?",
+    moods: ["피곤함", "우울함", "스트레스"],
+    weather: ["cloudy", "rainy"],
+  },
+  {
+    id: "애옹식당|||네이버웹툰",
+    title: "애옹식당",
+    pictrWritrNm: "정다정",
+    sntncWritrNm: "정다정",
+    platforms: ["네이버웹툰"],
+    plscmpnIdNm: null,
+    genre: "일상",
+    ageGrade: "전체연령",
+    image:
+      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=3000284326",
+    description:
+      "집사 멘탈 회복 프로젝트!   내가 고양이를 키우는 줄 알았더니, 고양이가 나를 키우고 있었다?!  스트레스로 인한 번아웃으로 고생 중인 집사 '고영'은  어느 날 꿈속에서 자기를 위해 요리를 해 주겠다는 고양이들을 만나게 되는데...?!",
+    moods: ["행복함", "편안함", "우울함"],
+    weather: ["sunny", "rainy"],
   }
 
 
