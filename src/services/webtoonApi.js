@@ -87,12 +87,9 @@ function normalizeWebtoon(item) {
 
 // 전체 웹툰 가져오기
 export async function fetchAllWebtoons() {
-  const [local, api] = await Promise.all([
-    webtoons,
-    fetchKmasWebtoons("")
-  ]);
+  const api = await fetchKmasWebtoons("");
 
-  const safeLocal = (local || []).filter(Boolean);
+  const safeLocal = (webtoons || []).filter(Boolean);
 
   const safeApi = (api || [])
     .filter(Boolean)
@@ -102,7 +99,6 @@ export async function fetchAllWebtoons() {
     .map(normalizeWebtoon)
     .filter(Boolean);
 }
-
 
 export async function fetchWebtoonById(id) {
 

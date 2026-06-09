@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { webtoons } from "../../data/mockWebtoons.js";
+import { fetchAllWebtoons } from "../../services/webtoonApi.js";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { fetchMyComments } from "../../services/commentApi.js";
 import WebtoonGrid from "../../components/Webtoon/WebtoonGrid.jsx";
@@ -31,6 +31,7 @@ function getTopMood(moodLogs = []) {
 
 function Profile() {
   const { currentUser, isLoading, logout } = useAuth();
+  const [allWebtoons, setAllWebtoons] = useState([]);
   const [myComments, setMyComments] = useState([]); // 내 댓글 저장
   const [isCommentsLoading, setIsCommentsLoading] = useState(false); // 댓글 로딩 상태
 
@@ -41,6 +42,12 @@ function Profile() {
       setMyComments([]);
       return;
     }
+
+    fetchAllWebtoons().then((data) => {
+      if (isMounted) {
+        setAllWebtoons(data);
+      }
+    });
 
     setIsCommentsLoading(true);
 
@@ -78,7 +85,7 @@ function Profile() {
 
 
   // 북마크 웹툰 찾기
-  const likedWebtoons = webtoons.filter((webtoon) =>
+  const likedWebtoons = allWebtoons.filter((webtoon) =>
     currentUser.likedWebtoonIds.includes(webtoon.id)
   );
 
@@ -205,7 +212,7 @@ function Profile() {
             <p>작성한 댓글이 없습니다.</p>
           ) : (
             myComments.map((comment) => {
-              const webtoon = webtoons.find(
+              const webtoon = allWebtoons.find(
                 (item) => item.id === comment.webtoonId
               );
 
