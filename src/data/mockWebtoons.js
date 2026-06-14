@@ -256,22 +256,6 @@ export const webtoons = [
     weather: ["sunny"],
   },
   {
-    id: "어떻게 용사 이름이 아아아아|||네이버시리즈",
-    title: "어떻게 용사 이름이 아아아아",
-    pictrWritrNm: "알그",
-    sntncWritrNm: "알그",
-    platforms: ['네이버시리즈', '네이버웹툰'],
-    plscmpnIdNm: null,
-    genre: "소년",
-    ageGrade: "12세 이상",
-    image:
-      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=ffe35332-cf9d-4624-b12e-bcc1d7b91e04",
-    description:
-      "상자와 항아리만 보면 부수고, 남의 집 서랍을 뒤지는 용사에게 평범한 마을주민이 동료로 선택받았다!\r\n\r\n과연 이딴 용사가 마왕을 무찌르고 세상을 구할 수 있을까?",
-    moods: ["설렘", "신남"],
-    weather: ["sunny", "rainy", "snowy"],
-  },
-  {
     id: "1초|||네이버웹툰",
     title: "1초",
     pictrWritrNm: "광운",
@@ -302,38 +286,6 @@ export const webtoons = [
       "타워디펜스&던전오펜스 RPG  누구도 클리어하지 못한 난이도로 게임의 엔딩을 봤다. 그런데 정신을 차리니 게임 속이다. \r\n그것도 공략이 불가능한 튜토리얼 스테이지다. \"반드시 클리어해 주마, 이 거지 같은 게임……!\"",
     moods: ["우울함", "스트레스"],
     weather: ["cloudy"],
-  },
-  {
-    id: "오!주예수여|||네이버웹툰",
-    title: "오!주예수여",
-    pictrWritrNm: "아현",
-    sntncWritrNm: null,
-    platforms: ["네이버웹툰"],
-    plscmpnIdNm: null,
-    genre: "일상",
-    ageGrade: "전체연령",
-    image:
-      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=3000220841",
-    description:
-      "모든게 완벽한 여고생 주예수 귀신을 보는 음침한 남고생 오수빈을 좋아해 구해주려다 사고로 유체이탈 상황에 놓이게 되는데...",
-    moods: ["행복함", "설렘", "신남"],
-    weather: ["cloudy", "rainy"],
-  },
-  {
-    id: "지구의 주인은 고양이다|||카카오페이지",
-    title: "지구의 주인은 고양이다",
-    pictrWritrNm: "HON",
-    sntncWritrNm: "HON",
-    platforms: ["카카오페이지"],
-    plscmpnIdNm: null,
-    genre: "드라마",
-    ageGrade: null,
-    image:
-      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=3000259000",
-    description:
-      "지구 정복을 꿈꾸는 고양이 '치치'와\n인간이 좋은 강아지 '모랑',\n그리고 하드보일드 야생햄스터\n'카이사르 강태식'의 좌충우돌 지구(?) 정복기,",
-    moods: ["행복함", "설렘", "신남"],
-    weather: ["sunny", "snowy"],
   },
   {
     id: "대마법사 커리큘럼|||네이버웹툰",
@@ -398,6 +350,38 @@ export const webtoons = [
       "집사 멘탈 회복 프로젝트!   내가 고양이를 키우는 줄 알았더니, 고양이가 나를 키우고 있었다?!  스트레스로 인한 번아웃으로 고생 중인 집사 '고영'은  어느 날 꿈속에서 자기를 위해 요리를 해 주겠다는 고양이들을 만나게 되는데...?!",
     moods: ["행복함", "편안함", "우울함"],
     weather: ["sunny", "rainy"],
+  },
+  {
+    id: "파브르 in 사천당가|||네이버웹툰",
+    title: "파브르 in 사천당가",
+    pictrWritrNm: "크라켄",
+    sntncWritrNm: "지대공마법소년",
+    platforms: ['네이버시리즈', '네이버웹툰'],
+    plscmpnIdNm: null,
+    genre: "무협",
+    ageGrade: "전체연령",
+    image:
+      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=ede785ec-3a44-4c33-abec-80ed1555f046",
+    description:
+      "독물과 독충을 다루던 백만 스트리머 매운 파브르.\r\n\r\n아프리카 현지촬영중 블랙맘바에 물려 무림에 전생하게 된다.\r\n\r\n정글에서 자신이 좋아하는 독물들을 키우며 자연인 생활을 하던 주인공은 독공을 사용하는 사천당가의 눈에 띄게 된다.\r\n\r\n\"자네. 우리 식구(食口)가 되게!\"",
+    moods: ["행복함", "신남", "편안함", "스트레스"],
+    weather: ["sunny",],
+  },
+  {
+    id: "안녕 오목눈이 그리핀!|||네이버시리즈",
+    title: "안녕 오목눈이 그리핀!",
+    pictrWritrNm: "임형",
+    sntncWritrNm: "임형",
+    platforms: ["네이버시리즈"],
+    plscmpnIdNm: null,
+    genre: "판타지",
+    ageGrade: "전체연령",
+    image:
+      "https://www.kmas.or.kr:443/common/file/atchmnflDownload.ajax?fileImageId=f255f09c-e9e0-49e7-b9ed-08f7fe18c370",
+    description:
+      "이사한 집에 정체 모를 '오목눈이 그리핀'이 나타났다!\r\n\r\n앞발은 푹신한 새의 다리, 뒷발은 고양이의 젤리가?\r\n\r\n어디로 튈지 모르는 오목눈이 그리핀과 초보 집사 '한솔'의 좌충우돌 동거 라이프.\r\n\r\n과연 무사할 수 있을까?",
+    moods: ["행복함", "신남", "편안함", "스트레스"],
+    weather: ["snowy"],
   }
 
 
