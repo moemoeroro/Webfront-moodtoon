@@ -197,11 +197,8 @@ function Profile() {
         </section>
       </div>
 
-      <section>
-        <SectionTitle
-          title="관심 작품"
-        />
-
+      <section className="interested-webtoons">
+        <SectionTitle title="관심 작품"/>
         <WebtoonGrid webtoons={likedWebtoons} />
       </section>
 
@@ -211,9 +208,6 @@ function Profile() {
           title="최근 댓글"
           compact
         >
-          <Link className="text-link" to="/explore">
-            더 둘러보기
-          </Link>
         </SectionTitle>
         <div className="comment-list">
           {isCommentsLoading ? (
