@@ -55,7 +55,7 @@ function Home() {
       <section className="hero-section">
         <div>
           <p className="eyebrow">Mood based webtoon platform</p>
-          <h1>오늘의 날씨와 감정에 맞는 웹툰을 추천받아보세요</h1>
+          <h1 >오늘의 날씨와 감정에 맞는 웹툰을 추천받아보세요</h1>
           <p>
             moodtoon은 날씨, 현재 감정, 선호 장르를 함께 반영해 지금 보기 좋은 웹툰을 추천해주는 서비스입니다.
           </p>
