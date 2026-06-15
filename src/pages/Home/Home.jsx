@@ -18,9 +18,6 @@ function Home() {
   const [selectedGenres, setSelectedGenres] = useState([]); // 장르 필터
   const [selectedPlatforms, setSelectedPlatforms] = useState([]); // 플랫폼 필터
   
-  // 인기 웹툰 계산
-  const popularWebtoons = [...webtoons].sort((a, b) => b.likes - a.likes).slice(0, 4);
-  
   // 추천 버튼 함수
   const handleRecommend = async () => {
     
@@ -177,13 +174,6 @@ function Home() {
         </section>
       )}
 
-      <section>
-        <SectionTitle
-          eyebrow="인기 웹툰"
-          title="현재 많이 찾는 작품"
-        />
-        <WebtoonGrid webtoons={popularWebtoons} />
-      </section>
     </div>
   );
 }

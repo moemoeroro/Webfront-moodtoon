@@ -15,7 +15,7 @@ const moodIcons = {
 
 // 감정에 맞는 아이콘 반환
 function getMoodIcon(mood) {
-  return moodIcons[mood] || "☁️";
+  return moodIcons[mood] || "🙄";
 }
 
 function MoodSelector({ selectedMood, onSelect }) {
