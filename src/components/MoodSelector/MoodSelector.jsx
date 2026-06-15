@@ -35,7 +35,7 @@ function MoodSelector({ selectedMood, onSelect }) {
               {selectedIcon}
             </span>
 
-            {selectedMood || "기분을 선택해주세요"}
+            {selectedMood || "현재 기분을 선택해주세요"}
           </h2>
         </div>
       </div>

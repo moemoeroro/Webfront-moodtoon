@@ -11,7 +11,7 @@ function SearchBar({ keyword, onKeywordChange, onEnter }) {
             onEnter();
           }
         }}
-        placeholder="작품명, 작가, 태그를 입력하세요"
+        placeholder="작품명, 작가를 입력하세요"
       />
     </label>
   );
