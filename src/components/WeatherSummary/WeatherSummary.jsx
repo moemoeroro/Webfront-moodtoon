@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { fetchSeoulWeather } from "../../services/weatherApi.js";
+import { getCurrentLocation } from "../../services/locationApi";
+import { fetchCurrentWeather, fetchSeoulWeather } from "../../services/weatherApi";
 import "./WeatherSummary.css";
 
 const weatherIcons = {
@@ -11,7 +12,7 @@ const weatherIcons = {
 
 function WeatherSummary({ onWeatherChange }) {
   const [weather, setWeather] = useState({
-    city: "서울",
+    city: "위치",
     text: "불러오는 중",
     temperature: "--",
     type: "cloudy",
@@ -23,15 +24,34 @@ function WeatherSummary({ onWeatherChange }) {
 
     async function loadWeather() {
       try {
-        const nextWeather = await fetchSeoulWeather();
+        // 좌표 가져오기
+        const coords = await getCurrentLocation();
+
+        // 도시명 가져오기
+        const city = await getLocationName(
+          coords.latitude,
+          coords.longitude
+        );
+
+        // 날씨 요청
+        const nextWeather = await fetchCurrentWeather({
+          ...coords,
+          name: city,
+        });
+
         if (!ignore) {
           setWeather(nextWeather);
           onWeatherChange(nextWeather);
           setStatus("done");
         }
-      } catch {
+      } catch (error) {
+        console.error(error);
+
+        const nextWeather = await fetchSeoulWeather();
+
         if (!ignore) {
-          onWeatherChange(weather);
+          setWeather(nextWeather);
+          onWeatherChange(nextWeather);
           setStatus("fallback");
         }
       }
@@ -65,7 +85,7 @@ function WeatherSummary({ onWeatherChange }) {
 
       <p>
         {status === "loading"
-          ? "서울 기준 날씨 정보를 불러오고 있어요."
+          ? "현재 위치의 날씨 정보를 불러오고 있어요."
           : "현재 날씨를 오늘의 웹툰 추천 기준에 반영했어요."}
       </p>
     </section>
