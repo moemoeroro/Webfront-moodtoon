@@ -30,6 +30,12 @@ function Home() {
     if (!webtoonId) return "작품 정보 확인 필요";
     return webtoonId.includes("|||") ? webtoonId.split("|||")[0] : webtoonId;
   }
+
+  function getPopularGroupKey(webtoon, webtoonId) {
+    return (webtoon?.title || getFallbackWebtoonTitle(webtoonId))
+      .replace(/\s+/g, "")
+      .toLowerCase();
+  }
   
   // 추천 버튼 함수
   useEffect(() => {
@@ -78,14 +84,16 @@ function Home() {
       const popularItems = await Promise.all(
         popularResult.items.map(async (item) => {
           const webtoon = await fetchWebtoonById(item.webtoonId);
+          const fallbackTitle = getFallbackWebtoonTitle(item.webtoonId);
 
           return {
             bookmarkCount: item.bookmarkCount,
+            groupKey: getPopularGroupKey(webtoon, item.webtoonId),
             webtoon: webtoon || {
               genre: "",
               id: item.webtoonId,
               image: "",
-              title: getFallbackWebtoonTitle(item.webtoonId),
+              title: fallbackTitle,
             },
           };
         })
@@ -93,7 +101,33 @@ function Home() {
 
       if (!isMounted) return;
 
-      setPopularWebtoons(popularItems);
+      const mergedPopularItems = Array.from(
+        popularItems
+          .reduce((map, item) => {
+            const previous = map.get(item.groupKey);
+
+            if (!previous) {
+              map.set(item.groupKey, item);
+              return map;
+            }
+
+            map.set(item.groupKey, {
+              ...previous,
+              bookmarkCount: previous.bookmarkCount + item.bookmarkCount,
+              webtoon:
+                previous.webtoon.image || !item.webtoon.image
+                  ? previous.webtoon
+                  : item.webtoon,
+            });
+
+            return map;
+          }, new Map())
+          .values()
+      )
+        .sort((a, b) => b.bookmarkCount - a.bookmarkCount)
+        .slice(0, 6);
+
+      setPopularWebtoons(mergedPopularItems);
       setIsPopularLoading(false);
     }
 
