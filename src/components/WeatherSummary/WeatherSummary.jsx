@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getCurrentLocation } from "../../services/locationApi";
+import { getCurrentLocation, getLocationName } from "../../services/locationApi";
 import { fetchCurrentWeather, fetchSeoulWeather } from "../../services/weatherApi";
 import "./WeatherSummary.css";
 
