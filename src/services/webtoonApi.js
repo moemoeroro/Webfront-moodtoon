@@ -225,4 +225,3 @@ export function recommendWebtoons({ mood, weatherType }) {
     })
     .sort((a, b) => b.score - a.score);
 }
-

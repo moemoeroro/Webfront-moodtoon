@@ -36,6 +36,11 @@ function Explore() {
   }, [items]);
 
   useEffect(() => {
+    if (!keyword.trim()) {
+      setItems([]);
+      return;
+    }
+    
     let ignore = false;
 
     setLoading(true);  
