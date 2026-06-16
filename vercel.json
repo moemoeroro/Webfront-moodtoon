@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/kmas/:path*",
+      "destination": "https://www.kmas.or.kr/:path*"
+    },
+    {
+      "source": "/:path*",
+      "destination": "/index.html"
+    }
+  ]
+}
