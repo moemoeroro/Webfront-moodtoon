@@ -1,5 +1,6 @@
 import { isSupabaseConfigured, supabase } from "./supabaseClient.js";
 
+// 신규 사용자 기본 프로필
 const defaultProfile = {
   favoriteGenres: ["romance", "fantasy"],
   likedWebtoonIds: [],
@@ -7,26 +8,34 @@ const defaultProfile = {
   likedComments: [],
 };
 
+// 아이디를 소문자로 통일
 function normalizeUsername(username = "") {
   return username.trim().toLowerCase();
 }
 
+// 이메일을 소문자로 통일
 function normalizeEmail(email = "") {
   return email.trim().toLowerCase();
 }
 
+// 이메일 형식 검증
 function isEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
+// 아이디 형식 검증
+// 영문 소문자, 숫자, 밑줄 허용
 function isValidUsername(username) {
   return /^[a-z0-9_]{4,20}$/.test(username);
 }
 
+// 비밀번호 형식 검증
+// 영문 + 숫자 포함 + 8자 이상
 function isValidPassword(password) {
   return /^(?=.*[A-Za-z])(?=.*\d).{8,}$/.test(password);
 }
 
+// Supabase 연결 여부 확인
 function requireSupabase() {
   if (!isSupabaseConfigured || !supabase) {
     return {
@@ -39,6 +48,8 @@ function requireSupabase() {
   return null;
 }
 
+
+// 아이디 일부 마스킹 처리(보안을 위해)
 function maskUsername(username = "") {
   if (username.length <= 4) {
     return `${username.slice(0, 2)}**`;
@@ -47,6 +58,8 @@ function maskUsername(username = "") {
   return `${username.slice(0, 4)}${"*".repeat(username.length - 4)}`;
 }
 
+// DB 프로필과 Auth 사용자 정보를
+// 화면에서 사용하는 User 객체로 변환
 function toSessionUser(profile, authUser) {
   if (!profile && !authUser) return null;
 
@@ -69,6 +82,7 @@ function toSessionUser(profile, authUser) {
   };
 }
 
+// 화면용 프로필 데이터를 DB 컬럼명 형식으로 변환
 function toProfilePatch(nextProfile) {
   const patch = {};
 
@@ -99,11 +113,17 @@ function toProfilePatch(nextProfile) {
   return patch;
 }
 
+// 비밀번호 재설정 후 이동할 URL 생성
 function getRedirectUrl(path = "/find-account") {
   if (typeof window === "undefined") return undefined;
   return `${window.location.origin}${path}`;
 }
 
+/*
+ * 로그인 시 사용자의 이메일 조회
+ * - 이메일 입력 → 그대로 사용
+ * - 아이디 입력 → RPC로 이메일 검색
+ */
 async function findLoginEmail(identifier) {
   const normalizedIdentifier = identifier.trim();
 
@@ -125,6 +145,7 @@ async function findLoginEmail(identifier) {
   return data?.[0]?.email || "";
 }
 
+// Profiles 테이블에서 사용자 프로필 조회
 async function fetchProfile(authUser) {
   if (!authUser) return null;
 
@@ -143,10 +164,20 @@ async function fetchProfile(authUser) {
   return toSessionUser(data, authUser);
 }
 
+// 세션 사용자 객체 정리
 export function sanitizeSessionUser(user) {
   return user ? { ...defaultProfile, ...user } : null;
 }
 
+
+
+
+/*===========================
+인증 관련 함수
+============================*/
+
+
+// 현재 로그인 사용자 조회
 export async function getCurrentUser() {
   const configError = requireSupabase();
   if (configError) return null;
@@ -161,6 +192,8 @@ export async function getCurrentUser() {
   return fetchProfile(user);
 }
 
+// 로그인 상태 변경 감지
+// (로그인 / 로그아웃 시 자동 실행)
 export function onAuthStateChange(callback) {
   if (!isSupabaseConfigured || !supabase) {
     return { unsubscribe: () => {} };
@@ -185,6 +218,8 @@ export function onAuthStateChange(callback) {
   return subscription;
 }
 
+// 로그인 
+// 아이디 -> 이메일 변환 후, Supabase Auth 로그인
 export async function login({ username, password }) {
   const configError = requireSupabase();
   if (configError) return configError;
@@ -213,6 +248,8 @@ export async function login({ username, password }) {
   }
 }
 
+// 회원가입
+// 입력값 검증 후 Auth 계정 생성
 export async function signup(form) {
   const configError = requireSupabase();
   if (configError) return configError;
@@ -293,6 +330,8 @@ export async function signup(form) {
   }
 }
 
+
+// 로그아웃
 export async function logout() {
   const configError = requireSupabase();
   if (configError) return configError;
@@ -306,6 +345,14 @@ export async function logout() {
   return { ok: true };
 }
 
+
+
+/*===========================
+계정 찾기 / 비밀번호 찾기
+============================*/
+
+
+// 이메일로 가입된 아이디 조회
 export async function findUsername({ contact }) {
   const configError = requireSupabase();
   if (configError) return configError;
@@ -338,6 +385,8 @@ export async function findUsername({ contact }) {
   };
 }
 
+
+// 비밀번호 재설정 메일 발송
 export async function resetPassword(form) {
   const configError = requireSupabase();
   if (configError) return configError;
@@ -386,6 +435,8 @@ export async function resetPassword(form) {
   };
 }
 
+// 비밀번호 재설정 완료
+// 메일 링크 진입 후 새 비밀번호 저장
 export async function completePasswordReset(form) {
   const configError = requireSupabase();
   if (configError) return configError;
@@ -418,6 +469,14 @@ export async function completePasswordReset(form) {
   };
 }
 
+
+
+/*===========================
+프로필 수정
+============================*/
+
+// 사용자 프로필 수정
+// 선호 장르, 좋아요 목록 등 저장
 export async function updateProfile(userId, nextProfile) {
   const configError = requireSupabase();
   if (configError) return configError;

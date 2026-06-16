@@ -12,8 +12,7 @@ const weatherIcons = {
 
 function WeatherSummary({ onWeatherChange }) {
   const [weather, setWeather] = useState({
-    city: "위치",
-    text: "불러오는 중",
+    city: "위치 정보를 불러오는 중",
     temperature: "--",
     type: "cloudy",
   });
@@ -85,7 +84,7 @@ function WeatherSummary({ onWeatherChange }) {
 
       <p>
         {status === "loading"
-          ? "현재 위치의 날씨 정보를 불러오고 있어요."
+          ? "현재 위치의 날씨 정보를 불러오고 있어요." 
           : "현재 날씨를 오늘의 웹툰 추천 기준에 반영했어요."}
       </p>
     </section>
