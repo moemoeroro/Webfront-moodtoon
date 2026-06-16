@@ -1,3 +1,5 @@
+// 일단 날씨는 서울 위치를 기반으로 불러옴
+
 const SEOUL = {
   name: "서울",
   latitude: 37.5665,

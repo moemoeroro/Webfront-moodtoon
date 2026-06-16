@@ -1,3 +1,5 @@
+// 근데 서울 기반으로 위치 정보 불러오는 거라 지금은 이거 필요없는 듯
+
 export function getCurrentLocation() {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
