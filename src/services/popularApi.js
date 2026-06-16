@@ -1,6 +1,6 @@
 import { isSupabaseConfigured, supabase } from "./supabaseClient.js";
 
-export async function fetchPopularBookmarkedWebtoons(limit = 4) {
+export async function fetchPopularBookmarkedWebtoons(limit = 6) {
   if (!isSupabaseConfigured || !supabase) {
     return { ok: true, items: [] };
   }

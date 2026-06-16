@@ -19,6 +19,7 @@ function Home() {
   const [isTodayCommentLoading, setIsTodayCommentLoading] = useState(true);
   const [popularWebtoons, setPopularWebtoons] = useState([]);
   const [isPopularLoading, setIsPopularLoading] = useState(true);
+  const [showAllPopular, setShowAllPopular] = useState(false);
   const [selectedMood, setSelectedMood] = useState(null); // 기분
   const [weather, setWeather] = useState(null); // 날씨
   const [recommendation, setRecommendation] = useState(null); // 추천 결과
@@ -59,7 +60,7 @@ function Home() {
         }
       }
 
-      const popularResult = await fetchPopularBookmarkedWebtoons(4);
+      const popularResult = await fetchPopularBookmarkedWebtoons(6);
 
       if (!isMounted) return;
 
@@ -146,6 +147,9 @@ function Home() {
   }) || [];
 
   const finalRecommendation = filteredRecommendation.slice(0, 8);
+  const visiblePopularWebtoons = showAllPopular
+    ? popularWebtoons.slice(0, 6)
+    : popularWebtoons.slice(0, 3);
 
   return (
     <div className="page home-page">
@@ -305,7 +309,7 @@ function Home() {
           <p className="popular-webtoon-empty">인기웹툰을 불러오는 중입니다.</p>
         ) : popularWebtoons.length > 0 ? (
           <div className="popular-webtoon-list">
-            {popularWebtoons.map(({ bookmarkCount, webtoon }, index) => (
+            {visiblePopularWebtoons.map(({ bookmarkCount, webtoon }, index) => (
               <Link
                 className="popular-webtoon-item"
                 key={webtoon.id}
@@ -324,6 +328,16 @@ function Home() {
           </div>
         ) : (
           <p className="popular-webtoon-empty">아직 북마크된 웹툰이 없습니다.</p>
+        )}
+
+        {popularWebtoons.length > 3 && (
+          <button
+            className="popular-more-button"
+            type="button"
+            onClick={() => setShowAllPopular((prev) => !prev)}
+          >
+            {showAllPopular ? "접기" : "더보기"}
+          </button>
         )}
       </section>
 
