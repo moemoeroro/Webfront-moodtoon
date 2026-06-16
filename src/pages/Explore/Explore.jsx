@@ -31,9 +31,7 @@ function Explore() {
 
   const [items, setItems] = useState([]);
 
-  const filteredItems = useMemo(() => {
-    return items;
-  }, [items]);
+  const filteredItems = items;
 
   useEffect(() => {
     if (!keyword.trim()) {
@@ -103,9 +101,7 @@ function Explore() {
           compact
         />
 
-        {loading && items.length === 0 ? (
-          <p className="loading">검색 중...</p>
-        ) : (
+        {loading && items.length === 0 ? null : (
           <WebtoonGrid webtoons={filteredItems} />
         )}
       </section>

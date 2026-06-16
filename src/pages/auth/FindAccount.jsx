@@ -1,79 +1,142 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Button from "../../components/ui/Button.jsx";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { findUsername, resetPassword } from "../../services/authApi.js";
 import "./auth.css";
 
-const initialFindForm = {
-  contact: "",
+// 초기 폼
+const initialFindForm = { contact: "" };
+const initialResetForm = { username: "", contact: "" };
+const initialRecoveryForm = { password: "", passwordConfirm: "" };
+
+// 초기 상태
+const initialState = {
+  activeTab: "find",
+  loading: null,
+
+  findForm: initialFindForm,
+  resetForm: initialResetForm,
+  recoveryForm: initialRecoveryForm,
+
+  findResult: null,
+  resetResult: null,
+  recoveryResult: null,
 };
 
-const initialResetForm = {
-  username: "",
-  contact: "",
-};
+// reducer
+function reducer(state, action) {
+  switch (action.type) {
+    case "SET_TAB":
+      return { ...state, activeTab: action.payload };
 
-const initialRecoveryForm = {
-  password: "",
-  passwordConfirm: "",
-};
+    case "SET_LOADING":
+      return { ...state, loading: action.payload };
+
+    case "UPDATE_FIND_FORM":
+      return {
+        ...state,
+        findForm: { ...state.findForm, ...action.payload },
+      };
+
+    case "UPDATE_RESET_FORM":
+      return {
+        ...state,
+        resetForm: { ...state.resetForm, ...action.payload },
+      };
+
+    case "UPDATE_RECOVERY_FORM":
+      return {
+        ...state,
+        recoveryForm: { ...state.recoveryForm, ...action.payload },
+      };
+
+    case "SET_RESULT":
+      return {
+        ...state,
+        [action.key]: action.payload,
+      };
+
+    default:
+      return state;
+  }
+}
 
 function FindAccount() {
   const [searchParams] = useSearchParams();
   const { completePasswordReset, isPasswordRecovery } = useAuth();
-  const [findForm, setFindForm] = useState(initialFindForm);
-  const [resetForm, setResetForm] = useState(initialResetForm);
-  const [recoveryForm, setRecoveryForm] = useState(initialRecoveryForm);
-  const [findResult, setFindResult] = useState(null);
-  const [resetResult, setResetResult] = useState(null);
-  const [recoveryResult, setRecoveryResult] = useState(null);
-  const [loadingType, setLoadingType] = useState("");
-  const [activeTab, setActiveTab] = useState(
-    searchParams.get("mode") === "recovery" ? "recovery" : "find"
-  );
 
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  // URL 또는 인증 상태에 따라 recovery 탭 전환
   useEffect(() => {
     if (isPasswordRecovery || searchParams.get("mode") === "recovery") {
-      setActiveTab("recovery");
+      dispatch({ type: "SET_TAB", payload: "recovery" });
     }
   }, [isPasswordRecovery, searchParams]);
 
+  // 아이디 찾기
   const handleFindUsername = async (e) => {
     e.preventDefault();
-    setFindResult(null);
-    setLoadingType("find");
 
-    const result = await findUsername(findForm);
-    setLoadingType("");
-    setFindResult(result);
+    dispatch({ type: "SET_RESULT", key: "findResult", payload: null });
+    dispatch({ type: "SET_LOADING", payload: "find" });
+
+    const result = await findUsername(state.findForm);
+
+    dispatch({ type: "SET_LOADING", payload: null });
+    dispatch({
+      type: "SET_RESULT",
+      key: "findResult",
+      payload: result,
+    });
   };
 
+  // 비밀번호 재설정 요청
   const handleResetPassword = async (e) => {
     e.preventDefault();
-    setResetResult(null);
-    setLoadingType("reset");
 
-    const result = await resetPassword(resetForm);
-    setLoadingType("");
-    setResetResult(result);
+    dispatch({ type: "SET_RESULT", key: "resetResult", payload: null });
+    dispatch({ type: "SET_LOADING", payload: "reset" });
+
+    const result = await resetPassword(state.resetForm);
+
+    dispatch({ type: "SET_LOADING", payload: null });
+    dispatch({
+      type: "SET_RESULT",
+      key: "resetResult",
+      payload: result,
+    });
 
     if (result.ok) {
-      setResetForm(initialResetForm);
+      dispatch({
+        type: "UPDATE_RESET_FORM",
+        payload: initialResetForm,
+      });
     }
   };
 
+  // 새 비밀번호 설정
   const handleCompletePasswordReset = async (e) => {
     e.preventDefault();
-    setRecoveryResult(null);
-    setLoadingType("recovery");
 
-    const result = await completePasswordReset(recoveryForm);
-    setLoadingType("");
-    setRecoveryResult(result);
+    dispatch({ type: "SET_RESULT", key: "recoveryResult", payload: null });
+    dispatch({ type: "SET_LOADING", payload: "recovery" });
+
+    const result = await completePasswordReset(state.recoveryForm);
+
+    dispatch({ type: "SET_LOADING", payload: null });
+    dispatch({
+      type: "SET_RESULT",
+      key: "recoveryResult",
+      payload: result,
+    });
 
     if (result.ok) {
-      setRecoveryForm(initialRecoveryForm);
+      dispatch({
+        type: "UPDATE_RECOVERY_FORM",
+        payload: initialRecoveryForm,
+      });
     }
   };
 
@@ -83,31 +146,37 @@ function FindAccount() {
         <p className="eyebrow">Account</p>
         <h1>계정 찾기</h1>
 
+        {/* 탭 */}
         <div className="auth-tabs">
           <button
             type="button"
-            className={activeTab === "find" ? "active" : ""}
-            onClick={() => setActiveTab("find")}
+            className={state.activeTab === "find" ? "active" : ""}
+            onClick={() =>
+              dispatch({ type: "SET_TAB", payload: "find" })
+            }
           >
             아이디 찾기
           </button>
 
           <button
             type="button"
-            className={activeTab === "reset" ? "active" : ""}
-            onClick={() => setActiveTab("reset")}
+            className={state.activeTab === "reset" ? "active" : ""}
+            onClick={() =>
+              dispatch({ type: "SET_TAB", payload: "reset" })
+            }
           >
             비밀번호 재설정
           </button>
 
-          {activeTab === "recovery" && (
+          {state.activeTab === "recovery" && (
             <button type="button" className="active">
               새 비밀번호
             </button>
           )}
         </div>
 
-        {activeTab === "find" && (
+        {/* 아이디 찾기 */}
+        {state.activeTab === "find" && (
           <form onSubmit={handleFindUsername}>
             <h2>아이디 찾기</h2>
 
@@ -115,29 +184,37 @@ function FindAccount() {
               이메일
               <input
                 type="email"
-                value={findForm.contact}
+                value={state.findForm.contact}
                 onChange={(e) =>
-                  setFindForm({ ...findForm, contact: e.target.value })
+                  dispatch({
+                    type: "UPDATE_FIND_FORM",
+                    payload: { contact: e.target.value },
+                  })
                 }
                 required
               />
             </label>
 
-            {findResult && (
-              <p className={`form-message ${findResult.ok ? "success" : ""}`}>
-                {findResult.ok
-                  ? `찾은 아이디: ${findResult.usernames.join(", ")}`
-                  : findResult.message}
+            {state.findResult && (
+              <p
+                className={`form-message ${
+                  state.findResult.ok ? "success" : ""
+                }`}
+              >
+                {state.findResult.ok
+                  ? `찾은 아이디: ${state.findResult.usernames.join(", ")}`
+                  : state.findResult.message}
               </p>
             )}
 
-            <Button shine type="submit" disabled={loadingType === "find"}>
-              {loadingType === "find" ? "조회 중..." : "아이디 찾기"}
+            <Button shine type="submit" disabled={state.loading === "find"}>
+              {state.loading === "find" ? "조회 중..." : "아이디 찾기"}
             </Button>
           </form>
         )}
 
-        {activeTab === "reset" && (
+        {/* 비밀번호 재설정 */}
+        {state.activeTab === "reset" && (
           <form onSubmit={handleResetPassword}>
             <h2>비밀번호 재설정</h2>
 
@@ -145,38 +222,50 @@ function FindAccount() {
               아이디
               <input
                 autoComplete="username"
-                value={resetForm.username}
+                value={state.resetForm.username}
                 onChange={(e) =>
-                  setResetForm({ ...resetForm, username: e.target.value })
+                  dispatch({
+                    type: "UPDATE_RESET_FORM",
+                    payload: { username: e.target.value },
+                  })
                 }
                 required
               />
             </label>
+
             <label>
               이메일
               <input
                 type="email"
-                value={resetForm.contact}
+                value={state.resetForm.contact}
                 onChange={(e) =>
-                  setResetForm({ ...resetForm, contact: e.target.value })
+                  dispatch({
+                    type: "UPDATE_RESET_FORM",
+                    payload: { contact: e.target.value },
+                  })
                 }
                 required
               />
             </label>
 
-            {resetResult && (
-              <p className={`form-message ${resetResult.ok ? "success" : ""}`}>
-                {resetResult.message}
+            {state.resetResult && (
+              <p
+                className={`form-message ${
+                  state.resetResult.ok ? "success" : ""
+                }`}
+              >
+                {state.resetResult.message}
               </p>
             )}
 
-            <Button shine type="submit" disabled={loadingType === "reset"}>
-              {loadingType === "reset" ? "발송 중..." : "재설정 메일 받기"}
+            <Button shine type="submit" disabled={state.loading === "reset"}>
+              {state.loading === "reset" ? "발송 중..." : "재설정 메일 받기"}
             </Button>
           </form>
         )}
 
-        {activeTab === "recovery" && (
+        {/* 새 비밀번호 */}
+        {state.activeTab === "recovery" && (
           <form onSubmit={handleCompletePasswordReset}>
             <h2>새 비밀번호 설정</h2>
 
@@ -185,46 +274,53 @@ function FindAccount() {
               <input
                 type="password"
                 autoComplete="new-password"
-                value={recoveryForm.password}
+                value={state.recoveryForm.password}
                 minLength="8"
                 onChange={(e) =>
-                  setRecoveryForm({
-                    ...recoveryForm,
-                    password: e.target.value,
+                  dispatch({
+                    type: "UPDATE_RECOVERY_FORM",
+                    payload: { password: e.target.value },
                   })
                 }
                 required
               />
             </label>
+
             <label>
               새 비밀번호 확인
               <input
                 type="password"
                 autoComplete="new-password"
-                value={recoveryForm.passwordConfirm}
+                value={state.recoveryForm.passwordConfirm}
                 minLength="8"
                 onChange={(e) =>
-                  setRecoveryForm({
-                    ...recoveryForm,
-                    passwordConfirm: e.target.value,
+                  dispatch({
+                    type: "UPDATE_RECOVERY_FORM",
+                    payload: { passwordConfirm: e.target.value },
                   })
                 }
                 required
               />
             </label>
 
-            {recoveryResult && (
+            {state.recoveryResult && (
               <p
                 className={`form-message ${
-                  recoveryResult.ok ? "success" : ""
+                  state.recoveryResult.ok ? "success" : ""
                 }`}
               >
-                {recoveryResult.message}
+                {state.recoveryResult.message}
               </p>
             )}
 
-            <Button shine type="submit" disabled={loadingType === "recovery"}>
-              {loadingType === "recovery" ? "변경 중..." : "비밀번호 변경"}
+            <Button
+              shine
+              type="submit"
+              disabled={state.loading === "recovery"}
+            >
+              {state.loading === "recovery"
+                ? "변경 중..."
+                : "비밀번호 변경"}
             </Button>
           </form>
         )}
