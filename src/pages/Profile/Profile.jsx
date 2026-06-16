@@ -45,15 +45,23 @@ function Profile() {
 
     let ignore = false;
 
-    Promise.all(
-      (currentUser.likedWebtoonIds || []).map((id) =>
-        fetchWebtoonById(id)
-      )
-    ).then((data) => {
-      if (!ignore) {
-        setLikedWebtoons(data.filter(Boolean));
+    async function loadWebtoons() {
+      setLikedWebtoons([]); // 초기화
+
+      for (const id of currentUser.likedWebtoonIds || []) {
+        try {
+          const data = await fetchWebtoonById(id);
+
+          if (!ignore && data) {
+            setLikedWebtoons((prev) => [...prev, data]);
+          }
+        } catch (err) {
+          console.error(err);
+        }
       }
-    });
+    }
+
+    loadWebtoons();
 
     return () => {
       ignore = true;
