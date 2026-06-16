@@ -1,4 +1,4 @@
-import { supabase } from "./supabaseClient.js";
+import { isSupabaseConfigured, supabase } from "./supabaseClient.js";
 
 // DB 댓글 데이터를 화면에서 사용하는 형태로 변환
 function toComment(row) {
@@ -10,6 +10,17 @@ function toComment(row) {
     user: row.nickname, // 작성자 닉네임
     userId: row.user_id, // 작성자 ID
     webtoonId: row.webtoon_id, // 웹툰 ID
+  };
+}
+
+function getLocalDayRange(date = new Date()) {
+  const start = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const end = new Date(start);
+  end.setDate(start.getDate() + 1);
+
+  return {
+    end: end.toISOString(),
+    start: start.toISOString(),
   };
 }
 
@@ -26,6 +37,34 @@ export async function fetchComments(webtoonId) {
   }
 
   return { ok: true, comments: data.map(toComment) }; // 화면용 데이터로 변환
+}
+
+export async function fetchTodayTopComment() {
+  if (!isSupabaseConfigured || !supabase) {
+    return { ok: true, comment: null };
+  }
+
+  const { end, start } = getLocalDayRange();
+
+  const { data, error } = await supabase
+    .from("comments")
+    .select("*")
+    .gte("created_at", start)
+    .lt("created_at", end)
+    .order("empathy_count", { ascending: false })
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) {
+    return {
+      ok: false,
+      message: "오늘의 댓글을 불러오지 못했습니다.",
+      comment: null,
+    };
+  }
+
+  return { ok: true, comment: data ? toComment(data) : null };
 }
 
 // 로그인 사용자가 작성한 댓글 목록 조회

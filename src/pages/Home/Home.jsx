@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { webtoons, genres, platforms } from "../../data/mockWebtoons.js";
-import { recommendWebtoons } from "../../services/webtoonApi.js";
+import { fetchWebtoonById, recommendWebtoons } from "../../services/webtoonApi.js";
+import { fetchTodayTopComment } from "../../services/commentApi.js";
+import { fetchPopularBookmarkedWebtoons } from "../../services/popularApi.js";
 import WebtoonGrid from "../../components/Webtoon/WebtoonGrid.jsx";
 import WeatherSummary from "../../components/WeatherSummary/WeatherSummary.jsx";
 import MoodSelector from "../../components/MoodSelector/MoodSelector.jsx";
@@ -12,6 +15,10 @@ import "./Home.css";
 
 function Home() {
   const { currentUser, updateProfile } = useAuth();
+  const [todayComment, setTodayComment] = useState(null);
+  const [isTodayCommentLoading, setIsTodayCommentLoading] = useState(true);
+  const [popularWebtoons, setPopularWebtoons] = useState([]);
+  const [isPopularLoading, setIsPopularLoading] = useState(true);
   const [selectedMood, setSelectedMood] = useState(null); // 기분
   const [weather, setWeather] = useState(null); // 날씨
   const [recommendation, setRecommendation] = useState(null); // 추천 결과
@@ -19,6 +26,75 @@ function Home() {
   const [selectedPlatforms, setSelectedPlatforms] = useState([]); // 플랫폼 필터
   
   // 추천 버튼 함수
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadHomeHighlights() {
+      setIsTodayCommentLoading(true);
+      setIsPopularLoading(true);
+
+      const result = await fetchTodayTopComment();
+
+      if (isMounted) {
+        if (!result.ok || !result.comment) {
+          setTodayComment(null);
+        } else {
+          const webtoon = await fetchWebtoonById(result.comment.webtoonId);
+
+          if (isMounted) {
+            setTodayComment({
+              comment: result.comment,
+              webtoon: webtoon || {
+                genre: "",
+                id: result.comment.webtoonId,
+                image: "",
+                title: "댓글이 달린 작품",
+              },
+            });
+          }
+        }
+
+        if (isMounted) {
+          setIsTodayCommentLoading(false);
+        }
+      }
+
+      const popularResult = await fetchPopularBookmarkedWebtoons(4);
+
+      if (!isMounted) return;
+
+      if (!popularResult.ok || popularResult.items.length === 0) {
+        setPopularWebtoons([]);
+        setIsPopularLoading(false);
+        return;
+      }
+
+      const popularItems = await Promise.all(
+        popularResult.items.map(async (item) => {
+          const webtoon = await fetchWebtoonById(item.webtoonId);
+
+          return webtoon
+            ? {
+                bookmarkCount: item.bookmarkCount,
+                webtoon,
+              }
+            : null;
+        })
+      );
+
+      if (!isMounted) return;
+
+      setPopularWebtoons(popularItems.filter(Boolean));
+      setIsPopularLoading(false);
+    }
+
+    loadHomeHighlights();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const handleRecommend = async () => {
     
     if (!selectedMood) {
@@ -173,6 +249,83 @@ function Home() {
           <WebtoonGrid webtoons={finalRecommendation} />
         </section>
       )}
+
+      <section className="card today-comment-section">
+        <div className="today-comment-copy">
+          <p className="eyebrow">Today Comment</p>
+          <h2>오늘의 댓글</h2>
+
+          {isTodayCommentLoading ? (
+            <p className="today-comment-empty">오늘의 댓글을 불러오는 중입니다.</p>
+          ) : todayComment ? (
+            <>
+              <blockquote>{todayComment.comment.text}</blockquote>
+              <div className="today-comment-meta">
+                <span>{todayComment.comment.user}</span>
+                <span>좋아요 {todayComment.comment.empathy}개</span>
+              </div>
+            </>
+          ) : (
+            <p className="today-comment-empty">오늘 작성된 댓글이 아직 없습니다.</p>
+          )}
+        </div>
+
+        {todayComment?.webtoon && (
+          <Link
+            className={`today-comment-webtoon ${
+              todayComment.webtoon.image ? "has-image" : "no-image"
+            }`}
+            to={`/webtoon/${encodeURIComponent(todayComment.webtoon.id)}`}
+          >
+            {todayComment.webtoon.image && (
+              <img
+                src={todayComment.webtoon.image}
+                alt={`${todayComment.webtoon.title} 표지`}
+              />
+            )}
+            <div>
+              <span>작품</span>
+              <strong>{todayComment.webtoon.title}</strong>
+              {todayComment.webtoon.genre && <p>{todayComment.webtoon.genre}</p>}
+            </div>
+          </Link>
+        )}
+      </section>
+
+      <section className="card popular-webtoon-section">
+        <div className="popular-webtoon-header">
+          <div>
+            <p className="eyebrow">Popular</p>
+            <h2>인기웹툰</h2>
+          </div>
+          <span>북마크 순</span>
+        </div>
+
+        {isPopularLoading ? (
+          <p className="popular-webtoon-empty">인기웹툰을 불러오는 중입니다.</p>
+        ) : popularWebtoons.length > 0 ? (
+          <div className="popular-webtoon-list">
+            {popularWebtoons.map(({ bookmarkCount, webtoon }, index) => (
+              <Link
+                className="popular-webtoon-item"
+                key={webtoon.id}
+                to={`/webtoon/${encodeURIComponent(webtoon.id)}`}
+              >
+                <span className="popular-rank">{index + 1}</span>
+                {webtoon.image && (
+                  <img src={webtoon.image} alt={`${webtoon.title} 표지`} />
+                )}
+                <div>
+                  <strong>{webtoon.title}</strong>
+                  <p>{bookmarkCount}명이 북마크</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <p className="popular-webtoon-empty">아직 북마크된 웹툰이 없습니다.</p>
+        )}
+      </section>
 
     </div>
   );
