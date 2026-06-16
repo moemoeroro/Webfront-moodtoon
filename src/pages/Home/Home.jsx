@@ -25,6 +25,11 @@ function Home() {
   const [recommendation, setRecommendation] = useState(null); // 추천 결과
   const [selectedGenres, setSelectedGenres] = useState([]); // 장르 필터
   const [selectedPlatforms, setSelectedPlatforms] = useState([]); // 플랫폼 필터
+
+  function getFallbackWebtoonTitle(webtoonId) {
+    if (!webtoonId) return "작품 정보 확인 필요";
+    return webtoonId.includes("|||") ? webtoonId.split("|||")[0] : webtoonId;
+  }
   
   // 추천 버튼 함수
   useEffect(() => {
@@ -74,18 +79,21 @@ function Home() {
         popularResult.items.map(async (item) => {
           const webtoon = await fetchWebtoonById(item.webtoonId);
 
-          return webtoon
-            ? {
-                bookmarkCount: item.bookmarkCount,
-                webtoon,
-              }
-            : null;
+          return {
+            bookmarkCount: item.bookmarkCount,
+            webtoon: webtoon || {
+              genre: "",
+              id: item.webtoonId,
+              image: "",
+              title: getFallbackWebtoonTitle(item.webtoonId),
+            },
+          };
         })
       );
 
       if (!isMounted) return;
 
-      setPopularWebtoons(popularItems.filter(Boolean));
+      setPopularWebtoons(popularItems);
       setIsPopularLoading(false);
     }
 
@@ -311,7 +319,9 @@ function Home() {
           <div className="popular-webtoon-list">
             {visiblePopularWebtoons.map(({ bookmarkCount, webtoon }, index) => (
               <Link
-                className="popular-webtoon-item"
+                className={`popular-webtoon-item ${
+                  webtoon.image ? "has-image" : "no-image"
+                }`}
                 key={webtoon.id}
                 to={`/webtoon/${encodeURIComponent(webtoon.id)}`}
               >
