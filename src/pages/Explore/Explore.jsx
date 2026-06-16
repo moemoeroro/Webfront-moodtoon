@@ -14,6 +14,13 @@ function Explore() {
   const [inputValue, setInputValue] = useState(searchParams.get("keyword") || "");
   const [keyword, setKeyword] = useState(searchParams.get("keyword") || "");
 
+  useEffect(() => {
+    const urlKeyword = searchParams.get("keyword") || "";
+
+    setInputValue(urlKeyword);
+    setKeyword(urlKeyword);
+  }, [searchParams]);
+
   const [showFilters, setShowFilters] = useState(true);
   const [loading, setLoading] = useState(false);
 
@@ -24,11 +31,14 @@ function Explore() {
 
   const [items, setItems] = useState([]);
 
-  const filteredItems = useMemo(() => {
-    return items;
-  }, [items]);
+  const filteredItems = items;
 
   useEffect(() => {
+    if (!keyword.trim()) {
+      setItems([]);
+      return;
+    }
+    
     let ignore = false;
 
     setLoading(true);  
@@ -54,7 +64,7 @@ function Explore() {
       <div className="card page-heading">
         <p className="eyebrow">Explore</p>
         <h1>웹툰 탐색</h1>
-        <p>작품명, 작가, 태그를 검색하고 장르와 플랫폼 조건으로 좁혀보세요.</p>
+        <p>작품명, 작가를 검색하고 장르와 플랫폼 필터로 원하는 웹툰을 찾아보세요.</p>
       </div>
 
       <SectionTitle title="통합 검색" />
@@ -91,9 +101,7 @@ function Explore() {
           compact
         />
 
-        {loading && items.length === 0 ? (
-          <p className="loading">검색 중...</p>
-        ) : (
+        {loading && items.length === 0 ? null : (
           <WebtoonGrid webtoons={filteredItems} />
         )}
       </section>

@@ -12,14 +12,20 @@ import "./Home.css";
 
 function Home() {
   const { currentUser, updateProfile } = useAuth();
-  const [selectedMood, setSelectedMood] = useState("피곤함");
-  const [weather, setWeather] = useState(null);
-  const [recommendation, setRecommendation] = useState(null);
-  const [selectedGenres, setSelectedGenres] = useState([]);
-  const [selectedPlatforms, setSelectedPlatforms] = useState([]);
-  const popularWebtoons = [...webtoons].sort((a, b) => b.likes - a.likes).slice(0, 4);
+  const [selectedMood, setSelectedMood] = useState(null); // 기분
+  const [weather, setWeather] = useState(null); // 날씨
+  const [recommendation, setRecommendation] = useState(null); // 추천 결과
+  const [selectedGenres, setSelectedGenres] = useState([]); // 장르 필터
+  const [selectedPlatforms, setSelectedPlatforms] = useState([]); // 플랫폼 필터
   
+  // 추천 버튼 함수
   const handleRecommend = async () => {
+    
+    if (!selectedMood) {
+      alert("기분을 선택해 주세요.");
+      return;
+    }
+    
     if (currentUser) {
       await updateProfile({
         moodLogs: [
@@ -38,16 +44,18 @@ function Home() {
     const result = recommendWebtoons({
       mood: selectedMood || "피곤함",
       weatherType: weather?.type || "cloudy",
-    });
+    }).filter(w => w.score > 0);;
 
     setRecommendation({
-      items: result,
-      reason: `${weather?.text || "흐림"} 날씨와 '${
-        selectedMood || "피곤함"
-      }' 기분을 반영했습니다.`,
+      items: result, 
+      reason: `${weather?.text || "흐림"} 날씨와 '${selectedMood}' 기분을 반영했습니다.`,
     });
   };
 
+  const [showFilters, setShowFilters] = useState(false); // 필터 펼침 여부
+
+  
+  // 추천 결과 (장르/플랫폼)
   const filteredRecommendation =
   recommendation?.items.filter((webtoon) => {
     const genreMatch =
@@ -61,17 +69,16 @@ function Home() {
     return genreMatch && platformMatch;
   }) || [];
 
-  const finalRecommendation = filteredRecommendation.slice(0, 6);
+  const finalRecommendation = filteredRecommendation.slice(0, 8);
 
   return (
     <div className="page home-page">
       {/* 메인 소개 영역 */}
       <section className="hero-section">
         <div>
-          <p className="eyebrow">Mood based webtoon platform</p>
           <h1>오늘의 날씨와 감정에 맞는 웹툰을 추천받아보세요</h1>
           <p>
-            moodtoon은 날씨, 현재 감정, 선호 장르를 함께 반영해 지금 보기 좋은 웹툰을 추천해주는 서비스입니다.
+            moodtoon은 날씨와 현재 감정을 반영해 지금 보기 좋은 웹툰을 추천해줄 수 있습니다!
           </p>
         </div>
         <a className="button primary large shine" href="#recommend">
@@ -99,12 +106,22 @@ function Home() {
 
       {recommendation && (
         <section className="card recommend-result">
-          <SectionTitle
-            eyebrow="추천 결과"
-            title="오늘의 추천 웹툰 6개"
-            description={recommendation.reason}
-          />
-          <div className="recommend-filters">
+          <div className="recommend-header">
+            <SectionTitle
+              eyebrow="추천 결과"
+              title="오늘의 추천 웹툰 8개"
+              description={recommendation.reason}
+            />
+
+            <Button
+              variant={showFilters ? "primary" : "outline"}
+              size="small"
+              onClick={() => setShowFilters((prev) => !prev)}
+            >
+              ☰
+            </Button>
+          </div>
+          <div className={`recommend-filters ${showFilters ? "open" : "hide"}`}>
             <div>
               <h3>장르</h3>
 
@@ -157,13 +174,6 @@ function Home() {
         </section>
       )}
 
-      <section>
-        <SectionTitle
-          eyebrow="인기 웹툰"
-          title="현재 많이 찾는 작품"
-        />
-        <WebtoonGrid webtoons={popularWebtoons} />
-      </section>
     </div>
   );
 }

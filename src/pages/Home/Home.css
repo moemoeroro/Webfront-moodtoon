@@ -54,12 +54,25 @@
   line-height: 1.75;
 }
 
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 24px;
+}
+
 .recommend-action {
   display: flex;
   justify-content: center;
   margin: 24px 0;
 }
 
+.recommend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
 
 /* 추천 결과 */
 .recommend-result {
@@ -70,3 +83,24 @@
   animation: fadeUp 0.58s ease both;
 }
 
+.recommend-filters {
+  margin-top: 18px;
+  display: grid;
+  gap: 18px;
+
+  transition: all 0.28s ease;
+}
+
+.recommend-filters.hide {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(-10px);
+  pointer-events: none;
+}
+
+.recommend-filters.open {
+  max-height: 1000px;
+  opacity: 1;
+  transform: translateY(0);
+}

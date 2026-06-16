@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
-import { webtoons } from "../../data/mockWebtoons.js";
+import { fetchWebtoonById } from "../../services/webtoonApi.js";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { fetchMyComments } from "../../services/commentApi.js";
 import WebtoonGrid from "../../components/Webtoon/WebtoonGrid.jsx";
+import CommentItem from "../../components/Comment/CommentItem.jsx";
 import Button from "../../components/ui/Button.jsx";
 import Tag from "../../components/ui/Tag.jsx";
 import SectionTitle from "../../components/ui/SectionTitle.jsx";
@@ -31,52 +32,74 @@ function getTopMood(moodLogs = []) {
 
 function Profile() {
   const { currentUser, isLoading, logout } = useAuth();
-  const [myComments, setMyComments] = useState([]);
-  const [isCommentsLoading, setIsCommentsLoading] = useState(false);
+  const [likedWebtoons, setLikedWebtoons] = useState([]);
+  const [myComments, setMyComments] = useState([]); // 내 댓글 저장
+  const [isCommentsLoading, setIsCommentsLoading] = useState(false); // 댓글 로딩 상태
 
+  // 북마크 웹툰 로딩
   useEffect(() => {
-    let isMounted = true;
+    if (!currentUser?.id) {
+      setLikedWebtoons([]);
+      return;
+    }
 
+    let ignore = false;
+
+    async function loadWebtoons() {
+      setLikedWebtoons([]); // 초기화
+
+      for (const id of currentUser.likedWebtoonIds || []) {
+        try {
+          const data = await fetchWebtoonById(id);
+
+          if (!ignore && data) {
+            setLikedWebtoons((prev) => [...prev, data]);
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    }
+
+    loadWebtoons();
+
+    return () => {
+      ignore = true;
+    };
+  }, [currentUser?.likedWebtoonIds]);
+
+  // 댓글 로딩
+  useEffect(() => {
     if (!currentUser?.id) {
       setMyComments([]);
       return;
     }
 
+    let ignore = false;
+
     setIsCommentsLoading(true);
 
     fetchMyComments(currentUser.id)
       .then((result) => {
-        if (isMounted && result.ok) {
+        if (!ignore && result.ok) {
           setMyComments(result.comments);
         }
       })
       .finally(() => {
-        if (isMounted) {
+        if (!ignore) {
           setIsCommentsLoading(false);
         }
       });
 
     return () => {
-      isMounted = false;
+      ignore = true;
     };
   }, [currentUser?.id]);
 
-  // 로그인하지 않은 사용자는 로그인 페이지로 이동
-  if (isLoading) {
-    return (
-      <div className="page empty-page">
-        <h1>프로필을 불러오는 중입니다.</h1>
-      </div>
-    );
-  }
-
+  // 로그인 체크
   if (!currentUser) {
     return <Navigate to="/login" replace />;
   }
-
-  const likedWebtoons = webtoons.filter((webtoon) =>
-    currentUser.likedWebtoonIds.includes(webtoon.id)
-  );
 
   // 북마크한 웹툰의 장르 집계
   const genreCounts = likedWebtoons.reduce((acc, webtoon) => {
@@ -84,10 +107,12 @@ function Profile() {
     return acc;
   }, {});
 
-  // 많이 북마크한 순으로 정렬
-  const topGenres = Object.entries(genreCounts)
-    .sort((a, b) => b[1] - a[1]);
+  // 장르 순위
+  const topGenres = Object.entries(genreCounts).sort((a, b) => b[1] - a[1]);
 
+
+
+  // 감정 통계
   const moodCounts = (currentUser.moodLogs || []).reduce((acc, log) => {
     const mood =
       typeof log === "string"
@@ -99,14 +124,22 @@ function Profile() {
     return acc;
   }, {});
 
+  // 상위 3개 감정
   const topMoods = Object.entries(moodCounts)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 3);
 
+  // 가장 큰 감정 찾기
   const maxCount = Math.max(
     ...topMoods.map(([, count]) => count),
     1
   );
+
+  // 댓글의 웹툰 id 찾기
+  const webtoonMap = new Map(
+    likedWebtoons.map((w) => [w.id, w])
+  );
+
 
   return (
     <div className="page">
@@ -124,14 +157,14 @@ function Profile() {
       <div className="profile-grid">
         <section className="card profile-panel">
           <SectionTitle title="선호하는 장르"/>
-          <div className="tag-row">
+          <div className="profile-tag">
             {topGenres.length === 0 ? (
               <p>북마크한 작품이 없습니다.</p>
             ) : (
               topGenres.map(([genre, count], index) => (
-                <Tag key={genre} size="large">
+                <div key={genre} size="large">
                   {index + 1}위 {genre} ({count})
-                </Tag>
+                </div>
               ))
             )}
           </div>
@@ -172,11 +205,8 @@ function Profile() {
         </section>
       </div>
 
-      <section>
-        <SectionTitle
-          title="관심 작품"
-        />
-
+      <section className="interested-webtoons">
+        <SectionTitle title="관심 작품"/>
         <WebtoonGrid webtoons={likedWebtoons} />
       </section>
 
@@ -186,9 +216,6 @@ function Profile() {
           title="최근 댓글"
           compact
         >
-          <Link className="text-link" to="/explore">
-            더 둘러보기
-          </Link>
         </SectionTitle>
         <div className="comment-list">
           {isCommentsLoading ? (
@@ -197,9 +224,6 @@ function Profile() {
             <p>작성한 댓글이 없습니다.</p>
           ) : (
             myComments.map((comment) => {
-              const webtoon = webtoons.find(
-                (item) => item.id === comment.webtoonId
-              );
 
               return (
                 <Link
@@ -207,11 +231,10 @@ function Profile() {
                   className="comment-link"
                   key={comment.id}
                 >
-                  <article className="comment-item">
-                    <strong>{webtoon?.title}</strong>
-                    <p>{comment.text}</p>
-                    <span>{comment.date}</span>
-                  </article>
+                  <CommentItem
+                    comment={comment}
+                    title={webtoonMap.get(comment.webtoonId)?.title}
+                  />
                 </Link>
               );
             })

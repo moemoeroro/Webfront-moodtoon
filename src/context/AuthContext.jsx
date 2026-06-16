@@ -12,9 +12,9 @@ import {
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null); // 현재 로그인한 사용자
+  const [isLoading, setIsLoading] = useState(true); // 로그인 상태 확인 중인지
+  const [isPasswordRecovery, setIsPasswordRecovery] = useState(false); // 비밀번호 재설정 모드인지
 
   useEffect(() => {
     let isMounted = true;

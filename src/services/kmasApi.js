@@ -1,5 +1,12 @@
 const API_KEY = import.meta.env.VITE_KMAS_KEY;
 
+function isAdultContent(item) {
+  const grade = item.ageGradCdNm || "";
+
+  return grade.includes("18세 이상");
+}
+
+// KMAS API 검색
 export async function fetchKmasWebtoons(keyword = "") {
   try {
     const query = keyword
@@ -7,23 +14,23 @@ export async function fetchKmasWebtoons(keyword = "") {
       : "";
 
     const res = await fetch(
-      `/kmas/openapi/search/bookAndWebtoonList?prvKey=${API_KEY}${query}`
+      `/kmas/openapi/search/bookAndWebtoonList?prvKey=${API_KEY}${query}&viewItemCnt=100`
     );
 
     const data = await res.json();
 
     console.log("KMAS RAW:", data.itemList);
 
-    return (data.itemList || []).map((item) => ({
+    return (data.itemList || []).filter((item) => !isAdultContent(item)).map((item) => ({
       id: item.isbn || `${item.title}|||${item.pltfomCdNm}`,
       title: item.title,
       pictrWritrNm: item.pictrWritrNm,
       sntncWritrNm: item.sntncWritrNm,
       genre: item.mainGenreCdNm,
       platform: item.pltfomCdNm,
+      ageGrade: item.ageGradCdNm,
       description: item.outline,
       image: item.imageDownloadUrl,
-      tags: [],
     }));
   } catch (err) {
     console.error("KMAS API 실패:", err);
@@ -31,6 +38,7 @@ export async function fetchKmasWebtoons(keyword = "") {
   }
 }
 
+// ISBN으로 작품 조회
 export async function fetchKmasWebtoonByIsbn(isbn) {
   try {
     const res = await fetch(
@@ -52,9 +60,9 @@ export async function fetchKmasWebtoonByIsbn(isbn) {
       sntncWritrNm: item.sntncWritrNm,
       genre: item.mainGenreCdNm,
       platform: item.pltfomCdNm,
+      ageGrade: item.ageGradCdNm,
       description: item.outline,
       image: item.imageDownloadUrl,
-      tags: [],
     };
   } catch (err) {
     console.error("ISBN 조회 실패:", err);
@@ -62,6 +70,7 @@ export async function fetchKmasWebtoonByIsbn(isbn) {
   }
 }
 
+// 제목으로 작품 조회
 export async function fetchKmasWebtoonByTitle(title) {
   try {
     const res = await fetch(
@@ -70,7 +79,7 @@ export async function fetchKmasWebtoonByTitle(title) {
 
     const data = await res.json();
 
-    return data.itemList || [];
+    return (data.itemList || []).filter((item) => !isAdultContent(item));
   } catch (err) {
     console.error(err);
     return [];

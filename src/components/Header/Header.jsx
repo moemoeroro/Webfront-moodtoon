@@ -37,7 +37,7 @@ function Header() {
           type="search"
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
-          placeholder="작품명, 작가, 태그 검색"
+          placeholder="작품명, 작가 검색"
         />
         <Button type="submit" variant="primary shine" size="medium">검색</Button>
       </form>
