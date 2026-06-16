@@ -71,7 +71,7 @@ function Home() {
         }
       }
 
-      const popularResult = await fetchPopularBookmarkedWebtoons(6);
+      const popularResult = await fetchPopularBookmarkedWebtoons(12);
 
       if (!isMounted) return;
 
@@ -84,17 +84,13 @@ function Home() {
       const popularItems = await Promise.all(
         popularResult.items.map(async (item) => {
           const webtoon = await fetchWebtoonById(item.webtoonId);
-          const fallbackTitle = getFallbackWebtoonTitle(item.webtoonId);
+
+          if (!webtoon) return null;
 
           return {
             bookmarkCount: item.bookmarkCount,
             groupKey: getPopularGroupKey(webtoon, item.webtoonId),
-            webtoon: webtoon || {
-              genre: "",
-              id: item.webtoonId,
-              image: "",
-              title: fallbackTitle,
-            },
+            webtoon,
           };
         })
       );
@@ -103,6 +99,7 @@ function Home() {
 
       const mergedPopularItems = Array.from(
         popularItems
+          .filter(Boolean)
           .reduce((map, item) => {
             const previous = map.get(item.groupKey);
 
